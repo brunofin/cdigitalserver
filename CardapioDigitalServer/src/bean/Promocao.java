@@ -53,29 +53,5 @@ public class Promocao {
 
 	public void setValidade(Calendar validade) {
 		this.validade = validade;
-	}
-	
-	public void setValidadeDia(int dia) {
-		this.validade.set(Calendar.DAY_OF_MONTH, dia);
-	}
-	
-	public int getValidadeDia() {
-		return getValidade().get(Calendar.DAY_OF_MONTH);
-	}
-	
-	public void setValidadeMes(int mes) {
-		this.validade.set(Calendar.MONTH, mes);
-	}
-	
-	public int getValidadeMes() {
-		return getValidade().get(Calendar.MONTH);
-	}
-	
-	public void setValidadeAno(int ano) {
-		this.validade.set(Calendar.MONTH, ano);
-	}
-	
-	public int getValidadeAno() {
-		return getValidade().get(Calendar.YEAR);
 	}	
 }
