@@ -4,23 +4,24 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Promocao {
-	private int id;
-	private Foto foto;
+	private int promocaoId;
 	private String nome;
 	private String descricao;
+	private Calendar dataInicio;
 	private Calendar validade;
+	private Foto foto;
 	
 	public Promocao() {
 		this.foto = new Foto();
 		this.validade = new GregorianCalendar();
 	}
 	
-	public int getId() {
-		return id;
+	public int getPromocaoId() {
+		return promocaoId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setPromocaoId(int id) {
+		this.promocaoId = id;
 	}
 
 	public Foto getFoto() {
@@ -53,5 +54,13 @@ public class Promocao {
 
 	public void setValidade(Calendar validade) {
 		this.validade = validade;
+	}
+
+	public Calendar getDataInicio() {
+		return dataInicio;
+	}
+
+	public void setDataInicio(Calendar dataInicio) {
+		this.dataInicio = dataInicio;
 	}	
 }

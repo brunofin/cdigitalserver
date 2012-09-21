@@ -1,20 +1,18 @@
 package dao.factory;
 
-import dao.bebida.BebidaDAO;
 import dao.cliente.ClienteDAO;
 import dao.comentario.ComentarioDAO;
 import dao.cozinheiro.CozinheiroDAO;
 import dao.endereco.EnderecoDAO;
 import dao.foto.FotoDAO;
 import dao.ingrediente.IngredienteDAO;
+import dao.item.ItemDAO;
 import dao.pedido.PedidoDAO;
-import dao.prato.PratoDAO;
 import dao.promocao.PromocaoDAO;
 
 // exemplo de utilização: DAOFactory dao = DAOFactory.getDaoFactory(Database.MYSQL);
 public abstract class DAOFactory {
-	
-	public abstract BebidaDAO getBebidaDAO();
+
 	public abstract ClienteDAO getClienteDAO();
 	public abstract ComentarioDAO getComentarioDAO();
 	public abstract CozinheiroDAO getCozinheiroDAO();
@@ -22,7 +20,7 @@ public abstract class DAOFactory {
 	public abstract FotoDAO getFotoDAO();
 	public abstract IngredienteDAO getIngredienteDAO();
 	public abstract PedidoDAO getPedidoDAO();
-	public abstract PratoDAO getPratoDAO();
+	public abstract ItemDAO getPratoDAO();
 	public abstract PromocaoDAO getPromocaoDAO();
 
 	/**

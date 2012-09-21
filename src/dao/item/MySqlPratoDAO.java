@@ -1,45 +1,45 @@
-package dao.prato;
+package dao.item;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import bean.Prato;
+import bean.Item;
 import dao.factory.MySqlDAOFactory;
 
-public class MySqlPratoDAO extends MySqlDAOFactory implements PratoDAO {
+public class MySqlPratoDAO extends MySqlDAOFactory implements ItemDAO {
 
 	@Override
-	public int incluir(Prato p) throws SQLException {
+	public int incluir(Item i) throws SQLException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public boolean exluir(Prato p) throws SQLException {
+	public boolean exluir(Item i) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean alterar(Prato p) throws SQLException {
+	public boolean alterar(Item i) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Prato consultarId(Prato p) throws SQLException {
+	public Item consultarId(Item i) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Prato> consultarTitulo(Prato p) throws SQLException {
+	public List<Item> consultarTitulo(Item i) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Prato> listar() throws SQLException {
+	public List<Item> listar() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -49,5 +49,4 @@ public class MySqlPratoDAO extends MySqlDAOFactory implements PratoDAO {
 		// TODO Auto-generated method stub
 
 	}
-
 }

@@ -1,29 +1,22 @@
 package bean;
 
-import java.io.File;
-
 public class Foto {
-	// deverá pegar as fotos do banco de dados (ou arquivo)
-	private File foto;
-	private int id;
-	
-	public Foto() {
-		foto = new File("");
-	}
-	
-	public void setFoto(File foto) {
-		this.foto = foto;
-	}
-	
-	public File getFoto() {
-		return foto;
+	private int fotoId;
+	private String local_foto;
+
+	public int getFotoId() {
+		return fotoId;
 	}
 
-	public int getId() {
-		return id;
+	public void setFotoId(int id) {
+		this.fotoId = id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public String getLocal_foto() {
+		return local_foto;
+	}
+
+	public void setLocal_foto(String local_foto) {
+		this.local_foto = local_foto;
 	}
 }

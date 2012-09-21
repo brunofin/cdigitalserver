@@ -1,7 +1,5 @@
 package dao.factory;
 
-import dao.bebida.BebidaDAO;
-import dao.bebida.MySqlBebidaDAO;
 import dao.cliente.ClienteDAO;
 import dao.cliente.MySqlClienteDAO;
 import dao.comentario.ComentarioDAO;
@@ -14,19 +12,14 @@ import dao.foto.FotoDAO;
 import dao.foto.MySqlFotoDAO;
 import dao.ingrediente.IngredienteDAO;
 import dao.ingrediente.MySqlIngredienteDAO;
+import dao.item.MySqlPratoDAO;
+import dao.item.ItemDAO;
 import dao.pedido.MySqlPedidoDAO;
 import dao.pedido.PedidoDAO;
-import dao.prato.MySqlPratoDAO;
-import dao.prato.PratoDAO;
 import dao.promocao.MySqlPromocaoDAO;
 import dao.promocao.PromocaoDAO;
 
 public class MySqlDAOFactory extends DAOFactory {
-
-	@Override
-	public BebidaDAO getBebidaDAO() {
-		return new MySqlBebidaDAO();
-	}
 
 	@Override
 	public ClienteDAO getClienteDAO() {
@@ -64,7 +57,7 @@ public class MySqlDAOFactory extends DAOFactory {
 	}
 
 	@Override
-	public PratoDAO getPratoDAO() {
+	public ItemDAO getPratoDAO() {
 		return new MySqlPratoDAO();
 	}
 

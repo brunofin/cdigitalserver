@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 public abstract class Pessoa {
 	private int id;
 	private String nome;
+	private String sobrenome;
 	private String email;
 	private String rg;
 	private String cpf;
@@ -59,5 +60,13 @@ public abstract class Pessoa {
 	}
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
 	}
 }

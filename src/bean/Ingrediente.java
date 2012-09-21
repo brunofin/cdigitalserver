@@ -2,7 +2,7 @@ package bean;
 
 public class Ingrediente {
 
-	private int id;
+	private int ingredienteId;
 	private String nome;
 	private float preco;
 	
@@ -10,12 +10,12 @@ public class Ingrediente {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getId() {
-		return id;
+	public int getIngredienteId() {
+		return ingredienteId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIngredienteId(int id) {
+		this.ingredienteId = id;
 	}
 
 	public String getNome() {
