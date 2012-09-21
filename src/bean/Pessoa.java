@@ -54,30 +54,6 @@ public abstract class Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 	
-	public void setDiaNascimento(int dia) {
-		dataNascimento.set(Calendar.DAY_OF_MONTH, dia);
-	}
-	
-	public int getDiaNascimento() {
-		return getDataNascimento().get(Calendar.DAY_OF_MONTH);
-	}
-	
-	public void setMesNascimento(int mes) {
-		dataNascimento.set(Calendar.MONTH, mes);
-	}
-	
-	public int getMesNascimento() {
-		return getDataNascimento().get(Calendar.MONTH);
-	}
-	
-	public void setAnoNascimento(int ano) {
-		dataNascimento.set(Calendar.YEAR, ano);
-	}
-	
-	public int getAnoNascimento() {
-		return getDataNascimento().get(Calendar.YEAR);
-	}
-	
 	public Endereco getEndereco() {
 		return endereco;
 	}

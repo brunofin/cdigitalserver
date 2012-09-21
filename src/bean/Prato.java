@@ -1,12 +1,23 @@
 package bean;
 
+import java.util.List;
+
 public class Prato {
 	private int id;
 	private String nome;
 	private String descricao;
 	private float preco;
 	private Foto foto;
+	private List<Ingrediente> ingredientes;
 	
+	public List<Ingrediente> getIngredientes() {
+		return ingredientes;
+	}
+
+	public void setIngredientes(List<Ingrediente> ingredientes) {
+		this.ingredientes = ingredientes;
+	}
+
 	public Prato() {
 		this.setFoto(new Foto());
 	}

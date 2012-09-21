@@ -1,28 +1,39 @@
 package bean;
 
+import java.util.List;
+
 public class Bebida {
-	private int bebida_id;
-	private int foto_id;
+	private int id;
+	private Foto foto;
 	private String nome;
 	private String descricao;
 	private float preco;
+	private List<Ingrediente> ingredientes;
 	
 	public void setId(int id) {
-		this.bebida_id = id;
+		this.id = id;
 	}
 	
 	public int getId() {
-		return bebida_id;
+		return id;
 	}
 	
-	public void setFotoId(int id) {
-		this.foto_id = id;
+	public Foto getFoto() {
+		return foto;
 	}
-	
-	public int getFotoId() {
-		return foto_id;
+
+	public void setFoto(Foto foto) {
+		this.foto = foto;
 	}
-	
+
+	public List<Ingrediente> getIngredientes() {
+		return ingredientes;
+	}
+
+	public void setIngredientes(List<Ingrediente> ingredientes) {
+		this.ingredientes = ingredientes;
+	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
