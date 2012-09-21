@@ -1,7 +1,6 @@
 package bean;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class Promocao {
 	private int promocaoId;
@@ -13,7 +12,8 @@ public class Promocao {
 	
 	public Promocao() {
 		this.foto = new Foto();
-		this.validade = new GregorianCalendar();
+		this.validade = Calendar.getInstance();
+		this.dataInicio = Calendar.getInstance();
 	}
 	
 	public int getPromocaoId() {
