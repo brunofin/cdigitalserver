@@ -1,7 +1,6 @@
 package bean;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public abstract class Pessoa {
 	private int id;
@@ -14,7 +13,7 @@ public abstract class Pessoa {
 	private Endereco endereco;
 	
 	public Pessoa() {
-		this.dataNascimento = new GregorianCalendar();
+		this.dataNascimento = Calendar.getInstance();
 		this.endereco = new Endereco();
 	}
 	
