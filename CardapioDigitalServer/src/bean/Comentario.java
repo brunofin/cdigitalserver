@@ -6,6 +6,8 @@ public class Comentario {
 	private int comentarioId;
 	private String comentario;
 	private Calendar data;
+	private Item item;
+	private Cliente cliente;	
 	
 	public int getComentarioId() {
 		return comentarioId;
@@ -26,5 +28,17 @@ public class Comentario {
 	
 	public void setData(Calendar data) {
 		this.data = data;
+	}
+	public Item getItem() {
+		return item;
+	}
+	public void setItem(Item item) {
+		this.item = item;
+	}
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 }

@@ -2,12 +2,13 @@ package bean;
 
 import java.util.List;
 
-public class Prato {
-	private int id;
+public class Item {
+	private int itemId;
 	private String nome;
 	private String descricao;
 	private float preco;
 	private Foto foto;
+	private Categoria categoria;
 	private List<Ingrediente> ingredientes;
 	
 	public List<Ingrediente> getIngredientes() {
@@ -18,16 +19,16 @@ public class Prato {
 		this.ingredientes = ingredientes;
 	}
 
-	public Prato() {
+	public Item() {
 		this.setFoto(new Foto());
 	}
 
-	public int getId() {
-		return id;
+	public int getItemId() {
+		return itemId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setItemId(int id) {
+		this.itemId = id;
 	}
 
 	public String getNome() {
@@ -60,5 +61,13 @@ public class Prato {
 
 	public void setFoto(Foto foto) {
 		this.foto = foto;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 }
