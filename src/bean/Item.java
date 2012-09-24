@@ -7,9 +7,14 @@ public class Item {
 	private String nome;
 	private String descricao;
 	private float preco;
-	private Foto foto;
+	private List<Foto> fotos;
 	private Categoria categoria;
 	private List<Ingrediente> ingredientes;
+
+	
+	public Item() {
+	}
+	
 	
 	public List<Ingrediente> getIngredientes() {
 		return ingredientes;
@@ -17,10 +22,6 @@ public class Item {
 
 	public void setIngredientes(List<Ingrediente> ingredientes) {
 		this.ingredientes = ingredientes;
-	}
-
-	public Item() {
-		this.setFoto(new Foto());
 	}
 
 	public int getItemId() {
@@ -55,12 +56,12 @@ public class Item {
 		this.preco = preco;
 	}
 
-	public Foto getFoto() {
-		return foto;
+	public List<Foto> getFoto() {
+		return fotos;
 	}
 
-	public void setFoto(Foto foto) {
-		this.foto = foto;
+	public void setFotos(List<Foto> fotos) {
+		this.fotos = fotos;
 	}
 
 	public Categoria getCategoria() {
