@@ -1,5 +1,6 @@
 package main;
 
+import server.conexao.ConnectionManager;
 import controle.CtrJanelaInicio;
 
 /* Lista geral de o que falta fazer
@@ -9,7 +10,13 @@ import controle.CtrJanelaInicio;
 public class Main {
 
 	public static void main(String[] args) {
-		CtrJanelaInicio janelaInicio = new CtrJanelaInicio();
-		janelaInicio.executar();
+		/* CtrJanelaInicio janelaInicio = new CtrJanelaInicio();
+		 * janelaInicio.executar();
+		 */
+		
+		Thread servidor = new Thread(new ConnectionManager());
+		
+		servidor.start();
+		
 	}
 }

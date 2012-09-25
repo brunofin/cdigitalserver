@@ -1,6 +1,7 @@
 package bean;
 
 public class Endereco {
+	private int enderecoId;
 	private String rua;
 	private String numero;
 	private String cep;
@@ -43,6 +44,12 @@ public class Endereco {
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	public int getEnderecoId() {
+		return enderecoId;
+	}
+	public void setEnderecoId(int enderecoId) {
+		this.enderecoId = enderecoId;
 	}
 	
 	

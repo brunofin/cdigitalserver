@@ -1,4 +1,4 @@
-package conexao;
+package server.conexao;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -25,6 +25,8 @@ public class ConnectionManager implements Runnable {
 	private void iniciar() throws IOException {
 		@SuppressWarnings("resource") //ver o próximo TODO e depois deletar esta linha.
 		ServerSocket server = new ServerSocket(4445);
+		
+		System.out.println("Esperando clientes...");
 		
 		while(true) { //TODO: depois mudar o true pra uma opção na GUI que possa parar o servidor. 
 			Socket cliente = server.accept();
