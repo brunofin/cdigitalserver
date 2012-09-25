@@ -1,4 +1,4 @@
-package conexao;
+package server.conexao;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -30,7 +30,8 @@ public class Connection implements Runnable {
 		System.out.println("Conexão: Conexão iniciada!");
 		
 		while(true) {
-			//TODO: fazer algo após conexão estabelecida (criar objeto RPC?)
+			String s = (String) in.readObject();
+			System.out.println("Mensagem recebida: " + s);
 		}
 	}
 
