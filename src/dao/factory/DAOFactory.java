@@ -9,6 +9,7 @@ import dao.ingrediente.IngredienteDAO;
 import dao.item.ItemDAO;
 import dao.pedido.PedidoDAO;
 import dao.promocao.PromocaoDAO;
+import dao.tipo.TipoDAO;
 
 // exemplo de utilização: DAOFactory dao = DAOFactory.getDaoFactory(Database.MYSQL);
 public abstract class DAOFactory {
@@ -22,6 +23,7 @@ public abstract class DAOFactory {
 	public abstract PedidoDAO getPedidoDAO();
 	public abstract ItemDAO getPratoDAO();
 	public abstract PromocaoDAO getPromocaoDAO();
+	public abstract TipoDAO getTipoDAO();
 
 	/**
 	 * 
