@@ -1,11 +1,12 @@
-package controle;
+package gui.controle;
+
+import gui.janela.FrmJanelaInicio;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import janela.FrmJanelaInicio;
 
 public class CtrJanelaInicio {
 	FrmJanelaInicio janelaInicio;
