@@ -1,6 +1,6 @@
 package gui.controle;
 
-import gui.janela.FrmJanelaInicio;
+import gui.modelo.FrmJanelaInicio;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

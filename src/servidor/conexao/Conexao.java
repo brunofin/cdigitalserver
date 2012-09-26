@@ -5,8 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import server.Device;
-import server.Pacote;
+import servidor.comunicacao.Dispositivo;
+import servidor.comunicacao.Pacote;
 
 import bean.*;
 
@@ -18,7 +18,7 @@ import bean.*;
 public class Conexao implements Runnable {
 	private Socket cliente;
 	private Servidor servidor;
-	private Device device;
+	private Dispositivo device;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	
@@ -32,7 +32,7 @@ public class Conexao implements Runnable {
 		try {
 			iniciar();
 		} catch(Exception e) {
-			System.out.println("[server]<Conexao>: Exceção iniciando! " + e.getMessage() );
+			System.out.println("[servidor.comunicacao]<Conexao>: Exceção iniciando! " + e.getMessage() );
 		}
 		
 	}
@@ -42,9 +42,9 @@ public class Conexao implements Runnable {
 		out = new ObjectOutputStream(cliente.getOutputStream());
 		
 		
-		device = (Device) in.readObject();
+		device = (Dispositivo) in.readObject();
 		
-		System.out.println("[server]<Conexao>: Conexão iniciada: " + device.getAndroid_id() + " : " + device.getMesa());
+		System.out.println("[servidor.comunicacao]<Conexao>: Conexão iniciada: " + device.getAndroid_id() + " : " + device.getMesa());
 		
 		while(true) {
 			Pacote pacote = (Pacote) in.readObject();

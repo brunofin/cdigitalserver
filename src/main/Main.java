@@ -18,8 +18,8 @@ import dao.tipo.TipoDAO;
  */
 
 public class Main {
-	static DAOFactory factory;
-	static TipoDAO tipoDAO;
+	private DAOFactory factory;
+	private TipoDAO tipoDAO;
 	
 	public static void main(String[] args) {
 		/* CtrJanelaInicio janelaInicio = new CtrJanelaInicio();
@@ -30,8 +30,9 @@ public class Main {
 		 
 		 servidor.start();
  		 */
-
-		prepararTabelas();
+		
+		Main main = new Main();
+		main.prepararTabelas();
 	}
 	
 	/**
@@ -39,7 +40,7 @@ public class Main {
 	 * para criar tabelas e fazer os inserts
 	 * necessários.
 	 */
-	private static void prepararTabelas() {
+	private void prepararTabelas() {
 		factory = DAOFactory.getDaoFactory(Database.MYSQL);
 		tipoDAO = factory.getTipoDAO();
 		try {
@@ -57,7 +58,7 @@ public class Main {
 	 * @param tipoId, id do tipo
 	 * @param nome, nome do tipo
 	 */
-	private static void consultarEInserirPratoBebida(int tipoId, String nome) {
+	private void consultarEInserirPratoBebida(int tipoId, String nome) {
 		Tipo t = new Tipo();
 		t.setTipoId(tipoId);
 		t.setNome(nome);
