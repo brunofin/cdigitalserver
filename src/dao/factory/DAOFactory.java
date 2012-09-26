@@ -21,7 +21,7 @@ public abstract class DAOFactory {
 	public abstract FotoDAO getFotoDAO();
 	public abstract IngredienteDAO getIngredienteDAO();
 	public abstract PedidoDAO getPedidoDAO();
-	public abstract ItemDAO getPratoDAO();
+	public abstract ItemDAO getItemDAO();
 	public abstract PromocaoDAO getPromocaoDAO();
 	public abstract TipoDAO getTipoDAO();
 

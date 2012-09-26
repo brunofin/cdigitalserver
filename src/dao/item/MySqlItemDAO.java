@@ -6,7 +6,7 @@ import java.util.List;
 import bean.Item;
 import dao.factory.MySqlDAOFactory;
 
-public class MySqlPratoDAO extends MySqlDAOFactory implements ItemDAO {
+public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
 
 	@Override
 	public int incluir(Item i) throws SQLException {
