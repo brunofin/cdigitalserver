@@ -16,7 +16,7 @@ import dao.foto.FotoDAO;
 import dao.foto.MySqlFotoDAO;
 import dao.ingrediente.IngredienteDAO;
 import dao.ingrediente.MySqlIngredienteDAO;
-import dao.item.MySqlPratoDAO;
+import dao.item.MySqlItemDAO;
 import dao.item.ItemDAO;
 import dao.pedido.MySqlPedidoDAO;
 import dao.pedido.PedidoDAO;
@@ -86,8 +86,8 @@ public class MySqlDAOFactory extends DAOFactory {
 	}
 
 	@Override
-	public ItemDAO getPratoDAO() {
-		return new MySqlPratoDAO();
+	public ItemDAO getItemDAO() {
+		return new MySqlItemDAO();
 	}
 
 	@Override
