@@ -5,7 +5,7 @@ import java.util.List;
 
 import bean.Tipo;
 
-import server.conexao.ConnectionManager;
+import server.conexao.Servidor;
 
 import controle.CtrJanelaInicio;
 import dao.factory.DAOFactory;
@@ -25,7 +25,7 @@ public class Main {
 		 *janelaInicio.executar();
 		 
 		 
-		 Thread servidor = new Thread(new ConnectionManager());
+		 Thread servidor = new Thread(new Servidor());
 		 
 		 servidor.start();
  		 */

@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import server.Device;
+import server.Pacote;
 
 import bean.*;
 
@@ -14,14 +15,14 @@ import bean.*;
  * @author bruno
  *
  */
-public class Connection implements Runnable {
+public class Conexao implements Runnable {
 	private Socket cliente;
-	private ConnectionManager servidor;
+	private Servidor servidor;
 	private Device device;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	
-	public Connection(Socket cliente, ConnectionManager servidor) {
+	public Conexao(Socket cliente, Servidor servidor) {
 		this.cliente = cliente;
 		this.servidor = servidor;
 	}
@@ -31,7 +32,7 @@ public class Connection implements Runnable {
 		try {
 			iniciar();
 		} catch(Exception e) {
-			System.out.println("[server]<Connection>: Exceção iniciando! " + e.getMessage() );
+			System.out.println("[server]<Conexao>: Exceção iniciando! " + e.getMessage() );
 		}
 		
 	}
@@ -43,26 +44,17 @@ public class Connection implements Runnable {
 		
 		device = (Device) in.readObject();
 		
-		System.out.println("[server]<Connection>: Conexão iniciada: " + device.getAndroid_id() + " : " + device.getMesa());
+		System.out.println("[server]<Conexao>: Conexão iniciada: " + device.getAndroid_id() + " : " + device.getMesa());
 		
 		while(true) {
-			Object comando = in.readObject();
+			Pacote pacote = (Pacote) in.readObject();
+			Object resposta = servidor.getCommunication().processa(this, pacote);
 			
-			if(comando instanceof String) {
-				String s = (String) comando;
-				if(s.startsWith("shutdown")) {
-					break;
-				} else {
-					System.out.println("[server]<Connection>: Mensagem recebida: " + s);
-				}
-			} else if(comando instanceof Pedido) {
-				// mais alguma coisa
-			} else {
-				// continuar a lista de possiveis ações
+			if(resposta != null) {
+				out.writeObject(resposta);
 			}
 		}
-		System.out.println("[server]<Connection>: Finalizando servidor...");
-		servidor.finalizarServidor();
+		//servidor.finalizarServidor();
 	}
 
 	public Socket getCliente() {
@@ -73,11 +65,11 @@ public class Connection implements Runnable {
 		this.cliente = cliente;
 	}
 
-	public ConnectionManager getServidor() {
+	public Servidor getServidor() {
 		return servidor;
 	}
 
-	public void setServidor(ConnectionManager servidor) {
+	public void setServidor(Servidor servidor) {
 		this.servidor = servidor;
 	}
 	
@@ -87,7 +79,7 @@ public class Connection implements Runnable {
 			out.close();
 			cliente.close();
 		} catch(IOException e) {
-			System.out.println("[servidor]<Connection> Exceção finalizando! " + e.getMessage());
+			System.out.println("[servidor]<Conexao> Exceção finalizando! " + e.getMessage());
 		}
 		
 	}
