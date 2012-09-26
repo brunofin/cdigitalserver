@@ -2,7 +2,7 @@ package server;
 
 import dao.factory.DAOFactory;
 import dao.factory.Database;
-import server.conexao.Conexao;
+import servidor.conexao.Conexao;
 
 /**
  * Este é o ponto de comunicação entre clientes (Android) e servidor.
@@ -22,7 +22,7 @@ import server.conexao.Conexao;
  * pois foi ele que requisitou o processamento do método.
  * 
  * @see server.Pacote
- * @see server.conexao.Conexao
+ * @see servidor.conexao.Conexao
  */
 public class CommunicationManager {
 	public enum METODO {

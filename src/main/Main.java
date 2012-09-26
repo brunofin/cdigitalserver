@@ -1,13 +1,14 @@
 package main;
 
+import gui.controle.CtrJanelaInicio;
+
 import java.sql.SQLException;
 import java.util.List;
 
 import bean.Tipo;
 
-import server.conexao.Servidor;
+import servidor.conexao.Servidor;
 
-import controle.CtrJanelaInicio;
 import dao.factory.DAOFactory;
 import dao.factory.Database;
 import dao.tipo.TipoDAO;

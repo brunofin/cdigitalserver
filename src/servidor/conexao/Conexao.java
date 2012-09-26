@@ -1,4 +1,4 @@
-package server.conexao;
+package servidor.conexao;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
