@@ -1,7 +1,10 @@
 package servidor.comunicacao;
 
+import java.sql.SQLException;
+
 import dao.factory.DAOFactory;
 import dao.factory.Database;
+import dao.item.ItemDAO;
 import servidor.conexao.Conexao;
 
 /**
@@ -34,8 +37,8 @@ public class GerenciadorComunicacao {
 		case LISTAR_ITEMS:
 			return listarItems();
 			
-			default:
-				return null;
+		default:
+			return null;
 			
 		}
 		
@@ -43,6 +46,15 @@ public class GerenciadorComunicacao {
 	
 	private Object listarItems() {
 		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
-		return null;
+		ItemDAO dao = factory.getItemDAO();
+		
+		Object resposta = null;
+		
+		try{
+			resposta = dao.listar();
+		} catch(SQLException e) {
+			System.out.println("<GerenciadorComunicacao> Exceção em listarItems(): " + e.getMessage());
+		}
+		return resposta;
 	}
 }
