@@ -28,7 +28,7 @@ public class Servidor implements Runnable {
 		try {
 			iniciar();
 		} catch(IOException e) {
-			System.out.println("[servidor.comunicacao]<Servidor>: Exceção! " + e.getMessage());
+			System.out.println("<Servidor>: Exceção! " + e.getMessage());
 		}
 		
 	}
@@ -37,27 +37,27 @@ public class Servidor implements Runnable {
 		ServerSocket server = new ServerSocket(4445);
 		
 		while(isServerAlive()) {
-			System.out.println("[servidor.comunicacao]<Servidor> Esperando novos clientes...");
+			System.out.println("<Servidor> Esperando novos clientes...");
 			Socket cliente = server.accept();
 			
-			System.out.println("[servidor.comunicacao]<Servidor> Nova conexão recebida!");
+			System.out.println("<Servidor> Nova conexão recebida!");
 			Conexao c = new Conexao(cliente, this);
 			
 			new Thread(c).start();
 			getConexoes().add(c);
 		}
-		System.out.println("[servidor.comunicacao]<Servidor>: Não aceitando novos clientes.");
+		System.out.println("<Servidor>: Não aceitando novos clientes.");
 		server.close();
 	}
 	
 	public void finalizarServidor() {
-		System.out.println("[servidor.comunicacao]<Servidor>: Finalizando servidor...");
+		System.out.println("<Servidor>: Finalizando servidor...");
 		serverAlive = false;
 		for(Conexao c : conexoes) {
 			c.fecharConexao();
 		}
 		conexoes.clear();
-		System.out.println("[servidor.comunicacao]<Servidor>: Servidor finalizado com sucesso!");
+		System.out.println("<Servidor>: Servidor finalizado com sucesso!");
 	}
 	
 	public List<Conexao> getConexoes() {

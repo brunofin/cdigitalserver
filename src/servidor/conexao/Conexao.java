@@ -32,7 +32,7 @@ public class Conexao implements Runnable {
 		try {
 			iniciar();
 		} catch(Exception e) {
-			System.out.println("[servidor.comunicacao]<Conexao>: Exceção iniciando! " + e.getMessage() );
+			System.out.println("<Conexao>: Exceção iniciando! " + e.getMessage() );
 		}
 		
 	}
@@ -44,7 +44,7 @@ public class Conexao implements Runnable {
 		
 		device = (Dispositivo) in.readObject();
 		
-		System.out.println("[servidor.comunicacao]<Conexao>: Conexão iniciada: " + device.getAndroid_id() + " : " + device.getMesa());
+		System.out.println("<Conexao>: Conexão iniciada: " + device.getAndroid_id() + " : " + device.getMesa());
 		
 		while(true) {
 			Pacote pacote = (Pacote) in.readObject();
@@ -79,7 +79,7 @@ public class Conexao implements Runnable {
 			out.close();
 			cliente.close();
 		} catch(IOException e) {
-			System.out.println("[servidor]<Conexao> Exceção finalizando! " + e.getMessage());
+			System.out.println("<Conexao> Exceção finalizando! " + e.getMessage());
 		}
 		
 	}
