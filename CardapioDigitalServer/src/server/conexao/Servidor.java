@@ -6,18 +6,21 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 
+import server.CommunicationManager;
+
 /**
  * Abre as portas para criar conexões e então insere uma representação da conexão em uma
  * lista. É basicamente o servidor
  * @author bruno
- * @see Connection
+ * @see Conexao
  */
-public class ConnectionManager implements Runnable {
-	private List<Connection> conexoes;
+public class Servidor implements Runnable {
+	private List<Conexao> conexoes;
 	private boolean serverAlive;
+	private CommunicationManager communication;
 	
-	public ConnectionManager() {
-		conexoes = new LinkedList<Connection>();
+	public Servidor() {
+		conexoes = new LinkedList<Conexao>();
 		serverAlive = true;
 	}
 	@Override
@@ -25,7 +28,7 @@ public class ConnectionManager implements Runnable {
 		try {
 			iniciar();
 		} catch(IOException e) {
-			System.out.println("[server]<ConnectionManager>: Exceção! " + e.getMessage());
+			System.out.println("[server]<Servidor>: Exceção! " + e.getMessage());
 		}
 		
 	}
@@ -34,38 +37,42 @@ public class ConnectionManager implements Runnable {
 		ServerSocket server = new ServerSocket(4445);
 		
 		while(isServerAlive()) {
-			System.out.println("[server]<ConnectionManager> Esperando novos clientes...");
+			System.out.println("[server]<Servidor> Esperando novos clientes...");
 			Socket cliente = server.accept();
 			
-			System.out.println("[server]<ConnectionManager> Nova conexão recebida!");
-			Connection c = new Connection(cliente, this);
+			System.out.println("[server]<Servidor> Nova conexão recebida!");
+			Conexao c = new Conexao(cliente, this);
 			
 			new Thread(c).start();
 			getConexoes().add(c);
 		}
-		System.out.println("[server]<ConnectionManager>: Não aceitando novos clientes.");
+		System.out.println("[server]<Servidor>: Não aceitando novos clientes.");
 		server.close();
 	}
 	
 	public void finalizarServidor() {
-		System.out.println("[server]<ConnectionManager>: Finalizando servidor...");
+		System.out.println("[server]<Servidor>: Finalizando servidor...");
 		serverAlive = false;
-		for(Connection c : conexoes) {
+		for(Conexao c : conexoes) {
 			c.fecharConexao();
 		}
 		conexoes.clear();
-		System.out.println("[server]<ConnectionManager>: Servidor finalizado com sucesso!");
+		System.out.println("[server]<Servidor>: Servidor finalizado com sucesso!");
 	}
 	
-	public List<Connection> getConexoes() {
+	public List<Conexao> getConexoes() {
 		return conexoes;
 	}
 	
-	public void setConexoes(List<Connection> conexoes) {
+	public void setConexoes(List<Conexao> conexoes) {
 		this.conexoes = conexoes;
 	}
 	
 	public boolean isServerAlive() {
 		return serverAlive;
+	}
+	
+	public CommunicationManager getCommunication() {
+		return communication;
 	}
 }
