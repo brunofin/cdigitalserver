@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import dao.categoria.CategoriaDAO;
+import dao.categoria.MySqlCategoriaDAO;
 import dao.cliente.ClienteDAO;
 import dao.cliente.MySqlClienteDAO;
 import dao.comentario.ComentarioDAO;
@@ -98,6 +100,11 @@ public class MySqlDAOFactory extends DAOFactory {
 	@Override
 	public TipoDAO getTipoDAO() {
 		return new MySqlTipoDAO();
+	}
+	
+	@Override
+	public CategoriaDAO getCategoriaDAO() {
+		return new MySqlCategoriaDAO();
 	}
 
 }

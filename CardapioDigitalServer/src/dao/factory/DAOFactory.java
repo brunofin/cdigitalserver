@@ -1,5 +1,6 @@
 package dao.factory;
 
+import dao.categoria.CategoriaDAO;
 import dao.cliente.ClienteDAO;
 import dao.comentario.ComentarioDAO;
 import dao.cozinheiro.CozinheiroDAO;
@@ -24,6 +25,7 @@ public abstract class DAOFactory {
 	public abstract ItemDAO getItemDAO();
 	public abstract PromocaoDAO getPromocaoDAO();
 	public abstract TipoDAO getTipoDAO();
+	public abstract CategoriaDAO getCategoriaDAO();
 
 	/**
 	 * 
