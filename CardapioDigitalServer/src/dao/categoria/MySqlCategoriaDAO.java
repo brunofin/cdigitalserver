@@ -15,7 +15,7 @@ import dao.factory.MySqlDAOFactory;
 public class MySqlCategoriaDAO extends MySqlDAOFactory implements CategoriaDAO {
 
 	@Override
-	public int incluir(Categoria c) throws SQLException {
+	public int incluir(Categoria c) throws SQLException {//ok
 		Connection con = getConnection();
         Statement stmt =  con.createStatement();
         int resultado = stmt.executeUpdate("INSERT INTO categoria " +
@@ -29,7 +29,7 @@ public class MySqlCategoriaDAO extends MySqlDAOFactory implements CategoriaDAO {
 	}
 
 	@Override
-	public boolean exluir(Categoria c) throws SQLException {
+	public boolean excluir(Categoria c) throws SQLException {//ok
 		Connection con = getConnection();
 		Statement stmt =  con.createStatement();
 		int resultado = stmt.executeUpdate("DELETE FROM categoria WHERE id_categoria=" 
@@ -43,7 +43,7 @@ public class MySqlCategoriaDAO extends MySqlDAOFactory implements CategoriaDAO {
 	}
 
 	@Override
-	public boolean alterar(Categoria c) throws SQLException {
+	public boolean alterar(Categoria c) throws SQLException {//OK
 		Connection con = getConnection();
         PreparedStatement stmt = con.prepareStatement("UPDATE categoria SET nome = ?," +
                 " descricao = ?, tipo_id= ? where id_categoria = ?");
@@ -62,7 +62,7 @@ public class MySqlCategoriaDAO extends MySqlDAOFactory implements CategoriaDAO {
 	}
 
 	@Override
-	public Categoria consultarId(Categoria c) throws SQLException {
+	public Categoria consultarId(Categoria c) throws SQLException {//OK
 		Categoria resultado = new Categoria();           
         Connection con = getConnection();
         ResultSet rs = null;
@@ -78,7 +78,7 @@ public class MySqlCategoriaDAO extends MySqlDAOFactory implements CategoriaDAO {
             resultado.setDescricao(rs.getString("descricao"));
             Tipo t = new Tipo();
             t.setTipoId(rs.getInt("tipo_id"));
-            t.setNome(rs.getString("nome_tipo"));//TODO verificar se isso ta certo
+            t.setNome(rs.getString("nome_tipo"));
             resultado.setTipo(t);
         }
         stmt.close();
@@ -154,5 +154,4 @@ public class MySqlCategoriaDAO extends MySqlDAOFactory implements CategoriaDAO {
 		stmt.close();
 		con.close();
 	}
-
 }
