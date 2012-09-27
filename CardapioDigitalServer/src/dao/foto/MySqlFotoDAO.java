@@ -33,12 +33,6 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 	}
 
 	@Override
-	public List<Foto> consultarTitulo(Foto f) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Foto> listar() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
@@ -48,6 +42,12 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 	public void criarTabela() throws SQLException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public List<Foto> consultarPorItemId(int itemId) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
