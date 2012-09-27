@@ -1,10 +1,21 @@
 package servidor.comunicacao;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
+import bean.Foto;
+
+import dao.categoria.CategoriaDAO;
 import dao.factory.DAOFactory;
 import dao.factory.Database;
 import dao.item.ItemDAO;
+import dao.tipo.TipoDAO;
 import servidor.conexao.Conexao;
 
 /**
@@ -29,29 +40,65 @@ import servidor.conexao.Conexao;
  */
 public class GerenciadorComunicacao {
 	public enum METODO {
-		LISTAR_ITEMS;
+		RESPOSTA,
+		BAIXAR_FOTO, LISTAR_ITEMS, LISTAR_FOTOS;
 	}
 	
 	public Object processa(Conexao c, Pacote pacote) {
 		switch(pacote.getMetodo()) {
 		case LISTAR_ITEMS:
 			return listarItems();
-			
+		case BAIXAR_FOTO:
+			Foto f = (Foto) pacote.getArgumentos();
+			return baixarFoto(f);
 		default:
 			return null;
 			
 		}
-		
 	}
 	
+	/**
+	 * @see METODO.BAIXAR_FOTO
+	 * @return
+	 */
+	private Object baixarFoto(Foto f) {
+		Pacote resposta = null;
+		try {
+			File file = new File(f.getLocal_foto());
+			FileInputStream fis = new FileInputStream(file);
+			byte b[] = new byte[(int) file.length()];
+			fis.read(b);
+			
+			List<Byte> serialized = new LinkedList<Byte>();
+			for(int i = 0; i <b.length; i++) {
+				serialized.add(b[i]);
+			}
+			resposta = new Pacote(METODO.RESPOSTA, serialized);
+			
+			fis.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		return resposta;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @see METODO.LISTAR_ITEMS
+	 * @return
+	 */
 	private Object listarItems() {
 		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
-		ItemDAO dao = factory.getItemDAO();
+		ItemDAO idao = factory.getItemDAO();
 		
 		Object resposta = null;
 		
 		try{
-			resposta = dao.listar();
+			resposta = idao.listar();
 		} catch(SQLException e) {
 			System.out.println("<GerenciadorComunicacao> Exceção em listarItems(): " + e.getMessage());
 		}

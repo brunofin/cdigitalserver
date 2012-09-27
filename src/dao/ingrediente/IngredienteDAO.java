@@ -11,6 +11,7 @@ public interface IngredienteDAO {
     public boolean alterar(Ingrediente i) throws SQLException;
     public Ingrediente consultarId(Ingrediente i) throws SQLException;
     public List<Ingrediente> consultarTitulo(Ingrediente i) throws SQLException;
+    public List<Ingrediente> consultarPorItemId(int itemId) throws SQLException;
     public List<Ingrediente> listar() throws SQLException;
     public void criarTabela() throws SQLException;
 }

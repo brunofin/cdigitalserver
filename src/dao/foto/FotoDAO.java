@@ -10,7 +10,7 @@ public interface FotoDAO {
     public boolean exluir(Foto f) throws SQLException;
     public boolean alterar(Foto f) throws SQLException;
     public Foto consultarId(Foto f) throws SQLException;
-    public List<Foto> consultarTitulo(Foto f) throws SQLException;
+    public List<Foto> consultarPorItemId(int itemId) throws SQLException;
     public List<Foto> listar() throws SQLException;
     public void criarTabela() throws SQLException;
 }

@@ -51,4 +51,10 @@ public class MySqlIngredienteDAO extends MySqlDAOFactory implements
 
 	}
 
+	@Override
+	public List<Ingrediente> consultarPorItemId(int itemId) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
