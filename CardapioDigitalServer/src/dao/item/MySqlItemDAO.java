@@ -1,6 +1,8 @@
 package dao.item;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import bean.Item;
@@ -45,8 +47,18 @@ public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
 	}
 
 	@Override
-	public void criarTabela() throws SQLException {
-		// TODO Auto-generated method stub
-
+	public void criarTabela() throws SQLException {//TODO testar
+		Connection con = getConnection();
+		Statement stmt =  con.createStatement();
+		stmt.execute("CREATE TABLE IF NOT EXISTS item (" +
+                " id_item INTEGER (7) AUTO_INCREMENT NOT NULL," +
+                " nome VARCHAR (40) NOT NULL," +
+                " descricao VARCHAR (60) NOT NULL," +
+                " preco DECIMAL (8,2) NOT NULL," +
+                " id_categoria INTEGER (7) NOT NULL," +
+                " PRIMARY KEY (id_item)," +
+                " FOREIGN KEY (id_categoria) REFERENCES categoria (id_categoria))");
+		stmt.close();
+		con.close();
 	}
 }
