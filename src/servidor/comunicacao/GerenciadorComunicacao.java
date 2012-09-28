@@ -1,6 +1,5 @@
 package servidor.comunicacao;
 
-import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,7 +8,10 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import bean.Categoria;
 import bean.Foto;
+import bean.Item;
+import bean.Tipo;
 
 import dao.categoria.CategoriaDAO;
 import dao.factory.DAOFactory;
@@ -23,7 +25,7 @@ import servidor.conexao.Conexao;
  * Cliente manda para o servidor um objeto do tipo <code>Pacote</code> que contém
  * qual método deverá ser chamado, e seus respectivos argumentos.
  * 
- * Cada método deve ser listado no enum <code>METODO</code>, e seu respectivo método
+ * Cada método deve ser listado no enum <code>Metodo</code>, e seu respectivo método
  * implementado nesta classe. O método <code>processa</code> irá descobrir
  * qual método está sendo invocado através do enum e então chamá-lo, repassando
  * os respectivos argumentos. O único método público dessa classe deve ser <code>processa</code>.
@@ -37,17 +39,18 @@ import servidor.conexao.Conexao;
  * 
  * @see servidor.comunicacao.Pacote
  * @see servidor.conexao.Conexao
+ * @see servidor.comunicacao.Metodo
  */
 public class GerenciadorComunicacao {
-	public enum METODO {
-		RESPOSTA,
-		BAIXAR_FOTO, LISTAR_ITEMS, LISTAR_FOTOS;
-	}
 	
 	public Object processa(Conexao c, Pacote pacote) {
 		switch(pacote.getMetodo()) {
 		case LISTAR_ITEMS:
 			return listarItems();
+		case LISTAR_TIPOS:
+			return listarTipos();
+		case LISTAR_CATEGORIAS:
+			return listarCategorias();
 		case BAIXAR_FOTO:
 			Foto f = (Foto) pacote.getArgumentos();
 			return baixarFoto(f);
@@ -58,7 +61,7 @@ public class GerenciadorComunicacao {
 	}
 	
 	/**
-	 * @see METODO.BAIXAR_FOTO
+	 * @see Metodo.BAIXAR_FOTO
 	 * @return
 	 */
 	private Object baixarFoto(Foto f) {
@@ -73,7 +76,7 @@ public class GerenciadorComunicacao {
 			for(int i = 0; i <b.length; i++) {
 				serialized.add(b[i]);
 			}
-			resposta = new Pacote(METODO.RESPOSTA, serialized);
+			resposta = new Pacote(Metodo.RESPOSTA, serialized);
 			
 			fis.close();
 		} catch (FileNotFoundException e) {
@@ -88,19 +91,60 @@ public class GerenciadorComunicacao {
 	
 	/**
 	 * 
-	 * @see METODO.LISTAR_ITEMS
+	 * @see Metodo.LISTAR_ITEMS
 	 * @return
 	 */
 	private Object listarItems() {
 		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
-		ItemDAO idao = factory.getItemDAO();
+		ItemDAO dao = factory.getItemDAO();
 		
-		Object resposta = null;
+		Pacote resposta = null;
 		
 		try{
-			resposta = idao.listar();
+			List<Item> lista = dao.listar();
+			resposta = new Pacote(Metodo.RESPOSTA, lista);
 		} catch(SQLException e) {
 			System.out.println("<GerenciadorComunicacao> Exceção em listarItems(): " + e.getMessage());
+		}
+		return resposta;
+	}
+	
+	/**
+	 * 
+	 * @see Metodo.LISTAR_TIPOS
+	 * @return
+	 */
+	private Object listarTipos() {
+		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
+		TipoDAO dao = factory.getTipoDAO();
+		
+		Pacote resposta = null;
+		
+		try{
+			List<Tipo> lista = dao.listar();
+			resposta = new Pacote(Metodo.RESPOSTA, lista);
+		} catch(SQLException e) {
+			System.out.println("<GerenciadorComunicacao> Exceção em listarTipos(): " + e.getMessage());
+		}
+		return resposta;
+	}
+	
+	/**
+	 * 
+	 * @see Metodo.LISTAR_CATEGORIAS
+	 * @return
+	 */
+	private Object listarCategorias() {
+		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
+		CategoriaDAO dao = factory.getCategoriaDAO();
+		
+		Pacote resposta = null;
+		
+		try{
+			List<Categoria> lista = dao.listar();
+			resposta = new Pacote(Metodo.RESPOSTA, lista);
+		} catch(SQLException e) {
+			System.out.println("<GerenciadorComunicacao> Exceção em listarCategorias(): " + e.getMessage());
 		}
 		return resposta;
 	}
