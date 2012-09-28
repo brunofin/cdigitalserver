@@ -7,7 +7,7 @@ import bean.Ingrediente;
 
 public interface IngredienteDAO {
 	public int incluir(Ingrediente i) throws SQLException;
-    public boolean exluir(Ingrediente i) throws SQLException;
+    public boolean excluir(Ingrediente i) throws SQLException;
     public boolean alterar(Ingrediente i) throws SQLException;
     public Ingrediente consultarId(Ingrediente i) throws SQLException;
     public List<Ingrediente> consultarTitulo(Ingrediente i) throws SQLException;

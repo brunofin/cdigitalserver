@@ -7,7 +7,7 @@ import bean.Foto;
 
 public interface FotoDAO {
 	public int incluir(Foto f) throws SQLException;
-    public boolean exluir(Foto f) throws SQLException;
+    public boolean excluir(Foto f) throws SQLException;
     public boolean alterar(Foto f) throws SQLException;
     public Foto consultarId(Foto f) throws SQLException;
     public List<Foto> consultarPorItemId(int itemId) throws SQLException;

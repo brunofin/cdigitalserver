@@ -5,6 +5,7 @@ public class Ingrediente {
 	private int ingredienteId;
 	private String nome;
 	private float preco;
+	private String descricao;
 	
 	public Ingrediente() {
 		// TODO Auto-generated constructor stub
@@ -32,5 +33,13 @@ public class Ingrediente {
 
 	public void setPreco(float preco) {
 		this.preco = preco;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 }
