@@ -42,4 +42,6 @@ public interface ItemIngredienteDAO {
 	 * @return
 	 */
 	public boolean alterarIngredientes(Item i) throws SQLException;
+	
+	public void criarTabela() throws SQLException;
 }

@@ -61,4 +61,9 @@ public class MySqlItemIngredienteDAO extends MySqlDAOFactory implements
 		return false;
 	}
 
+	@Override
+	public void criarTabela() throws SQLException {
+		
+	}
+
 }
