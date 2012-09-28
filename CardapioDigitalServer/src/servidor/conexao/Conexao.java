@@ -18,7 +18,7 @@ import bean.*;
 public class Conexao implements Runnable {
 	private Socket cliente;
 	private Servidor servidor;
-	private Dispositivo device;
+	private Dispositivo dispositivo;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	
@@ -42,9 +42,9 @@ public class Conexao implements Runnable {
 		out = new ObjectOutputStream(cliente.getOutputStream());
 		
 		
-		device = (Dispositivo) in.readObject();
+		dispositivo = (Dispositivo) in.readObject();
 		
-		System.out.println("<Conexao>: Conexão iniciada: " + device.getAndroid_id() + " : " + device.getMesa());
+		System.out.println("<Conexao>: Conexão iniciada: " + dispositivo.getAndroid_id() + " : " + dispositivo.getMesa());
 		
 		while(true) {
 			Pacote pacote = (Pacote) in.readObject();

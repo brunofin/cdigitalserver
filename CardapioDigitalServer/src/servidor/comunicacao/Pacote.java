@@ -8,24 +8,24 @@ import java.io.Serializable;
  *
  */
 public class Pacote implements Serializable {
-	private GerenciadorComunicacao.METODO metodo;
+	private Metodo metodo;
 	private Object argumentos;
 	
 	public Pacote() {
 		super();
 	}
 	
-	public Pacote(GerenciadorComunicacao.METODO metodo, Object argumentos) {
+	public Pacote(Metodo metodo, Object argumentos) {
 		this();
 		this.metodo = metodo;
 		this.argumentos = argumentos;
 	}
 	
-	public GerenciadorComunicacao.METODO getMetodo() {
+	public Metodo getMetodo() {
 		return metodo;
 	}
 	
-	public void setMetodo(GerenciadorComunicacao.METODO metodo) {
+	public void setMetodo(Metodo metodo) {
 		this.metodo = metodo;
 	}
 	
