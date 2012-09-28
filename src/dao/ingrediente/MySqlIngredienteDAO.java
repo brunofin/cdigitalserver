@@ -45,7 +45,7 @@ public class MySqlIngredienteDAO extends MySqlDAOFactory implements
 	public boolean alterar(Ingrediente i) throws SQLException {
 		Connection con = getConnection();
         PreparedStatement stmt = con.prepareStatement("UPDATE ingrediente SET nome = ?," +
-                " descricao = ?, preco= ? where id_ingrediente = ?");
+                " descricao = ?, preco= ? WHERE id_ingrediente = ?");
         stmt.setString(1, i.getNome());  //nome
         stmt.setString(2, i.getDescricao());  //desc
         stmt.setFloat(3, i.getPreco()); //preco

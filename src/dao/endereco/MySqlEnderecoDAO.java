@@ -14,19 +14,24 @@ import dao.factory.MySqlDAOFactory;
 public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
 
 	@Override
-	public int incluir(Endereco e) throws SQLException {
+	public int incluir(Endereco e) throws SQLException {//ok
 		Connection con = getConnection();
         Statement stmt =  con.createStatement();
-        int resultado = stmt.executeUpdate("INSERT INTO endereco " +
+        stmt.executeUpdate("INSERT INTO endereco " +
         				"(cep, numero, rua, estado," +
         				" cidade,bairro) " +
         				"VALUES ('"+e.getCep()+"','"
         				+e.getNumero()+"','"+e.getRua()+"','"
         				+e.getEstado()+"','"+e.getCidade()+"','"
-        				+e.getBairro()+"')");
+        				+e.getBairro()+"')",Statement.RETURN_GENERATED_KEYS);
+        ResultSet rs = stmt.getGeneratedKeys();
+        int idRecemInserido = 0;
+        while (rs.next()){
+        	idRecemInserido = rs.getInt(1);
+        }
         stmt.close();
         con.close();
-        return resultado;
+        return idRecemInserido;
 	}
 
 	@Override
