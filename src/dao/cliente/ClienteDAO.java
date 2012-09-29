@@ -56,8 +56,9 @@ public interface ClienteDAO {
      */
     public List<Cliente> consultarTitulo(Cliente c) throws SQLException;
     /**
-     * Método para listar todos os cliente,
-     * os clientes vão com seus endereços completos
+     * Método para listar todos os clientes,
+     * os clientes são retornados com seus 
+     * endereços completos
      * 
      * @return lista de todos os clientes
      * @throws SQLException

@@ -32,6 +32,7 @@ public class MySqlDAOFactory extends DAOFactory {
     private String jdbcURL = "jdbc:mysql://localhost:3306/tcc";
     private String usuario = "root"; 
     private String senha = "root";
+    private static Connection con = null;
 	
     protected MySqlDAOFactory(){
         try{
@@ -40,6 +41,23 @@ public class MySqlDAOFactory extends DAOFactory {
         	System.out.println("driver não encontrado "+e);
         }
     }
+    //TODO testar!!!!!!!
+    /**
+     * Método q mantem a conexão sempre aberta
+     * @return
+     */
+    public static final Connection getConexao() {
+		if(con == null){
+			try {
+	        	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tcc","root","root");
+	            System.out.println("conectado");
+	        }catch( SQLException e ){ 
+	        	System.out.println("falha no driver "+e); 
+	        }
+	        return con;
+		}
+		return con;
+	}
     
     protected Connection getConnection() throws SQLException {
         Connection con=null;
