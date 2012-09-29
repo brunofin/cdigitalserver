@@ -126,7 +126,7 @@ public class MySqlClienteDAO extends MySqlDAOFactory implements ClienteDAO {
         	resultado.setId(rs.getInt("id_cliente"));
         	resultado.setNome(rs.getString("nome"));
         	resultado.setSobrenome(rs.getString("sobrenome"));
-        	Calendar dataNascimento = Calendar.getInstance();//TODO testar isso
+        	Calendar dataNascimento = Calendar.getInstance();
         	dataNascimento.setTimeInMillis(rs.getLong("data_nascimento"));
         	resultado.setDataNascimento(dataNascimento);
         	resultado.setEmail(rs.getString("email"));
