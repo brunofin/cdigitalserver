@@ -9,13 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.Endereco;
+import dao.factory.ConexaoSingleton;
 import dao.factory.MySqlDAOFactory;
 
 public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
 
 	@Override
 	public int incluir(Endereco e) throws SQLException {//ok
-		Connection con = getConnection();
+		//Connection con = getConnection();
+		Connection con = ConexaoSingleton.getConexao();
+		if(con.getAutoCommit()){
+			System.out.println("|enderecoDAO| {TESTE} | O auto-commit está habilitado.");
+		}
+		else{
+		    System.out.println("|enderecoDAO| {TESTE} | O auto-commit está desabilitado.");
+		}
         Statement stmt =  con.createStatement();
         stmt.executeUpdate("INSERT INTO endereco " +
         				"(cep, numero, rua, estado," +
@@ -30,18 +38,19 @@ public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
         	idRecemInserido = rs.getInt(1);
         }
         stmt.close();
-        con.close();
+        //con.close();
         return idRecemInserido;
 	}
 
 	@Override
 	public boolean excluir(Endereco e) throws SQLException {
-		Connection con = getConnection();
+		//Connection con = getConnection();
+		Connection con = ConexaoSingleton.getConexao();
 		Statement stmt =  con.createStatement();
 		int resultado = stmt.executeUpdate("DELETE FROM endereco WHERE endereco_id=" 
 							+e.getEnderecoId());
 		stmt.close();
-		con.close();
+		//con.close();
 		if(resultado==1){
 			return true;
 		}
@@ -50,7 +59,8 @@ public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
 
 	@Override
 	public boolean alterar(Endereco e) throws SQLException {
-		Connection con = getConnection();
+		//Connection con = getConnection();
+		Connection con = ConexaoSingleton.getConexao();
         PreparedStatement stmt = con.prepareStatement("UPDATE endereco SET cep = ?," +
                 " numero = ?, rua = ?, estado = ?, cidade = ?, bairro = ? " +
                 " WHERE endereco_id = ?");
@@ -64,7 +74,7 @@ public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
         
         int modificou=stmt.executeUpdate();
         stmt.close();
-        con.close();
+        //con.close();
         if(modificou==1){
             return true;
         }
@@ -74,7 +84,8 @@ public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
 	@Override
 	public Endereco consultarId(Endereco e) throws SQLException {
 		Endereco resultado = new Endereco();           
-        Connection con = getConnection();
+        //Connection con = getConnection();
+		Connection con = ConexaoSingleton.getConexao();
         ResultSet rs = null;
         Statement stmt =  con.createStatement();
         rs = stmt.executeQuery("SELECT * FROM endereco WHERE endereco_id='" +e.getEnderecoId()+ "'");
@@ -88,7 +99,7 @@ public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
             resultado.setBairro(rs.getString("bairro"));
         }
         stmt.close();
-        con.close();
+        //con.close();
         return resultado;
 	}
 
@@ -96,7 +107,8 @@ public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
 	public List<Endereco> listar() throws SQLException {
 		Endereco resultado;
 		List <Endereco> enderecos = new ArrayList<Endereco>();
-		Connection con = getConnection();
+		//Connection con = getConnection();
+		Connection con = ConexaoSingleton.getConexao();
         ResultSet rs = null;
         Statement stmt =  con.createStatement();
         rs = stmt.executeQuery("SELECT * FROM endereco");
@@ -112,13 +124,14 @@ public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
             enderecos.add(resultado);
         }
         stmt.close();
-        con.close();
+        //con.close();
         return enderecos;
 	}
 
 	@Override
 	public void criarTabela() throws SQLException {
-		Connection con = getConnection();
+		//Connection con = getConnection();
+		Connection con = ConexaoSingleton.getConexao();
 		Statement stmt =  con.createStatement();
 		stmt.execute("CREATE TABLE IF NOT EXISTS endereco (" +
                 " endereco_id INTEGER (7) AUTO_INCREMENT NOT NULL," +
