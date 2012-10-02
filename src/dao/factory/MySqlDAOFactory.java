@@ -1,8 +1,6 @@
 package dao.factory;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import dao.categoria.CategoriaDAO;
 import dao.categoria.MySqlCategoriaDAO;
@@ -28,46 +26,9 @@ import dao.tipo.MySqlTipoDAO;
 import dao.tipo.TipoDAO;
 
 public class MySqlDAOFactory extends DAOFactory {
-	private String driverClass = "com.mysql.jdbc.Driver";
-    private String jdbcURL = "jdbc:mysql://localhost:3306/tcc";
-    private String usuario = "root"; 
-    private String senha = "root";
-    private static Connection con = null;
-	
-    protected MySqlDAOFactory(){
-        try{
-            Class.forName(driverClass);
-        }catch(ClassNotFoundException e){
-        	System.out.println("driver não encontrado "+e);
-        }
-    }
-    //TODO testar!!!!!!!
-    /**
-     * Método q mantem a conexão sempre aberta
-     * @return
-     */
-    public static final Connection getConexao() {
-		if(con == null){
-			try {
-	        	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tcc","root","root");
-	            System.out.println("conectado");
-	        }catch( SQLException e ){ 
-	        	System.out.println("falha no driver "+e); 
-	        }
-	        return con;
-		}
-		return con;
-	}
-    
-    protected Connection getConnection() throws SQLException {
-        Connection con=null;
-        try {
-        	con =DriverManager.getConnection(jdbcURL,usuario,senha);
-            System.out.println("conectado");
-        }catch( SQLException e ){ 
-        	System.out.println("falha no driver "+e); 
-        }
-        return con;
+	    
+    protected Connection getConnection(){
+        return ConexaoSingleton.getConexao();
     }
     
 	@Override
