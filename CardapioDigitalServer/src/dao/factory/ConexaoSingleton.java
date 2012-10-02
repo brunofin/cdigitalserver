@@ -10,6 +10,14 @@ public class ConexaoSingleton {
     private static final String usuario = "root"; 
     private static final String senha = "root";
     
+    static {
+    	try{
+            Class.forName("com.mysql.jdbc.Driver");
+        }catch(ClassNotFoundException e){
+        	System.out.println("driver não encontrado "+e);
+        }
+    }
+    
 	public static final Connection getConexao() {
 		if(con == null){
 			try {
@@ -18,7 +26,6 @@ public class ConexaoSingleton {
 	        }catch( SQLException e ){ 
 	        	System.out.println("falha no driver "+e); 
 	        }
-	        return con;
 		}
 		return con;
 	}
