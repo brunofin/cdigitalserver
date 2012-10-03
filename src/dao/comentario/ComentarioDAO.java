@@ -4,10 +4,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import bean.Comentario;
+import bean.Item;
 
 public interface ComentarioDAO {
 	public int incluir(Comentario c) throws SQLException;
-    public boolean exluir(Comentario c) throws SQLException;
+    public boolean excluir(Comentario c) throws SQLException;
     /**
      * Altera somente o atributo comentário.
      * 
@@ -16,6 +17,17 @@ public interface ComentarioDAO {
      * @throws SQLException
      */
     public boolean alterar(Comentario c) throws SQLException;
+    /**
+     * Altera comentarios de um item editado.
+     * Deve ser chamado ao alterar um item.
+     * 
+     * @param idItem, id do item alterado 
+     * @param comentarios, lista de comentarios
+     * atualizada
+     * @return
+     * @throws SQLException
+     */
+    public boolean alterarComentariosItemEditado(int idItem, List <Comentario> comentariosAtualizados) throws SQLException;
     /**
      * Consulta comentarios de um Item,
      * para apresenta-los no cardápio
@@ -60,12 +72,11 @@ public interface ComentarioDAO {
      * para que todos os seus comentários sejam 
      * excluídos
      * 
-     * @param c, comentario com somente 
-     * o id do item que será excluído.
+     * @param i, item que foi excluído
      * @return
      * @throws SQLException
      */
-    public boolean excluirTodosComentariosDeItemExcluido(Comentario c)throws SQLException;
+    public boolean excluirTodosComentariosDeItemExcluido(Item i)throws SQLException;
     /**
      * Retorna uma lista com todos os comentários
      * do sistema, vem preenchidos apenas o id do,

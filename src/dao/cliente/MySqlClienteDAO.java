@@ -23,12 +23,7 @@ public class MySqlClienteDAO extends MySqlDAOFactory implements ClienteDAO {
 
 	@Override
 	public int incluir(Cliente c) throws SQLException {//TODO testar
-//		factory = DAOFactory.getDaoFactory(Database.MYSQL);
-//		enderecoDAO = factory.getEnderecoDAO();
-		//insere novo endereço e seta id no atributo endereço do Cliente
-//		c.getEndereco().setEnderecoId(enderecoDAO.incluir(c.getEndereco()));
-		
-		Connection con = ConexaoSingleton.getConexao();
+		Connection con = getConnection();
 		con.setAutoCommit(false);
 		factory = DAOFactory.getDaoFactory(Database.MYSQL);
 		enderecoDAO = factory.getEnderecoDAO();
