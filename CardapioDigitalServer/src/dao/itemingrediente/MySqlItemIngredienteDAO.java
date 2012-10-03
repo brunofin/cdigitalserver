@@ -9,6 +9,7 @@ import java.util.List;
 
 import dao.factory.MySqlDAOFactory;
 
+import bean.Foto;
 import bean.Ingrediente;
 import bean.Item;
 
@@ -37,33 +38,68 @@ public class MySqlItemIngredienteDAO extends MySqlDAOFactory implements
 			ingredientes.add(resultado);
 		}
 		stmt.close();
-		con.close();
 		return ingredientes;
 	}
 
 	@Override
-	public int inserir(List<Ingrediente> listaIngredientes, int idItem)
-			throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean excluir(List<Ingrediente> listaIngredientes, int idItem)
-			throws SQLException {
-		// TODO Auto-generated method stub
+	public boolean excluir(Item i) throws SQLException {//TODO testar
+		Connection con = getConnection();
+		Statement stmt = con.createStatement();
+		int excluiu = stmt.executeUpdate
+				("DELETE FROM item_ingrediente WHERE id_item="+i.getItemId());
+		stmt.close();
+		if(excluiu>0){
+			return true;
+		}
 		return false;
 	}
 
 	@Override
-	public boolean alterarIngredientes(Item i) throws SQLException {
-		// TODO Auto-generated method stub
+	public boolean alterarIngredientes(Item i) throws SQLException {//TODO testar
+		//exclui todos os registros
+		excluir(i);
+		int alterou = 0;
+		//registra tudo de novo
+		if(i.getIngredientes()!=null && i.getIngredientes().size() > 0){
+			alterou = inserir(i);
+		}
+		if(alterou > 0){
+			return true;
+		}
 		return false;
 	}
 
 	@Override
-	public void criarTabela() throws SQLException {
-		
+	public void criarTabela() throws SQLException {//TODO testar
+		Connection con = getConnection();
+		Statement stmt =  con.createStatement();
+		stmt.execute("CREATE TABLE IF NOT EXISTS item_ingrediente (" +
+                " id_item INTEGER (7) NOT NULL," +
+                " id_ingrediente INTEGER (7) NOT NULL," +
+                " quantidade INTEGER (3)," +
+                " PRIMARY KEY (id_item,id_ingrediente))");
+		stmt.close();
+	}
+
+	@Override
+	public int inserir(Item i) throws SQLException {//TODO testar
+		StringBuffer query = new StringBuffer
+				("INSERT INTO item_ingrediente (id_ingrediente, id_item) VALUES ");
+		for(Ingrediente ing : i.getIngredientes()){
+			query.append("("+ing.getIngredienteId()+","+i.getItemId()+")");
+			//caso seja o ultimo elemento da lista concatena ";" no fim da query;
+			if(ing==i.getIngredientes().get(i.getIngredientes().size()-1)){
+				query.append(";");
+			}else{
+				query.append(",");
+			}
+		}
+		System.out.println("Teste query insert na tab itens: \n"+query);
+		Connection con = getConnection();
+		Statement stmt = con.createStatement();
+		int inseriu = stmt.executeUpdate(query.toString());
+		stmt.close();
+		return inseriu;
 	}
 
 }

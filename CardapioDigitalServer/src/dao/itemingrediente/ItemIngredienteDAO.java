@@ -16,30 +16,29 @@ public interface ItemIngredienteDAO {
 	public List <Ingrediente> consultarPorItemId(int idItem) throws SQLException;
 	/**
 	 * Método para inserir os ingredientes de um
-	 * novo item
-	 * tabela de relacionamento entre item e 
-	 * ingrediente
-	 * 
-	 * @param listaIngredientes, lista de ingredientes
-	 * @param idItem, id do item
-	 * @return 1 se inseriu
+	 * novo item tabela de relacionamento entre item e 
+	 * ingrediente.
+	 *  
+	 * @param i, item com seus ingredientes
+	 * @return 1 ou mais se inserir
 	 * @throws SQLException
 	 */
-	public int inserir(List <Ingrediente> listaIngredientes, int idItem) throws SQLException;
+	public int inserir(Item i) throws SQLException;
 	/**
-	 * Método para excluir os ingredientes de um item
-	 * Deve ser chamado quando um Item for deletado
+	 * Método para excluir lista de ingredientes de um item
+	 * Deve ser chamado quando um Item for deletado.
+	 * (não deleta os ingredientes da tabela ingrediente)
 	 * 
-	 * @param listaIngredientes
-	 * @param idItem
-	 * @return
+	 * @param i, item com o id preenchido
+	 * @return 1 ou mais se excluir lista de ingredientes
 	 * @throws SQLException
 	 */
-	public boolean excluir(List <Ingrediente> listaIngredientes, int idItem) throws SQLException;
+	public boolean excluir(Item i) throws SQLException;
 	/**
-	 * Altera os ingredientes de um Item,
-	 * @param i
-	 * @return
+	 * Altera os ingredientes de um Item.
+	 * 
+	 * @param i, item com os ingredientes alterados
+	 * @return true se alterar os ingredientes
 	 */
 	public boolean alterarIngredientes(Item i) throws SQLException;
 	

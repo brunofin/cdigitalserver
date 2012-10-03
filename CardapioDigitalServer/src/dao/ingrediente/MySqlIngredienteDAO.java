@@ -136,10 +136,4 @@ public class MySqlIngredienteDAO extends MySqlDAOFactory implements
 		con.close();
 	}
 
-	@Override
-	public List<Ingrediente> consultarPorItemId(int itemId) throws SQLException {
-		//FIXME talvez vá para a item_ingrediente
-		return null;
-	}
-
 }

@@ -8,30 +8,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.Foto;
+import bean.Item;
+import dao.factory.ConexaoSingleton;
 import dao.factory.MySqlDAOFactory;
 
 public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 
 	@Override
-	public int incluir(Foto f) throws SQLException {
+	public int incluir(Foto f) throws SQLException {//OK
 		Connection con = getConnection();
         Statement stmt =  con.createStatement();
         int resultado = stmt.executeUpdate("INSERT INTO foto " +
         				"(local_foto)" +
         				"VALUES ('" +f.getLocal_foto()+ "')");
         stmt.close();
-        con.close();
         return resultado;
 	}
 
 	@Override
-	public boolean excluir(Foto f) throws SQLException {
+	public boolean excluir(Foto f) throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt =  con.createStatement();
 		int resultado = stmt.executeUpdate("DELETE FROM foto WHERE id_foto=" 
 							+f.getFotoId());
 		stmt.close();
-		con.close();
+		//con.close();
 		if(resultado==1){
 			return true;
 		}
@@ -39,13 +40,13 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 	}
 
 	@Override
-	public boolean alterar(Foto f) throws SQLException {
+	public boolean alterar(Foto f) throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		int resultado = stmt.executeUpdate("UPDATE foto SET local_foto= '" 
 							+f.getLocal_foto()+"' WHERE id_foto="+f.getFotoId());
 		stmt.close();
-		con.close();
+		//con.close();
 		if(resultado==1){
 			return true;
 		}
@@ -53,7 +54,7 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 	}
 
 	@Override
-	public Foto consultarId(Foto f) throws SQLException {
+	public Foto consultarId(Foto f) throws SQLException {//OK
 		Foto resultado = new Foto();           
         Connection con = getConnection();
         ResultSet rs = null;
@@ -65,12 +66,11 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
             resultado.setLocal_foto(rs.getString("local_foto"));
         }
         stmt.close();
-        con.close();
         return resultado;
 	}
 
 	@Override
-	public List<Foto> listar() throws SQLException {
+	public List<Foto> listar() throws SQLException {//OK
 		Foto resultado;
 		List <Foto> fotos = new ArrayList<Foto>();
 		Connection con = getConnection();
@@ -84,27 +84,87 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
             fotos.add(resultado);
         }
         stmt.close();
-        con.close();
         return fotos;
 	}
 
 	@Override
-	public void criarTabela() throws SQLException {
+	public void criarTabela() throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt =  con.createStatement();
 		//ResultSet rs = null;
 		stmt.execute("CREATE TABLE IF NOT EXISTS foto (" +
                 " id_foto INTEGER (7) AUTO_INCREMENT NOT NULL," +
                 " local_foto VARCHAR (400) NOT NULL," +
+                " id_item INTEGER (7)," +
                 " PRIMARY KEY (id_foto))");
 		stmt.close();
-		con.close();
 	}
 
 	@Override
-	public List<Foto> consultarPorItemId(int itemId) throws SQLException {
-		//FIXME talvez passar para o DAO ITEM_FOTO
-		return null;
+	public List<Foto> consultarPorItemId(int itemId) throws SQLException {//TODO testar
+		List <Foto> fotos = new ArrayList <Foto>();
+		Foto f = null;
+		Connection con = getConnection();
+		Statement stmt = con.createStatement();
+		ResultSet rs = null;
+		rs = stmt.executeQuery("SELECT * FROM foto WHERE id_item="+itemId);
+		while(rs.next()){
+			f = new Foto();
+			f.setFotoId(rs.getInt("id_foto"));
+			f.setLocal_foto(rs.getString("local_foto"));
+			f.setItemId(rs.getInt("id_item"));
+			fotos.add(f);
+		}
+		stmt.close();
+		return fotos;
 	}
 
+	@Override
+	public int incluirFotosItem(Item i) throws SQLException {//TODO testar!!
+		StringBuffer query = 
+				new StringBuffer("INSERT INTO foto (local_foto, item_id) VALUES ");
+		for(Foto f : i.getFoto()){
+			query.append("('"+f.getLocal_foto()+"',"+f.getItemId()+")");
+			//caso seja o ultimo elemento da lista concatena ";" no fim da query;
+			if(f==i.getFoto().get(i.getFoto().size()-1)){
+				query.append(";");
+			}else{
+				query.append(",");
+			}
+		}
+		System.out.println("Teste query insert na tab fotos: \n"+query);
+		Connection con = getConnection();
+		Statement stmt = con.createStatement();
+		int inseriu = stmt.executeUpdate(query.toString());
+		stmt.close();
+		return inseriu;
+	}
+
+	@Override
+	public boolean excluirFotosItem(Item i) throws SQLException {//TODO TESTAR
+		Connection con = getConnection();
+		Statement stmt = con.createStatement();
+		int excluiu = stmt.executeUpdate("DELETE FROM foto WHERE id_item="+i.getItemId());
+		stmt.close();
+		if(excluiu>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean alterarFotosItem(Item i) throws SQLException {//TODO testar
+		//exclui fotos antigas
+		excluirFotosItem(i);
+		int alterou = 0;
+		//inclui fotos fotos novas
+		if(i.getFoto().size() > 0){
+			alterou = incluirFotosItem(i);
+		}
+		if(alterou == 1){
+			return true;
+		}
+		return false;
+	}
+	
 }
