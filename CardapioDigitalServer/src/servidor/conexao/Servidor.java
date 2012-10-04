@@ -18,10 +18,13 @@ public class Servidor implements Runnable {
 	private List<Conexao> conexoes;
 	private boolean serverAlive;
 	private GerenciadorComunicacao communication;
+	private static Servidor servidor;
+	private long ativadoEm;
 	
 	public Servidor() {
 		conexoes = new LinkedList<Conexao>();
 		serverAlive = true;
+		servidor = this;
 	}
 	@Override
 	public void run() {
@@ -35,6 +38,7 @@ public class Servidor implements Runnable {
 	
 	private void iniciar() throws IOException {
 		ServerSocket server = new ServerSocket(4445);
+		ativadoEm = System.currentTimeMillis();
 		
 		while(isServerAlive()) {
 			System.out.println("<Servidor> Esperando novos clientes...");
@@ -75,4 +79,13 @@ public class Servidor implements Runnable {
 	public GerenciadorComunicacao getCommunication() {
 		return communication;
 	}
+	
+	public static Servidor getServidor() {
+		return servidor;
+	}
+	
+	public long getAtivadoEm() {
+		return ativadoEm;
+	}
+	
 }
