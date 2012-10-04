@@ -1,6 +1,6 @@
 package main;
 
-import gui.controle.CtrJanelaInicio;
+import gui.controle.CtrMain;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -22,18 +22,11 @@ public class Main {
 	private TipoDAO tipoDAO;
 
 	public static void main(String[] args) {
-		/*
-		 * CtrJanelaInicio janelaInicio = new CtrJanelaInicio();
-		 * janelaInicio.executar();
-		 * 
-		 * 
-		 * Thread servidor = new Thread(new Servidor());
-		 * 
-		 * servidor.start();
-		 */
-
-		Main main = new Main();
-		main.prepararTabelas();
+		
+		  CtrMain main = new CtrMain();
+		  main.iniciar();
+		  
+		  // prepararTabelas();
 	}
 
 	/**
