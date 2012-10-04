@@ -13,6 +13,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
+import javax.swing.JTextPane;
 
 public class FrmMain {
 
@@ -26,10 +27,19 @@ public class FrmMain {
 	private JButton btnFinalizarPedido;
 	private JList listCardapio;
 	private JButton btnDetalhes;
-	private JLabel lblStatus;
 	private JButton btnGerenciar;
 	private JList listContasAtivas;
 	private JList listContasFechadas;
+	private JMenuItem mntmConfigurar;
+	private JMenuItem mntmIniciar;
+	private JMenuItem mntmParar;
+	private JMenuItem mntmSair;
+	private JMenuItem mntmItem;
+	private JMenuItem mntmCategoria;
+	private JMenuItem mntmTipo;
+	private JMenuItem mntmIngrediente;
+	private JMenuItem mntmCozinheiro;
+	private JTextPane lblStatus;
 
 	/**
 	 * Create the application.
@@ -52,37 +62,37 @@ public class FrmMain {
 		JMenu mnServidor = new JMenu("Servidor");
 		menuBar.add(mnServidor);
 		
-		JMenuItem mntmConfigurar = new JMenuItem("Configurar...");
+		mntmConfigurar = new JMenuItem("Configurar...");
 		mnServidor.add(mntmConfigurar);
 		
-		JMenuItem mntmIniciar = new JMenuItem("Iniciar");
+		mntmIniciar = new JMenuItem("Iniciar");
 		mnServidor.add(mntmIniciar);
 		
-		JMenuItem mntmParar = new JMenuItem("Parar");
+		mntmParar = new JMenuItem("Parar");
 		mnServidor.add(mntmParar);
 		
 		JSeparator separator = new JSeparator();
 		mnServidor.add(separator);
 		
-		JMenuItem mntmSair = new JMenuItem("Sair");
+		mntmSair = new JMenuItem("Sair");
 		mnServidor.add(mntmSair);
 		
 		JMenu mnManipular = new JMenu("Manipular");
 		menuBar.add(mnManipular);
 		
-		JMenuItem mntmItem = new JMenuItem("Item...");
+		mntmItem = new JMenuItem("Item...");
 		mnManipular.add(mntmItem);
 		
-		JMenuItem mntmCategoria = new JMenuItem("Categoria...");
+		mntmCategoria = new JMenuItem("Categoria...");
 		mnManipular.add(mntmCategoria);
 		
-		JMenuItem mntmTipo = new JMenuItem("Tipo...");
+		mntmTipo = new JMenuItem("Tipo...");
 		mnManipular.add(mntmTipo);
 		
-		JMenuItem mntmIngrediente = new JMenuItem("Ingrediente...");
+		mntmIngrediente = new JMenuItem("Ingrediente...");
 		mnManipular.add(mntmIngrediente);
 		
-		JMenuItem mntmCozinheiro = new JMenuItem("Cozinheiro...");
+		mntmCozinheiro = new JMenuItem("Cozinheiro...");
 		mnManipular.add(mntmCozinheiro);
 		
 		JPanel pedidosCardapioPanel = new JPanel();
@@ -97,7 +107,7 @@ public class FrmMain {
 		JLabel lblStatusDoServidor = new JLabel("Status do servidor:");
 		statusPanel.add(lblStatusDoServidor);
 		
-		lblStatus = new JLabel("STATUS");
+		lblStatus = new JTextPane();
 		statusPanel.add(lblStatus);
 		
 		btnGerenciar = new JButton("Gerenciar");
@@ -281,11 +291,11 @@ public class FrmMain {
 		this.btnDetalhes = btnDetalhes;
 	}
 
-	public JLabel getLblStatus() {
+	public JTextPane getLblStatus() {
 		return lblStatus;
 	}
 
-	public void setLblStatus(JLabel lblStatus) {
+	public void setLblStatus(JTextPane lblStatus) {
 		this.lblStatus = lblStatus;
 	}
 
@@ -319,5 +329,77 @@ public class FrmMain {
 
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
+	}
+
+	public JMenuItem getMntmConfigurar() {
+		return mntmConfigurar;
+	}
+
+	public void setMntmConfigurar(JMenuItem mntmConfigurar) {
+		this.mntmConfigurar = mntmConfigurar;
+	}
+
+	public JMenuItem getMntmIniciar() {
+		return mntmIniciar;
+	}
+
+	public void setMntmIniciar(JMenuItem mntmIniciar) {
+		this.mntmIniciar = mntmIniciar;
+	}
+
+	public JMenuItem getMntmParar() {
+		return mntmParar;
+	}
+
+	public void setMntmParar(JMenuItem mntmParar) {
+		this.mntmParar = mntmParar;
+	}
+
+	public JMenuItem getMntmSair() {
+		return mntmSair;
+	}
+
+	public void setMntmSair(JMenuItem mntmSair) {
+		this.mntmSair = mntmSair;
+	}
+
+	public JMenuItem getMntmItem() {
+		return mntmItem;
+	}
+
+	public void setMntmItem(JMenuItem mntmItem) {
+		this.mntmItem = mntmItem;
+	}
+
+	public JMenuItem getMntmCategoria() {
+		return mntmCategoria;
+	}
+
+	public void setMntmCategoria(JMenuItem mntmCategoria) {
+		this.mntmCategoria = mntmCategoria;
+	}
+
+	public JMenuItem getMntmTipo() {
+		return mntmTipo;
+	}
+
+	public void setMntmTipo(JMenuItem mntmTipo) {
+		this.mntmTipo = mntmTipo;
+	}
+
+	public JMenuItem getMntmIngrediente() {
+		return mntmIngrediente;
+	}
+
+	public void setMntmIngrediente(JMenuItem mntmIngrediente) {
+		this.mntmIngrediente = mntmIngrediente;
+	}
+
+	public JMenuItem getMntmCozinheiro() {
+		return mntmCozinheiro;
+	}
+
+	public void setMntmCozinheiro(JMenuItem mntmCozinheiro) {
+		this.mntmCozinheiro = mntmCozinheiro;
 	}
 }

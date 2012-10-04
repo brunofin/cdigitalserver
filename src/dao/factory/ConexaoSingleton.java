@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexaoSingleton {
+	// TODO: fazer com que esse singleton pegue essas configurações pela classe servidor.Configuracao
 	private static Connection con = null;
 	private static final String jdbcURL = "jdbc:mysql://localhost:3306/tcc";
     private static final String usuario = "root"; 
