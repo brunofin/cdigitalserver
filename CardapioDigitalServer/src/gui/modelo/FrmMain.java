@@ -14,6 +14,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JTextPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FrmMain {
 
@@ -53,7 +55,7 @@ public class FrmMain {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 625, 451);
+		frame.setBounds(100, 100, 706, 516);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -99,19 +101,6 @@ public class FrmMain {
 		pedidosCardapioPanel.setLayout(new GridLayout(1, 2, 0, 0));
 		
 		JPanel panel_3 = new JPanel();
-		
-		JPanel statusPanel = new JPanel();
-		panel_3.add(statusPanel);
-		statusPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JLabel lblStatusDoServidor = new JLabel("Status do servidor:");
-		statusPanel.add(lblStatusDoServidor);
-		
-		lblStatus = new JTextPane();
-		statusPanel.add(lblStatus);
-		
-		btnGerenciar = new JButton("Gerenciar");
-		statusPanel.add(btnGerenciar);
 		
 		JPanel panel_4 = new JPanel();
 		
@@ -216,6 +205,23 @@ public class FrmMain {
 					.addComponent(pedidosCardapioPanel, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 					.addGap(146))
 		);
+		
+		JLabel lblStatusDoServidor = new JLabel("Status do servidor:");
+		lblStatusDoServidor.setBounds(0, 0, 155, 14);
+		
+		lblStatus = new JTextPane();
+		lblStatus.setBounds(10, 32, 145, 198);
+		
+		btnGerenciar = new JButton("Gerenciar");
+		btnGerenciar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnGerenciar.setBounds(10, 234, 145, 23);
+		panel_3.setLayout(null);
+		panel_3.add(lblStatusDoServidor);
+		panel_3.add(lblStatus);
+		panel_3.add(btnGerenciar);
 		frame.getContentPane().setLayout(groupLayout);
 	}
 

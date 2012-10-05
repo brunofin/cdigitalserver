@@ -25,7 +25,9 @@ public class Servidor implements Runnable {
 		conexoes = new LinkedList<Conexao>();
 		serverAlive = true;
 		servidor = this;
+		ativadoEm = System.currentTimeMillis();
 	}
+	
 	@Override
 	public void run() {
 		try {
@@ -38,7 +40,7 @@ public class Servidor implements Runnable {
 	
 	private void iniciar() throws IOException {
 		ServerSocket server = new ServerSocket(4445);
-		ativadoEm = System.currentTimeMillis();
+		
 		
 		while(isServerAlive()) {
 			System.out.println("<Servidor> Esperando novos clientes...");
@@ -52,6 +54,7 @@ public class Servidor implements Runnable {
 		}
 		System.out.println("<Servidor>: Não aceitando novos clientes.");
 		server.close();
+		server = null;
 	}
 	
 	public void finalizarServidor() {

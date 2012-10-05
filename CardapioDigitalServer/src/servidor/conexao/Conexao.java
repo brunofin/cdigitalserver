@@ -84,4 +84,8 @@ public class Conexao implements Runnable {
 		
 	}
 
+	public Dispositivo getDispositivo() {
+		return dispositivo;
+	}
+
 }

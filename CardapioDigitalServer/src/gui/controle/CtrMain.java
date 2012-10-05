@@ -57,7 +57,6 @@ public class CtrMain {
 	private void adicionarListeners() {
 		// servidor -> configurar...
 		main.getMntmConfigurar().addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				configurarServidorActionPerformed();
@@ -66,11 +65,25 @@ public class CtrMain {
 		
 		// servidor -> iniciar
 		main.getMntmIniciar().addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				servidorIniciarActionPerformed();
-				
+			}
+		});
+		
+		//servidor -> parar
+		main.getMntmParar().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				servidorPararActionPerformed();
+			}
+		});
+		
+		//servidor -> sair
+		main.getMntmSair().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				servidorSairActionPerformed();
 			}
 		});
 		
@@ -88,11 +101,18 @@ public class CtrMain {
 			
 			@Override
 			public void run() {
+				Configuracao cfg = new Configuracao();
+				try {
+					cfg.ler();
+				} catch(Exception e) {
+					System.out.println("<CtrMain> Exceção ao ler as configurações do arquivo: " + e.getMessage());
+				}
+				
 				while(Servidor.getServidor().isServerAlive()) {
 					Calendar c = Calendar.getInstance();
 					main.getLblStatus().setText(
 							"Horário: " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) +
-							"\nIP: localhost (TODO)" +
+							"\nIP: " + cfg.getDbIp() + ":" + cfg.getDbPorta() +
 							"\nTempo ativo: " + ((System.currentTimeMillis() - Servidor.getServidor().getAtivadoEm()))/1000 + " segundos" +
 							"\nClientes conectados: " + Servidor.getServidor().getConexoes().size() +
 							"\n-Anônimos: TODO" +
@@ -104,6 +124,15 @@ public class CtrMain {
 			}
 		}).start();
 		
+	}
+	
+	private void servidorPararActionPerformed() {
+		Servidor.getServidor().finalizarServidor();
+	}
+	
+	private void servidorSairActionPerformed() {
+		servidorPararActionPerformed();
+		System.exit(0);
 	}
 
 }
