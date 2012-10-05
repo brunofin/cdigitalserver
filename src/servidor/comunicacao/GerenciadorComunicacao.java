@@ -11,6 +11,7 @@ import java.util.List;
 import bean.Categoria;
 import bean.Foto;
 import bean.Item;
+import bean.Pedido;
 import bean.Tipo;
 
 import dao.categoria.CategoriaDAO;
@@ -54,6 +55,10 @@ public class GerenciadorComunicacao {
 		case BAIXAR_FOTO:
 			Foto f = (Foto) pacote.getArgumentos();
 			return baixarFoto(f);
+		
+		case FAZER_PEDIDO:
+			Pedido p = (Pedido) pacote.getArgumentos();
+			return fazerPedido(p, c.getDispositivo());
 		default:
 			return null;
 			
@@ -147,5 +152,15 @@ public class GerenciadorComunicacao {
 			System.out.println("<GerenciadorComunicacao> Exceção em listarCategorias(): " + e.getMessage());
 		}
 		return resposta;
+	}
+	
+	/**
+	 * @see Metodo.FAZER_PEDIDO
+	 * @return
+	 */
+	private Object fazerPedido(Pedido p, Dispositivo d) {
+		// TODO: enviar os pedidos para a tela do servidor junto com o numero da mesa (em Dispositivo)
+		
+		return null;
 	}
 }
