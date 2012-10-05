@@ -9,20 +9,25 @@ import java.util.List;
 
 import bean.Foto;
 import bean.Item;
-import dao.factory.ConexaoSingleton;
 import dao.factory.MySqlDAOFactory;
 
 public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 
 	@Override
-	public int incluir(Foto f) throws SQLException {//OK
+	public int incluir(Foto f) throws SQLException {//TODO testar
 		Connection con = getConnection();
         Statement stmt =  con.createStatement();
-        int resultado = stmt.executeUpdate("INSERT INTO foto " +
+        stmt.executeUpdate("INSERT INTO foto " +
         				"(local_foto)" +
-        				"VALUES ('" +f.getLocal_foto()+ "')");
+        				"VALUES ('" +f.getLocal_foto()+ "')",
+        				Statement.RETURN_GENERATED_KEYS);
+        ResultSet rs = stmt.getGeneratedKeys();
+        int idRecemInserido = 0;
+        while (rs.next()){
+        	idRecemInserido = rs.getInt(1);
+        }
         stmt.close();
-        return resultado;
+        return idRecemInserido;
 	}
 
 	@Override

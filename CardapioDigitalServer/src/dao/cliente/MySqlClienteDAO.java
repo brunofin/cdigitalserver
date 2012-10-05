@@ -88,7 +88,7 @@ public class MySqlClienteDAO extends MySqlDAOFactory implements ClienteDAO {
                 " cpf = ?, rg = ?, endereco_id = ? WHERE id_cliente = ?");
         stmt.setString(1, c.getNome());  //nome
         stmt.setString(2, c.getSobrenome());  //sobrenome
-        stmt.setLong(3, c.getDataNascimento().getTimeInMillis()); //data_nasc//FIXME ver se é assim mesmo
+        stmt.setLong(3, c.getDataNascimento().getTimeInMillis()); //data_nasc
         stmt.setString(4, c.getEmail()); //email
         stmt.setString(5, c.getCpf()); //cpf
         stmt.setString(6, c.getRg()); //rg

@@ -9,6 +9,8 @@ import dao.foto.FotoDAO;
 import dao.ingrediente.IngredienteDAO;
 import dao.item.ItemDAO;
 import dao.itemingrediente.ItemIngredienteDAO;
+import dao.itempedido.ItemPedidoDAO;
+import dao.itempromocao.ItemPromocaoDAO;
 import dao.pedido.PedidoDAO;
 import dao.promocao.PromocaoDAO;
 import dao.tipo.TipoDAO;
@@ -28,6 +30,8 @@ public abstract class DAOFactory {
 	public abstract TipoDAO getTipoDAO();
 	public abstract CategoriaDAO getCategoriaDAO();
 	public abstract ItemIngredienteDAO getItemIngredienteDAO();
+	public abstract ItemPedidoDAO getItemPedidoDAO();
+	public abstract ItemPromocaoDAO getItemPromocaoDAO();
 
 	/**
 	 * 
