@@ -7,6 +7,14 @@ import bean.Foto;
 import bean.Item;
 
 public interface FotoDAO {
+	/**
+	 * Inclui foto na tabela foto
+	 * e retorna o id dessa foto.
+	 * 
+	 * @param f, foto a ser inserida
+	 * @return id int da foto inserida
+	 * @throws SQLException
+	 */
 	public int incluir(Foto f) throws SQLException;
 	public int incluirFotosItem (Item i) throws SQLException;
     public boolean excluir(Foto f) throws SQLException;

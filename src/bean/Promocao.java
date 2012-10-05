@@ -1,6 +1,7 @@
 package bean;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class Promocao {
 	private int promocaoId;
@@ -9,6 +10,7 @@ public class Promocao {
 	private Calendar dataInicio;
 	private Calendar validade;
 	private Foto foto;
+	private List <Item> itens;
 	
 	public Promocao() {
 		this.foto = new Foto();
@@ -62,5 +64,13 @@ public class Promocao {
 
 	public void setDataInicio(Calendar dataInicio) {
 		this.dataInicio = dataInicio;
+	}
+
+	public List <Item> getItens() {
+		return itens;
+	}
+
+	public void setItens(List <Item> itens) {
+		this.itens = itens;
 	}	
 }

@@ -20,6 +20,10 @@ import dao.item.MySqlItemDAO;
 import dao.item.ItemDAO;
 import dao.itemingrediente.ItemIngredienteDAO;
 import dao.itemingrediente.MySqlItemIngredienteDAO;
+import dao.itempedido.ItemPedidoDAO;
+import dao.itempedido.MySqlItemPedidoDAO;
+import dao.itempromocao.ItemPromocaoDAO;
+import dao.itempromocao.MySqlItemPromocaoDAO;
 import dao.pedido.MySqlPedidoDAO;
 import dao.pedido.PedidoDAO;
 import dao.promocao.MySqlPromocaoDAO;
@@ -91,6 +95,16 @@ public class MySqlDAOFactory extends DAOFactory {
 	@Override
 	public ItemIngredienteDAO getItemIngredienteDAO() {
 		return new MySqlItemIngredienteDAO();
+	}
+
+	@Override
+	public ItemPedidoDAO getItemPedidoDAO() {
+		return new MySqlItemPedidoDAO();
+	}
+
+	@Override
+	public ItemPromocaoDAO getItemPromocaoDAO() {
+		return new MySqlItemPromocaoDAO();
 	}
 
 }
