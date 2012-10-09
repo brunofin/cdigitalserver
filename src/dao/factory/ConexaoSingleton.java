@@ -1,15 +1,17 @@
 package dao.factory;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import servidor.Configuracao;
+
 public class ConexaoSingleton {
-	// TODO: fazer com que esse singleton pegue essas configurações pela classe servidor.Configuracao
 	private static Connection con = null;
-	private static final String jdbcURL = "jdbc:mysql://localhost:3306/tcc";
-    private static final String usuario = "root"; 
-    private static final String senha = "root";
+	private static final String jdbcURL;	// localhost:3306
+    private static final String usuario;	// root
+    private static final String senha;	// root
     
     static {
     	try{
@@ -17,6 +19,18 @@ public class ConexaoSingleton {
         }catch(ClassNotFoundException e){
         	System.out.println("driver nÃ£o encontrado "+e);
         }
+    	
+    	Configuracao cfg = new Configuracao();
+    	
+    	try {
+    		cfg.ler();
+    	} catch(IOException | ClassNotFoundException e) {
+    		System.out.println("<ConexaoSingleton> Erro ao ler configuraÃ§Ãµes: " + e.getMessage());
+    	}
+    	
+    	usuario = cfg.getDbUsuario();
+    	senha = cfg.getDbSenha();
+    	jdbcURL = "jdbc:mysql://" + cfg.getDbIp() + ":" + cfg.getDbPorta() + "/tcc";
     }
     
 	public static final Connection getConexao() {

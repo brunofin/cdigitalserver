@@ -34,6 +34,24 @@ public class CtrConfigServidor {
 		form.getCbBanco().setModel(new DefaultComboBoxModel<>(Database.values()));
 		form.getLblPath().setText(new File(Configuracao.getFilename()).getAbsolutePath());
 		form.getCbBanco().setEditable(false);
+		
+		File f = new File(Configuracao.getFilename());
+		if(f.exists()) {
+			Configuracao cfg = new Configuracao();
+			
+			try {
+				cfg.ler();
+			} catch (IOException | ClassNotFoundException e) {
+				System.out.println("<CtrConfigServidor> Erro ao ler configurações: " + e.getMessage());
+			}
+			
+			form.getTfCardapioPorta().setText(cfg.getCardapioPorta() + "");
+			form.getTfBancoIP().setText(cfg.getDbIp());
+			form.getTfBancoPorta().setText(cfg.getDbPorta() + "");
+			form.getTfBancoUsuario().setText(cfg.getDbUsuario());
+			form.getPfBancoSenha().setText(cfg.getDbSenha());
+			form.getCbBanco().setSelectedItem(cfg.getDbBanco());
+		}
 	}
 	
 	private void adicionarListeners() {

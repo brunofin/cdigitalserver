@@ -21,7 +21,7 @@ public class Configuracao implements Serializable {
 	
 	public void salvar() throws IOException {
 		File f = new File(filename);
-		
+		System.out.println("<Configuracao> Escrevendo no arquivo...");
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
 		oos.writeObject(this);
 		oos.close();
@@ -29,7 +29,7 @@ public class Configuracao implements Serializable {
 	
 	public void ler() throws IOException, ClassNotFoundException {
 		File f = new File(filename);
-		
+		System.out.println("<Configuracao> Lendo do arquivo...");
 		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
 		Configuracao aux = (Configuracao) ois.readObject();
 		
