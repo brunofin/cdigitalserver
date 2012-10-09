@@ -98,6 +98,8 @@ public class CtrConfigServidor {
 		} catch(IOException e) {
 			JOptionPane.showMessageDialog(form, "Ocorreu um erro ao tentar salvar no arquivo. Segue a mensagem:\n\n" + e.getMessage());
 		}
+		
+		form.dispose();
 	}
 	
 	private void limparActionPerformed() {
