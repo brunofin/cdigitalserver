@@ -51,7 +51,7 @@ public class CtrMain {
 		});
 		File f = new File(Configuracao.getFilename());
 		if(!f.exists()) {
-			int resp = JOptionPane.showConfirmDialog(main.getFrame(), "O servidor ainda n�o foi configurado.\nPressione OK para configurar ou cancele.");
+			int resp = JOptionPane.showConfirmDialog(main.getFrame(), "O servidor ainda não foi configurado.\nPressione OK para configurar ou cancele.");
 			if(resp == JOptionPane.OK_OPTION) {
 				configurarServidorActionPerformed();
 			}
@@ -112,17 +112,17 @@ public class CtrMain {
 				try {
 					cfg.ler();
 				} catch(Exception e) {
-					System.out.println("<CtrMain> Exce��o ao ler as configura��es do arquivo: " + e.getMessage());
+					System.out.println("<CtrMain> Exceção ao ler as configurações do arquivo: " + e.getMessage());
 				}
 				
 				while(Servidor.getServidor().isServerAlive()) {
 					Calendar c = Calendar.getInstance();
 					main.getLblStatus().setText(
-							"Hor�rio: " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) +
+							"Horário: " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) +
 							"\nIP: " + cfg.getDbIp() + ":" + cfg.getDbPorta() +
 							"\nTempo ativo: " + ((System.currentTimeMillis() - Servidor.getServidor().getAtivadoEm()))/1000 + " segundos" +
 							"\nClientes conectados: " + Servidor.getServidor().getConexoes().size() +
-							"\n-An�nimos: TODO" +
+							"\n-Anônimos: TODO" +
 							"\n-Cadastrados: TODO" +
 							"\nLucro total: TODO");
 					long time = System.currentTimeMillis();
