@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 
+import servidor.Configuracao;
 import servidor.comunicacao.GerenciadorComunicacao;
 
 /**
@@ -39,11 +40,19 @@ public class Servidor implements Runnable {
 	}
 	
 	private void iniciar() throws IOException {
-		ServerSocket server = new ServerSocket(4445);
+		Configuracao cfg = new Configuracao();
+		
+		try {
+			cfg.ler();
+		} catch(IOException | ClassNotFoundException e) {
+			System.out.println("<Servidor> Erro ao ler configurações: " + e.getMessage());
+		}
+		
+		ServerSocket server = new ServerSocket(cfg.getCardapioPorta()); // 4445
 		
 		
 		while(isServerAlive()) {
-			System.out.println("<Servidor> Esperando novos clientes...");
+			System.out.println("<Servidor> Esperando novos clientes na porta " + cfg.getCardapioPorta());
 			Socket cliente = server.accept();
 			
 			System.out.println("<Servidor> Nova conexão recebida!");
