@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import servidor.Configuracao;
@@ -25,14 +26,17 @@ public class CtrMain {
 	}
 	
 	private void configurar() {
-		/*try {
-			// imitar aparência do sistema operacional
+		try {
+			// imitar aparÃªncia do sistema operacional
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			SwingUtilities.updateComponentTreeUI(main.getFrame());
 		} catch(Exception e) {
 			e.printStackTrace();
-		}*/
+		}
 		
 		main.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		main.getMntmParar().setEnabled(false);
 	}
 	
 	public void iniciar() {
@@ -47,7 +51,7 @@ public class CtrMain {
 		});
 		File f = new File(Configuracao.getFilename());
 		if(!f.exists()) {
-			int resp = JOptionPane.showConfirmDialog(main.getFrame(), "O servidor ainda não foi configurado.\nPressione OK para configurar ou cancele.");
+			int resp = JOptionPane.showConfirmDialog(main.getFrame(), "O servidor ainda nï¿½o foi configurado.\nPressione OK para configurar ou cancele.");
 			if(resp == JOptionPane.OK_OPTION) {
 				configurarServidorActionPerformed();
 			}
@@ -95,6 +99,9 @@ public class CtrMain {
 	}
 	
 	private void servidorIniciarActionPerformed() {
+		main.getMntmParar().setEnabled(true);
+		main.getMntmIniciar().setEnabled(false);
+		
 		new Thread(new Servidor()).start();
 		
 		new Thread(new Runnable() {
@@ -105,17 +112,17 @@ public class CtrMain {
 				try {
 					cfg.ler();
 				} catch(Exception e) {
-					System.out.println("<CtrMain> Exceção ao ler as configurações do arquivo: " + e.getMessage());
+					System.out.println("<CtrMain> Exceï¿½ï¿½o ao ler as configuraï¿½ï¿½es do arquivo: " + e.getMessage());
 				}
 				
 				while(Servidor.getServidor().isServerAlive()) {
 					Calendar c = Calendar.getInstance();
 					main.getLblStatus().setText(
-							"Horário: " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) +
+							"Horï¿½rio: " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) +
 							"\nIP: " + cfg.getDbIp() + ":" + cfg.getDbPorta() +
 							"\nTempo ativo: " + ((System.currentTimeMillis() - Servidor.getServidor().getAtivadoEm()))/1000 + " segundos" +
 							"\nClientes conectados: " + Servidor.getServidor().getConexoes().size() +
-							"\n-Anônimos: TODO" +
+							"\n-Anï¿½nimos: TODO" +
 							"\n-Cadastrados: TODO" +
 							"\nLucro total: TODO");
 					long time = System.currentTimeMillis();
@@ -127,6 +134,10 @@ public class CtrMain {
 	}
 	
 	private void servidorPararActionPerformed() {
+		main.getMntmParar().setEnabled(false);
+		main.getMntmIniciar().setEnabled(true);
+		
+		if(Servidor.getServidor() == null) return;
 		Servidor.getServidor().finalizarServidor();
 	}
 	
