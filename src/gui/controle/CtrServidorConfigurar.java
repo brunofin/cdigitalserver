@@ -13,13 +13,13 @@ import servidor.Configuracao;
 
 import dao.factory.Database;
 
-import gui.modelo.FrmConfigServidor;
+import gui.modelo.FrmServidorConfigurar;
 
-public class CtrConfigServidor {
-	private FrmConfigServidor form;
+public class CtrServidorConfigurar {
+	private FrmServidorConfigurar form;
 	
-	public CtrConfigServidor(Component parent) {
-		form = new FrmConfigServidor(parent);
+	public CtrServidorConfigurar(Component parent) {
+		form = new FrmServidorConfigurar(parent);
 		configurar();
 		adicionarListeners();
 	}
@@ -42,7 +42,7 @@ public class CtrConfigServidor {
 			try {
 				cfg.ler();
 			} catch (IOException | ClassNotFoundException e) {
-				System.out.println("<CtrConfigServidor> Erro ao ler configurações: " + e.getMessage());
+				System.out.println("<CtrServidorConfigurar> Erro ao ler configurações: " + e.getMessage());
 			}
 			
 			form.getTfCardapioPorta().setText(cfg.getCardapioPorta() + "");
@@ -91,7 +91,7 @@ public class CtrConfigServidor {
 		cfg.setDbIp(form.getTfBancoIP().getText());
 		cfg.setDbPorta(Integer.parseInt(form.getTfBancoPorta().getText()));
 		cfg.setDbUsuario(form.getTfBancoUsuario().getText());
-		cfg.setDbSenha(form.getPfBancoSenha().getPassword().toString());
+		cfg.setDbSenha(form.getPfBancoSenha().getText());
 		
 		try {
 			cfg.salvar();
