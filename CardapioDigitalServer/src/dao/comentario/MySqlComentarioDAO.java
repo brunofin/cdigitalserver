@@ -11,7 +11,6 @@ import java.util.List;
 
 import bean.Cliente;
 import bean.Comentario;
-import bean.Foto;
 import bean.Item;
 import dao.factory.MySqlDAOFactory;
 
@@ -107,7 +106,7 @@ public class MySqlComentarioDAO extends MySqlDAOFactory implements
 	}
 
 	@Override
-	public List<Comentario> consultarComentariosItem(Comentario c) throws SQLException {//TODO testar!
+	public List<Comentario> consultarComentariosItem(Comentario c) throws SQLException {//ok
 		Comentario resultado = null;
 		List <Comentario> comentarios = new ArrayList<Comentario>();
 		Connection con = getConnection();
@@ -126,9 +125,9 @@ public class MySqlComentarioDAO extends MySqlDAOFactory implements
         	resultado.setData(dataComentario);
         	resultado.setComentario(rs.getString("comentario"));
         	resultado.setItem(new Item());
-        	resultado.getItem().setItemId(rs.getInt("id_item"));//adicionado
+        	resultado.getItem().setItemId(rs.getInt("id_item"));
         	resultado.setCliente(new Cliente());
-        	resultado.getCliente().setId(rs.getInt("id_cliente"));//adicionado
+        	resultado.getCliente().setId(rs.getInt("id_cliente"));
         	resultado.getCliente().setNome(rs.getString("nome"));
         	
             comentarios.add(resultado);
@@ -168,7 +167,7 @@ public class MySqlComentarioDAO extends MySqlDAOFactory implements
 
 	@Override
 	public boolean excluirComentariosClienteExcluido(Comentario c)
-			throws SQLException {//TODO testar
+			throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt =  con.createStatement();
 		int resultado = stmt.executeUpdate("DELETE FROM comentario WHERE id_cliente=" 
@@ -183,13 +182,12 @@ public class MySqlComentarioDAO extends MySqlDAOFactory implements
 
 	@Override
 	public boolean excluirTodosComentariosDeItemExcluido(Item i)
-			throws SQLException {//TODO testar
+			throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt =  con.createStatement();
 		int resultado = stmt.executeUpdate("DELETE FROM comentario WHERE id_item=" 
 							+i.getItemId());
 		stmt.close();
-		con.close();
 		if(resultado>0){
 			return true;
 		}
@@ -197,14 +195,14 @@ public class MySqlComentarioDAO extends MySqlDAOFactory implements
 	}
 
 	@Override
-	public boolean alterarComentariosItemEditado(int idItem, List <Comentario> comentariosAtualizados) throws SQLException {//TODO testar
+	public boolean alterarComentariosItemEditado(int idItem, List <Comentario> comentariosAtualizados) throws SQLException {//OK
 		Item i = new Item();
 		i.setItemId(idItem);
 		//deleta comentarios antigos da tabela de comentarios
 		excluirTodosComentariosDeItemExcluido(i);
 		//insere lista de comentarios alteranovamente
 		if(comentariosAtualizados.size() > 0){
-			inserirComentariosAtualizadosItemAtualizado(idItem, comentariosAtualizados);
+			return inserirComentariosAtualizadosItemAtualizado(idItem, comentariosAtualizados);
 		}
 		return false;
 	}
@@ -218,7 +216,7 @@ public class MySqlComentarioDAO extends MySqlDAOFactory implements
 	 * @throws SQLException 
 	 */
 	private boolean inserirComentariosAtualizadosItemAtualizado
-	(int idItem, List <Comentario> comentariosAtualizados) throws SQLException {
+	(int idItem, List <Comentario> comentariosAtualizados) throws SQLException {//OK
 		StringBuffer query = 
 				new StringBuffer("INSERT INTO comentario (data, comentario, id_item, id_cliente) VALUES ");
 		for(Comentario c : comentariosAtualizados){
@@ -231,7 +229,6 @@ public class MySqlComentarioDAO extends MySqlDAOFactory implements
 				query.append(",");
 			}
 		}
-		System.out.println("Teste query insert de comentarioos na tabela comentario: \n"+query);
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		int inseriu = stmt.executeUpdate(query.toString());

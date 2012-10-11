@@ -17,7 +17,8 @@ public interface ItemIngredienteDAO {
 	/**
 	 * Método para inserir os ingredientes de um
 	 * novo item tabela de relacionamento entre item e 
-	 * ingrediente.
+	 * ingrediente, o atributo quantidade deve ser 
+	 * preenchido.
 	 *  
 	 * @param i, item com seus ingredientes
 	 * @return 1 ou mais se inserir
@@ -30,7 +31,7 @@ public interface ItemIngredienteDAO {
 	 * (não deleta os ingredientes da tabela ingrediente)
 	 * 
 	 * @param i, item com o id preenchido
-	 * @return 1 ou mais se excluir lista de ingredientes
+	 * @return true se excluir lista de ingredientes
 	 * @throws SQLException
 	 */
 	public boolean excluir(Item i) throws SQLException;

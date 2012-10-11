@@ -6,6 +6,13 @@ public class Ingrediente {
 	private String nome;
 	private float preco;
 	private String descricao;
+	/**
+	 * Esse atributo só será salvo no 
+	 * banco quando se tiver inserindo
+	 * o ingrediente em um item
+	 * ex: carreteiro usa 200g de arroz.
+	 */
+	private int quantidade;
 	
 	public Ingrediente() {
 		// TODO Auto-generated constructor stub
@@ -41,5 +48,13 @@ public class Ingrediente {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public int getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
 	}
 }

@@ -10,12 +10,22 @@ public interface FotoDAO {
 	/**
 	 * Inclui foto na tabela foto
 	 * e retorna o id dessa foto.
+	 * Usar para incluir todas as fotos
+	 * menos as de item. Para incluir
+	 * fotos de item usar o 
+	 * incluirFotosItem
 	 * 
 	 * @param f, foto a ser inserida
 	 * @return id int da foto inserida
 	 * @throws SQLException
 	 */
 	public int incluir(Foto f) throws SQLException;
+	/**
+	 * Inclui fotos de um item
+	 * @param i
+	 * @return
+	 * @throws SQLException
+	 */
 	public int incluirFotosItem (Item i) throws SQLException;
     public boolean excluir(Foto f) throws SQLException;
     public boolean excluirFotosItem(Item i) throws SQLException;

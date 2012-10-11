@@ -18,13 +18,13 @@ public class MySqlCozinheiroDAO extends MySqlDAOFactory implements
 		CozinheiroDAO {
 
 	@Override
-	public int incluir(Cozinheiro c) throws SQLException {//TODO testar
+	public int incluir(Cozinheiro c) throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		int idFoto = 0;
 		if(c.getFoto()!=null && 
 				c.getFoto().getLocal_foto()!=null && 
-				c.getFoto().getLocal_foto().equalsIgnoreCase("")){
+				!c.getFoto().getLocal_foto().equalsIgnoreCase("")){
 			idFoto = getFotoDAO().incluir(c.getFoto());
 		}
 		int idEndereco = getEnderecoDAO().incluir(c.getEndereco());
@@ -35,13 +35,13 @@ public class MySqlCozinheiroDAO extends MySqlDAOFactory implements
 				"',"+c.getDataNascimento().getTimeInMillis()+
 				",'"+c.getCpf()+"','"+c.getRg()+"','"+c.getTelefone()+
 				"','"+c.getCelular()+"','"+c.getEspecialidade()+
-				"','"+c.getHistorico()+"',"+idFoto+","+idEndereco);
+				"','"+c.getHistorico()+"',"+idFoto+","+idEndereco+")");
 		stmt.close();
 		return resultado;
 	}
 
 	@Override
-	public boolean excluir(Cozinheiro c) throws SQLException {//TODO testar
+	public boolean excluir(Cozinheiro c) throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		//exclui foto da tabela foto
@@ -57,7 +57,7 @@ public class MySqlCozinheiroDAO extends MySqlDAOFactory implements
 	}
 
 	@Override
-	public boolean alterar(Cozinheiro c) throws SQLException {//TODO testar
+	public boolean alterar(Cozinheiro c) throws SQLException {//OK
 		Connection con = getConnection();
 		getFotoDAO().alterar(c.getFoto());
 		getEnderecoDAO().alterar(c.getEndereco());
@@ -79,7 +79,6 @@ public class MySqlCozinheiroDAO extends MySqlDAOFactory implements
         stmt.setString(9, c.getHistorico());
         stmt.setInt(10, c.getFoto().getFotoId()); //id_foto
         stmt.setInt(11, c.getEndereco().getEnderecoId()); //id_endereco
-        stmt.setInt(12, c.getId()); //id_cozinheiro
         
         int modificou=stmt.executeUpdate();
         stmt.close();
@@ -90,7 +89,7 @@ public class MySqlCozinheiroDAO extends MySqlDAOFactory implements
 	}
 
 	@Override
-	public Cozinheiro consultarId(Cozinheiro c) throws SQLException {//TODO testar
+	public Cozinheiro consultarId(Cozinheiro c) throws SQLException {//OK
 		Cozinheiro resultado = new Cozinheiro();
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();		
@@ -127,7 +126,7 @@ public class MySqlCozinheiroDAO extends MySqlDAOFactory implements
 	}
 
 	@Override
-	public List<Cozinheiro> consultarTitulo(Cozinheiro c) throws SQLException {//TODO testar
+	public List<Cozinheiro> consultarTitulo(Cozinheiro c) throws SQLException {//OK
 		List <Cozinheiro> cozinheiros = new ArrayList<Cozinheiro>();
 		Cozinheiro resultado;
 		Connection con = getConnection();
@@ -135,7 +134,7 @@ public class MySqlCozinheiroDAO extends MySqlDAOFactory implements
 		ResultSet rs = stmt.executeQuery("SELECT * FROM cozinheiro INNER JOIN endereco" +
 				" INNER JOIN foto ON cozinheiro.id_foto = foto.id_foto AND" +
 				" cozinheiro.endereco_id = endereco.endereco_id WHERE" +
-				" cozinheiro.nome LIKE ('%" +c.getNome()+ "%'");
+				" cozinheiro.nome LIKE ('%" +c.getNome()+ "%')");
 		
 		while(rs.next()){
 			resultado = new Cozinheiro();
@@ -168,7 +167,7 @@ public class MySqlCozinheiroDAO extends MySqlDAOFactory implements
 	}
 
 	@Override
-	public List<Cozinheiro> listar() throws SQLException {//TODO testar
+	public List<Cozinheiro> listar() throws SQLException {//OK
 		List <Cozinheiro> cozinheiros = new ArrayList<Cozinheiro>();
 		Cozinheiro resultado;
 		Connection con = getConnection();
@@ -208,7 +207,7 @@ public class MySqlCozinheiroDAO extends MySqlDAOFactory implements
 	}
 
 	@Override
-	public void criarTabela() throws SQLException {//TODO testar
+	public void criarTabela() throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		stmt.execute("CREATE TABLE IF NOT EXISTS cozinheiro (" +
@@ -226,7 +225,7 @@ public class MySqlCozinheiroDAO extends MySqlDAOFactory implements
 				"endereco_id INTEGER (7) NOT NULL, " +
 				"PRIMARY KEY (id_cozinheiro), " +
 				"FOREIGN KEY (id_foto) REFERENCES foto (id_foto), " +
-				"FOREIGN KEY (endereco_id) REFERENCER endereco (endereco_id));");
+				"FOREIGN KEY (endereco_id) REFERENCES endereco (endereco_id));");
 	}
 
 }
