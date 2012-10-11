@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import servidor.Configuracao;
 import servidor.conexao.Servidor;
@@ -91,10 +93,23 @@ public class CtrMain {
 			}
 		});
 		
+		//manipular -> item
+		main.getMntmItem().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manipularItemActionPerformed();
+			}
+		});
+		
+	}
+	
+	private void manipularItemActionPerformed() {
+		CtrItemGerenciar ctr = new CtrItemGerenciar(main.getFrame());
+		ctr.iniciar();
 	}
 	
 	private void configurarServidorActionPerformed() {
-		CtrConfigServidor cfg = new CtrConfigServidor(main.getFrame());
+		CtrServidorConfigurar cfg = new CtrServidorConfigurar(main.getFrame());
 		cfg.iniciar();
 	}
 	
@@ -126,7 +141,7 @@ public class CtrMain {
 							"\n-Cadastrados: TODO" +
 							"\nLucro total: TODO");
 					long time = System.currentTimeMillis();
-					while((System.currentTimeMillis() - time) <= 3000) {}
+					while((System.currentTimeMillis() - time) <= 3000) {} //pior jeito possível de fazer uma thread parar temporariamente
 				}
 			}
 		}).start();

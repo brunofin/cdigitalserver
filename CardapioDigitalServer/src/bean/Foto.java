@@ -5,6 +5,15 @@ public class Foto {
 	private String local_foto;
 	private int itemId;
 
+	public Foto() {
+		
+	}
+	
+	public Foto(String local) {
+		this();
+		setLocal_foto(local);
+	}
+	
 	public int getFotoId() {
 		return fotoId;
 	}

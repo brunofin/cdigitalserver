@@ -17,7 +17,7 @@ public class ConexaoSingleton {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
-			System.out.println("driver não encontrado " + e);
+			System.out.println("<ConexaoSingleton> Driver não encontrado: " + e);
 		}
 
 		Configuracao cfg = new Configuracao();
@@ -39,7 +39,7 @@ public class ConexaoSingleton {
 		if (con == null) {
 			try {
 				con = DriverManager.getConnection(jdbcURL, usuario, senha);
-				System.out.println("conectado pelo ConexaoSingleton");
+				System.out.println("<ConexaoSingleton> Conectado.");
 			} catch (SQLException e) {
 				System.out.println("<ConexaoSingleton> Falha no driver: " + e.getMessage());
 			}
