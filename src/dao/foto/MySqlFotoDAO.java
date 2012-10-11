@@ -14,7 +14,7 @@ import dao.factory.MySqlDAOFactory;
 public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 
 	@Override
-	public int incluir(Foto f) throws SQLException {//TODO testar
+	public int incluir(Foto f) throws SQLException {//OK
 		Connection con = getConnection();
         Statement stmt =  con.createStatement();
         stmt.executeUpdate("INSERT INTO foto " +
@@ -106,7 +106,7 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 	}
 
 	@Override
-	public List<Foto> consultarPorItemId(int itemId) throws SQLException {//TODO testar
+	public List<Foto> consultarPorItemId(int itemId) throws SQLException {//OK
 		List <Foto> fotos = new ArrayList <Foto>();
 		Foto f = null;
 		Connection con = getConnection();
@@ -125,9 +125,9 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 	}
 
 	@Override
-	public int incluirFotosItem(Item i) throws SQLException {//TODO testar!!
+	public int incluirFotosItem(Item i) throws SQLException {//OK
 		StringBuffer query = 
-				new StringBuffer("INSERT INTO foto (local_foto, item_id) VALUES ");
+				new StringBuffer("INSERT INTO foto (local_foto, id_item) VALUES ");
 		for(Foto f : i.getFoto()){
 			query.append("('"+f.getLocal_foto()+"',"+f.getItemId()+")");
 			//caso seja o ultimo elemento da lista concatena ";" no fim da query;
@@ -137,7 +137,6 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 				query.append(",");
 			}
 		}
-		System.out.println("Teste query insert na tab fotos: \n"+query);
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		int inseriu = stmt.executeUpdate(query.toString());
@@ -146,7 +145,7 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 	}
 
 	@Override
-	public boolean excluirFotosItem(Item i) throws SQLException {//TODO TESTAR
+	public boolean excluirFotosItem(Item i) throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		int excluiu = stmt.executeUpdate("DELETE FROM foto WHERE id_item="+i.getItemId());
@@ -158,7 +157,7 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 	}
 
 	@Override
-	public boolean alterarFotosItem(Item i) throws SQLException {//TODO testar
+	public boolean alterarFotosItem(Item i) throws SQLException {//ok
 		//exclui fotos antigas
 		excluirFotosItem(i);
 		int alterou = 0;
@@ -166,7 +165,7 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 		if(i.getFoto().size() > 0){
 			alterou = incluirFotosItem(i);
 		}
-		if(alterou == 1){
+		if(alterou > 0){
 			return true;
 		}
 		return false;
