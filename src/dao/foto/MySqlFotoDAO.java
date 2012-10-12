@@ -129,7 +129,7 @@ public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
 		StringBuffer query = 
 				new StringBuffer("INSERT INTO foto (local_foto, id_item) VALUES ");
 		for(Foto f : i.getFoto()){
-			query.append("('"+f.getLocal_foto()+"',"+f.getItemId()+")");
+			query.append("('"+f.getLocal_foto()+"',"+i.getItemId()+")");
 			//caso seja o ultimo elemento da lista concatena ";" no fim da query;
 			if(f==i.getFoto().get(i.getFoto().size()-1)){
 				query.append(";");

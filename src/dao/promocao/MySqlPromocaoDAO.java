@@ -16,7 +16,7 @@ import dao.factory.MySqlDAOFactory;
 public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 
 	@Override
-	public int incluir(Promocao p) throws SQLException {//TODO testar
+	public int incluir(Promocao p) throws SQLException {//OK
 		int idFoto = 0;
 		if(p.getFoto()!=null 
 				&& !p.getFoto().getLocal_foto().equalsIgnoreCase("")){
@@ -24,13 +24,13 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 		}
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
-		stmt.executeUpdate("INSERT INTO PROMOCAO" +
+		stmt.executeUpdate("INSERT INTO promocao " +
 				"(nome, data_inicio, validade, descricao, id_foto) " +
 				"VALUES ('"+p.getNome()+
 				"',"+p.getDataInicio().getTimeInMillis()+
 				","+p.getValidade().getTimeInMillis()+
 				",'"+p.getDescricao()+
-				"',"+idFoto, Statement.RETURN_GENERATED_KEYS);
+				"',"+idFoto+")", Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = stmt.getGeneratedKeys();
 		while(rs.next()){
 			p.setPromocaoId(rs.getInt(1));
@@ -43,7 +43,7 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 	}
 
 	@Override
-	public boolean exluir(Promocao p) throws SQLException {//TODO testar
+	public boolean excluir(Promocao p) throws SQLException {//OK
 		//exlui itens promocao
 		getItemPromocaoDAO().excluirItensPromocao(p);
 		//exclui foto promocao
@@ -60,7 +60,7 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 	}
 
 	@Override
-	public boolean alterar(Promocao p) throws SQLException {
+	public boolean alterar(Promocao p) throws SQLException {//OK
 		//altera itens da promocao
 		getItemPromocaoDAO().alterarItensPromocao(p);
 		//altera foto
@@ -69,11 +69,13 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 		Connection con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE promocao SET nome = ?," +
                 " data_inicio = ?, validade = ?, descricao = ?" +
-                " WHERE id_cliente = ?");
+                " WHERE id_promocao = ?");
 		stmt.setString(1, p.getNome());  //nome
         stmt.setLong(2, p.getDataInicio().getTimeInMillis());  //data_inicio
         stmt.setLong(3, p.getValidade().getTimeInMillis()); //validade
         stmt.setString(4, p.getDescricao()); //descricao
+        stmt.setInt(5, p.getPromocaoId());//id promoção
+        
         int alterou = stmt.executeUpdate();
         stmt.close();
         if(alterou > 0){
@@ -83,7 +85,7 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 	}
 
 	@Override
-	public Promocao consultarId(Promocao p) throws SQLException {//TODO testar
+	public Promocao consultarId(Promocao p) throws SQLException {//OK
 		Promocao resultado = new Promocao();
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
@@ -110,7 +112,7 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 	}
 
 	@Override
-	public List<Promocao> consultarTitulo(Promocao p) throws SQLException {//TODO testar
+	public List<Promocao> consultarTitulo(Promocao p) throws SQLException {//OK
 		List <Promocao> promocoes = new ArrayList<Promocao>();
 		Promocao promocao;
 		Connection con = getConnection();
@@ -138,7 +140,7 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 	}
 
 	@Override
-	public List<Promocao> listar() throws SQLException {//TODO testar
+	public List<Promocao> listar() throws SQLException {//OK
 		List <Promocao> promocoes = new ArrayList<Promocao>();
 		Promocao promocao;
 		Connection con = getConnection();
@@ -168,7 +170,7 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 	}
 
 	@Override
-	public void criarTabela() throws SQLException {//TODO testar
+	public void criarTabela() throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		stmt.execute("CREATE TABLE IF NOT EXISTS promocao (" +
@@ -176,7 +178,7 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 				"nome VARCHAR (60), " +
 				"data_inicio BIGINT (13) NOT NULL," +
 				"validade BIGINT (13), " +
-				"descricao VARCHAR (150) NOT NULL, " +
+				"descricao VARCHAR (300) NOT NULL, " +
 				"id_foto INTEGER (7), " +
 				"PRIMARY KEY (id_promocao), " +
 				"FOREIGN KEY (id_foto) REFERENCES foto (id_foto))");
