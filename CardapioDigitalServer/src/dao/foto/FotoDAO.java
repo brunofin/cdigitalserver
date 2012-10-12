@@ -29,6 +29,13 @@ public interface FotoDAO {
 	public int incluirFotosItem (Item i) throws SQLException;
     public boolean excluir(Foto f) throws SQLException;
     public boolean excluirFotosItem(Item i) throws SQLException;
+    /**
+     * Altera local da foto.
+     * 
+     * @param f foto a ser a ser alterada
+     * @return true se alterou a foto
+     * @throws SQLException
+     */
     public boolean alterar(Foto f) throws SQLException;
     public boolean alterarFotosItem(Item i)throws SQLException;
     public Foto consultarId(Foto f) throws SQLException;
