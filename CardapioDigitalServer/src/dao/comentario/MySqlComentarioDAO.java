@@ -210,7 +210,7 @@ public class MySqlComentarioDAO extends MySqlDAOFactory implements
 	 * Insere comentarios atualizados quando
 	 * um item é editado
 	 * 
-	 * @param comentariosAtualizados, lista dos 
+	 * @param comentariosAtualizados lista dos 
 	 * comentarios para serem inseridos
 	 * @return true se inseriu
 	 * @throws SQLException 

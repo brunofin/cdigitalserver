@@ -9,7 +9,7 @@ public interface ItemIngredienteDAO {
 	 * Método para consultar ingredientes de um
 	 * item
 	 * 
-	 * @param idItem, id do item
+	 * @param idItem id do item
 	 * @return lista de ingredientes do item
 	 * @throws SQLException
 	 */
@@ -20,7 +20,7 @@ public interface ItemIngredienteDAO {
 	 * ingrediente, o atributo quantidade deve ser 
 	 * preenchido.
 	 *  
-	 * @param i, item com seus ingredientes
+	 * @param i item com seus ingredientes
 	 * @return 1 ou mais se inserir
 	 * @throws SQLException
 	 */
@@ -30,7 +30,7 @@ public interface ItemIngredienteDAO {
 	 * Deve ser chamado quando um Item for deletado.
 	 * (não deleta os ingredientes da tabela ingrediente)
 	 * 
-	 * @param i, item com o id preenchido
+	 * @param i item com o id preenchido
 	 * @return true se excluir lista de ingredientes
 	 * @throws SQLException
 	 */
@@ -38,7 +38,7 @@ public interface ItemIngredienteDAO {
 	/**
 	 * Altera os ingredientes de um Item.
 	 * 
-	 * @param i, item com os ingredientes alterados
+	 * @param i item com os ingredientes alterados
 	 * @return true se alterar os ingredientes
 	 */
 	public boolean alterarIngredientes(Item i) throws SQLException;

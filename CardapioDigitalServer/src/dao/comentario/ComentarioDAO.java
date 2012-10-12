@@ -12,7 +12,7 @@ public interface ComentarioDAO {
     /**
      * Altera somente o atributo comentário.
      * 
-     * @param c, comentario a ser alterado
+     * @param c comentario a ser alterado
      * @return
      * @throws SQLException
      */
@@ -21,8 +21,8 @@ public interface ComentarioDAO {
      * Altera comentarios de um item editado.
      * Deve ser chamado ao alterar um item.
      * 
-     * @param idItem, id do item alterado 
-     * @param comentarios, lista de comentarios
+     * @param idItem id do item alterado 
+     * @param comentariosAtualizados lista de comentarios
      * atualizada
      * @return
      * @throws SQLException
@@ -36,7 +36,7 @@ public interface ComentarioDAO {
      * o texto do comentario e o nome do
      * Cliente que fez o comentário.
      * 
-     * @param c, comentário apenas com
+     * @param c comentário apenas com
      * id do Item preenchido.
      * @return lista de comentários de um
      * Item
@@ -49,7 +49,7 @@ public interface ComentarioDAO {
      * o texto do comentário, e o nome do item 
      * que foi comentado
      * 
-     * @param c, comentário com apenas o 
+     * @param c comentário com apenas o 
      * id do cliente preenchido
      * @return lista de comentários de um cliente
      * @throws SQLException
@@ -59,7 +59,7 @@ public interface ComentarioDAO {
      * Exclui todos os comentário de um cliente
      * que será excluído
      * 
-     * @param c, comentario com apenas o
+     * @param c comentario com apenas o
      * id do cliente que será excluido
      * @return true se excluiu os comentários
      * @throws SQLException
@@ -72,7 +72,7 @@ public interface ComentarioDAO {
      * para que todos os seus comentários sejam 
      * excluídos
      * 
-     * @param i, item que foi excluído
+     * @param i item que foi excluído
      * @return
      * @throws SQLException
      */

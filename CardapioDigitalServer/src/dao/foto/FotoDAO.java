@@ -15,7 +15,7 @@ public interface FotoDAO {
 	 * fotos de item usar o 
 	 * incluirFotosItem
 	 * 
-	 * @param f, foto a ser inserida
+	 * @param f foto a ser inserida
 	 * @return id int da foto inserida
 	 * @throws SQLException
 	 */

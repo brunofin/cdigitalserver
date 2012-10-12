@@ -10,7 +10,7 @@ public interface ClienteDAO {
 	 * Método para incluir novo Cliente,
 	 * inclui também seu endereço.
 	 * 
-	 * @param c, novo Cliente a ser inserido
+	 * @param c novo Cliente a ser inserido
 	 * @return 1 se inserir
 	 * @throws SQLException
 	 */
@@ -19,7 +19,7 @@ public interface ClienteDAO {
 	 * Método para excluir um Cliente,
 	 * exclui também seu endereço da tabela endereco
 	 * 
-	 * @param c, cliente a ser removido
+	 * @param c cliente a ser removido
 	 * @return true se removeu cliente
 	 * @throws SQLException
 	 */
@@ -29,7 +29,7 @@ public interface ClienteDAO {
      * edita também seu endereço na tabela 
      * endereco
      * 
-     * @param c, cliente a ser editado
+     * @param c cliente a ser editado
      * @return true se editou
      * @throws SQLException
      */
@@ -39,7 +39,7 @@ public interface ClienteDAO {
      * consulta também seu endereço e manda ele 
      * completo.
      * 
-     * @param c, cliente com id para consulta
+     * @param c cliente com id para consulta
      * @return
      * @throws SQLException
      */
@@ -49,7 +49,7 @@ public interface ClienteDAO {
      * Cliente, os clientes vão com o endereço 
      * completo
      * 
-     * @param c, cliente com o nome ou parte do nome
+     * @param c cliente com o nome ou parte do nome
      * para pesquisa
      * @return lista de clientes com o nome pesquisado
      * @throws SQLException

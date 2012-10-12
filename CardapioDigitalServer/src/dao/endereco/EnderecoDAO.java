@@ -8,7 +8,7 @@ import bean.Endereco;
 public interface EnderecoDAO {
 	/**
 	 * inclui novo endereco e retorna seu id
-	 * @param e, endereço a ser inserido
+	 * @param e endereço a ser inserido
 	 * @return id do endereço inserido
 	 * @throws SQLException
 	 */
