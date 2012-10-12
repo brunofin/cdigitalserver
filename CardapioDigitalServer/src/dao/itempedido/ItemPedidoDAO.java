@@ -16,7 +16,8 @@ public interface ItemPedidoDAO {
 	 * pedidos (quantidadeItemPedido e 
 	 * observacaoItemPedido)
 	 * 
-	 * @param p
+	 * @param p pedido apenas com o id
+	 * preenchido
 	 * @return
 	 * @throws SQLException
 	 */

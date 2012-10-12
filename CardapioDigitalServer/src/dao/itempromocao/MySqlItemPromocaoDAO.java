@@ -15,7 +15,7 @@ public class MySqlItemPromocaoDAO extends MySqlDAOFactory implements
 		ItemPromocaoDAO {
 
 	@Override
-	public int inserirItensPromocao(Promocao p) throws SQLException {//TODO testar
+	public int inserirItensPromocao(Promocao p) throws SQLException {//OK
 		StringBuffer query = 
 				new StringBuffer("INSERT INTO item_promocao " +
 						"(id_promocao, id_item, quantidade) " +
@@ -31,17 +31,17 @@ public class MySqlItemPromocaoDAO extends MySqlDAOFactory implements
 		}
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
-		int incluiu = stmt.executeUpdate(query.toString());//TODO testar
+		int incluiu = stmt.executeUpdate(query.toString());
 		stmt.close();
 		return incluiu;
 	}
 
 	@Override
-	public boolean excluirItensPromocao(Promocao p) throws SQLException {//TODO testar
+	public boolean excluirItensPromocao(Promocao p) throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		int excluiu = stmt.executeUpdate
-				("DELETE * FROM item_promocao WHERE id_promocao="+p.getPromocaoId());
+				("DELETE FROM item_promocao WHERE id_promocao="+p.getPromocaoId());
 		stmt.close();
 		if(excluiu > 0){
 			return true;
@@ -50,7 +50,7 @@ public class MySqlItemPromocaoDAO extends MySqlDAOFactory implements
 	}
 
 	@Override
-	public boolean alterarItensPromocao(Promocao p) throws SQLException {//TODO testar
+	public boolean alterarItensPromocao(Promocao p) throws SQLException {//OK
 		//exclui itens antigos da promocao
 		excluirItensPromocao(p);
 		//inclui novos itens da promocao
@@ -62,7 +62,7 @@ public class MySqlItemPromocaoDAO extends MySqlDAOFactory implements
 	}
 
 	@Override
-	public List<Item> consultarItensPromocao(Promocao p) throws SQLException {//TODO testar
+	public List<Item> consultarItensPromocao(Promocao p) throws SQLException {//OK
 		List <Item> itens = new ArrayList <Item>();
 		Item item;
 		Connection con = getConnection();
@@ -82,7 +82,7 @@ public class MySqlItemPromocaoDAO extends MySqlDAOFactory implements
 	}
 
 	@Override
-	public void criarTabela() throws SQLException {
+	public void criarTabela() throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		stmt.execute("CREATE TABLE IF NOT EXISTS item_promocao (" +

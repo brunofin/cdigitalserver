@@ -15,7 +15,7 @@ import dao.factory.MySqlDAOFactory;
 public class MySqlPedidoDAO extends MySqlDAOFactory implements PedidoDAO {
 
 	@Override
-	public int incluir(Pedido p) throws SQLException {
+	public int incluir(Pedido p) throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		stmt.executeUpdate("INSERT INTO pedido (data,id_cliente) " +
@@ -38,12 +38,12 @@ public class MySqlPedidoDAO extends MySqlDAOFactory implements PedidoDAO {
 	}
 
 	@Override
-	public boolean excluir(Pedido p) throws SQLException {
+	public boolean excluir(Pedido p) throws SQLException {//OK
 		//exclui itens do pedido na tebela item_pedido
 		getItemPedidoDAO().excluirItensPedido(p);
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
-		int excluiu = stmt.executeUpdate("DELETE FROM pedidos WHERE id_pedido="+p.getPedidoId());
+		int excluiu = stmt.executeUpdate("DELETE FROM pedido WHERE id_pedido="+p.getPedidoId());
 		stmt.close();
 		if(excluiu > 0){
 			return true;
@@ -58,7 +58,7 @@ public class MySqlPedidoDAO extends MySqlDAOFactory implements PedidoDAO {
 	}
 
 	@Override
-	public Pedido consultarId(Pedido p) throws SQLException {
+	public Pedido consultarId(Pedido p) throws SQLException {//OK
 		Pedido pedido = new Pedido();
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
@@ -79,7 +79,7 @@ public class MySqlPedidoDAO extends MySqlDAOFactory implements PedidoDAO {
 	}
 
 	@Override
-	public List<Pedido> listar() throws SQLException {
+	public List<Pedido> listar() throws SQLException {//OK
 		List <Pedido> listaPedidos = new ArrayList<Pedido>();
 		Pedido pedido;
 		Connection con = getConnection();
@@ -103,7 +103,7 @@ public class MySqlPedidoDAO extends MySqlDAOFactory implements PedidoDAO {
 	}
 
 	@Override
-	public void criarTabela() throws SQLException {
+	public void criarTabela() throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		stmt.execute("CREATE TABLE IF NOT EXISTS pedido (" +
@@ -112,6 +112,30 @@ public class MySqlPedidoDAO extends MySqlDAOFactory implements PedidoDAO {
 				"id_cliente INTEGER (7) NOT NULL," +
 				"PRIMARY KEY (id_pedido)," +
 				"FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente))");
+	}
+
+	@Override
+	public List<Pedido> consultarPorClienteId(Cliente c) throws SQLException {//OK
+		List <Pedido> listaPedidos = new ArrayList<Pedido>();
+		Pedido pedido;
+		Connection con = getConnection();
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM pedido WHERE id_cliente="+c.getId());
+		while (rs.next()){
+			pedido = new Pedido();
+			pedido.setPedidoId(rs.getInt("id_pedido"));
+			Calendar dataPedido = Calendar.getInstance();
+        	dataPedido.setTimeInMillis(rs.getLong("data"));
+        	pedido.setData(dataPedido);
+			Cliente clientePedido = new Cliente();
+			clientePedido.setId(rs.getInt("id_cliente"));
+			//busca dados do cliente (e do endereço dele)
+			pedido.setCliente(getClienteDAO().consultarId(clientePedido));
+			//busca lista de itens
+			pedido.setItens(getItemPedidoDAO().consultarItensPedido(pedido));
+			listaPedidos.add(pedido);
+		}
+		return listaPedidos;
 	}
 
 }

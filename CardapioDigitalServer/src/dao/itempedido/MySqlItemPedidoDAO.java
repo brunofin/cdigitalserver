@@ -14,7 +14,7 @@ import dao.factory.MySqlDAOFactory;
 public class MySqlItemPedidoDAO extends MySqlDAOFactory implements ItemPedidoDAO{
 
 	@Override
-	public int incluirItensPedido(Pedido p) throws SQLException {//TODO testar
+	public int incluirItensPedido(Pedido p) throws SQLException {//OK
 		StringBuffer query = 
 				new StringBuffer("INSERT INTO item_pedido " +
 						"(id_pedido, id_item, observacao, quantidade) " +
@@ -31,7 +31,7 @@ public class MySqlItemPedidoDAO extends MySqlDAOFactory implements ItemPedidoDAO
 		}
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
-		int incluiu = stmt.executeUpdate(query.toString());//TODO testar
+		int incluiu = stmt.executeUpdate(query.toString());
 		stmt.close();
 		return incluiu; 
 	}
@@ -40,7 +40,7 @@ public class MySqlItemPedidoDAO extends MySqlDAOFactory implements ItemPedidoDAO
 	public boolean excluirItensPedido(Pedido p) throws SQLException {//TODO testar
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
-		int excluiu = stmt.executeUpdate("DELETE * FROM item_pedido WHERE id_pedido="
+		int excluiu = stmt.executeUpdate("DELETE FROM item_pedido WHERE id_pedido="
 				+p.getPedidoId());
 		if(excluiu > 0){
 			return true;
@@ -49,7 +49,7 @@ public class MySqlItemPedidoDAO extends MySqlDAOFactory implements ItemPedidoDAO
 	}
 
 	@Override
-	public List<Item> consultarItensPedido(Pedido p) throws SQLException {//TODO TESTAR
+	public List<Item> consultarItensPedido(Pedido p) throws SQLException {//ok
 		List <Item> listaItens = new ArrayList<Item>();
 		Item i = null;
 		Connection con = getConnection();
@@ -70,7 +70,7 @@ public class MySqlItemPedidoDAO extends MySqlDAOFactory implements ItemPedidoDAO
 	}
 
 	@Override
-	public void criarTabela() throws SQLException {//TODO testar
+	public void criarTabela() throws SQLException {//ok
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		stmt.execute("CREATE TABLE IF NOT EXISTS item_pedido (" +
