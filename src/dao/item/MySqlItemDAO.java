@@ -12,17 +12,12 @@ import bean.Categoria;
 import bean.Comentario;
 import bean.Item;
 import bean.Tipo;
-import dao.factory.DAOFactory;
-import dao.factory.Database;
 import dao.factory.MySqlDAOFactory;
-import dao.itemingrediente.ItemIngredienteDAO;
 
 public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
-	private DAOFactory factory;
-	private ItemIngredienteDAO itemIngredienteDAO;
 	
 	@Override
-	public boolean incluir(Item i) throws SQLException {//TODO testar
+	public boolean incluir(Item i) throws SQLException {//OK
 		Connection con = getConnection();
 		con.setAutoCommit(false);
         Statement stmt =  con.createStatement();
@@ -44,13 +39,11 @@ public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
         int incluiuFotos = 0, incluiuIngredientes = 0;
         if(i.getFoto()!=null && i.getFoto().size()!=0){
         	//inclui fotos do item na tabela foto
-    		incluiuFotos = getFotoDAO().incluirFotosItem(i);//Testar se pode ser assim
+    		incluiuFotos = getFotoDAO().incluirFotosItem(i);
         }
         if(i.getIngredientes()!=null && i.getIngredientes().size()!=0){
-        	factory = DAOFactory.getDaoFactory(Database.MYSQL);
-    		itemIngredienteDAO = factory.getItemIngredienteDAO();
     		//inclui ingredientes do item na tabela item_ingrediente
-    		incluiuIngredientes = itemIngredienteDAO.inserir(i);
+    		incluiuIngredientes = getItemIngredienteDAO().inserir(i);
         }
         if(idRecemInserido > 0 && incluiuFotos > 0 && incluiuIngredientes > 0){
         	con.commit();
@@ -82,29 +75,29 @@ public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
 	}
 
 	@Override
-	public boolean alterar(Item i, List <Comentario> comentariosAtualizados) throws SQLException {//TODO testar
+	public boolean alterar(Item i, List <Comentario> comentariosAtualizados) throws SQLException {//OK
 		//alterar ingredientes, fotos e comentario
 		Connection con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE item SET " +
-				"nome = ?, descricao = ?, preco = ?, id_categoria = ?" +
+				"nome = ?, descricao = ?, preco = ?, id_categoria = ? " +
 				"WHERE id_item="+i.getItemId());
 		stmt.setString(1, i.getNome());  //nome
 	    stmt.setString(2, i.getDescricao());  //descricao
 	    stmt.setFloat(3, i.getPreco());//preco
 	    stmt.setInt(4, i.getCategoria().getCategoriaId());//id_categoria
-		boolean alterou = stmt.execute();
+		stmt.execute();
 		stmt.close();
-		if(alterou){
-			getFotoDAO().alterarFotosItem(i);
-			getItemIngredienteDAO().alterarIngredientes(i);
-			getComentarioDAO().alterarComentariosItemEditado(i.getItemId(), comentariosAtualizados);
-			return true;
-		}
-		return false;
+		//altera fotos
+		getFotoDAO().alterarFotosItem(i);
+		//altera ingredientes tabela item_ingrediente
+		getItemIngredienteDAO().alterarIngredientes(i);
+		//altera comentarios
+		getComentarioDAO().alterarComentariosItemEditado(i.getItemId(), comentariosAtualizados);
+		return true;
 	}
 
 	@Override
-	public Item consultarId(Item i) throws SQLException {//TODO testar
+	public Item consultarId(Item i) throws SQLException {//OK
 		Item resultado = new Item();
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
@@ -121,7 +114,7 @@ public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
         	resultado.setCategoria(new Categoria());
         	resultado.getCategoria().setCategoriaId(rs.getInt("id_categoria"));
         	resultado.getCategoria().setNome(rs.getString("nome_cat"));
-        	resultado.getCategoria().setDescricao("desc_cat");
+        	resultado.getCategoria().setDescricao(rs.getString("desc_cat"));
         	resultado.getCategoria().setTipo(new Tipo());
         	resultado.getCategoria().getTipo().setTipoId(rs.getInt("tipo_id"));
         	resultado.getCategoria().getTipo().setNome(rs.getString("nome_tipo"));
@@ -134,7 +127,7 @@ public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
 	}
 
 	@Override
-	public List<Item> consultarTitulo(Item i) throws SQLException {
+	public List<Item> consultarTitulo(Item i) throws SQLException {//OK
 		Item resultado;
 		List <Item> itens = new ArrayList<Item>(); 
 		Connection con = getConnection();
@@ -143,7 +136,7 @@ public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
 				"c.id_categoria, c.nome as nome_cat, c.descricao as desc_cat, t.tipo_id, " +
 				"t.nome as nome_tipo FROM item AS i INNER JOIN categoria AS c INNER JOIN " +
 				"tipo AS t ON i.id_categoria = c.id_categoria AND c.tipo_id = t.tipo_id " +
-				"WHERE i.nome LIKE ('%" +i.getItemId()+ "%')");
+				"WHERE i.nome LIKE ('%" +i.getNome()+ "%')");
 		
 		while(rs.next()){
 			
@@ -155,23 +148,22 @@ public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
         	resultado.setCategoria(new Categoria());
         	resultado.getCategoria().setCategoriaId(rs.getInt("id_categoria"));
         	resultado.getCategoria().setNome(rs.getString("nome_cat"));
-        	resultado.getCategoria().setDescricao("desc_cat");
+        	resultado.getCategoria().setDescricao(rs.getString("desc_cat"));
         	resultado.getCategoria().setTipo(new Tipo());
         	resultado.getCategoria().getTipo().setTipoId(rs.getInt("tipo_id"));
         	resultado.getCategoria().getTipo().setNome(rs.getString("nome_tipo"));
         	//seta lista ingredientes
-        	resultado.setIngredientes(getItemIngredienteDAO().consultarPorItemId(i.getItemId()));
+        	resultado.setIngredientes(getItemIngredienteDAO().consultarPorItemId(resultado.getItemId()));
         	//seta lista fotos
-        	resultado.setFotos(getFotoDAO().consultarPorItemId(i.getItemId()));
+        	resultado.setFotos(getFotoDAO().consultarPorItemId(resultado.getItemId()));
         	itens.add(resultado);
-        	
 		}
 		stmt.close();
 		return itens;
 	}
 
 	@Override
-	public List<Item> listar() throws SQLException {
+	public List<Item> listar() throws SQLException {//OK
 		Item resultado;
 		List <Item> itens = new ArrayList<Item>(); 
 		Connection con = getConnection();
@@ -191,7 +183,7 @@ public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
         	resultado.setCategoria(new Categoria());
         	resultado.getCategoria().setCategoriaId(rs.getInt("id_categoria"));
         	resultado.getCategoria().setNome(rs.getString("nome_cat"));
-        	resultado.getCategoria().setDescricao("desc_cat");
+        	resultado.getCategoria().setDescricao(rs.getString("desc_cat"));
         	resultado.getCategoria().setTipo(new Tipo());
         	resultado.getCategoria().getTipo().setTipoId(rs.getInt("tipo_id"));
         	resultado.getCategoria().getTipo().setNome(rs.getString("nome_tipo"));
@@ -207,7 +199,7 @@ public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
 	}
 
 	@Override
-	public void criarTabela() throws SQLException {//TODO testar
+	public void criarTabela() throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt =  con.createStatement();
 		stmt.execute("CREATE TABLE IF NOT EXISTS item (" +
@@ -219,6 +211,5 @@ public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
                 " PRIMARY KEY (id_item)," +
                 " FOREIGN KEY (id_categoria) REFERENCES categoria (id_categoria))");
 		stmt.close();
-		//con.close();
 	}
 }
