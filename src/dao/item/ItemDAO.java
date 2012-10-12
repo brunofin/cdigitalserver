@@ -12,7 +12,7 @@ public interface ItemDAO {
 	 * Inclui também as fotos na tabela foto
 	 * e os ingredientes na tabela item_ingrediente.
 	 * 
-	 * @param i, item com lista de fotos e lista de 
+	 * @param i item com lista de fotos e lista de 
 	 * ingredientes 
 	 * @return true se inseriu tudo.
 	 * @throws SQLException
@@ -24,8 +24,8 @@ public interface ItemDAO {
      * altera também suas fotos, ingredientes e 
      * comentários
      * 
-     * @param i, item a ser editado
-     * @param comentariosAtualizados, lista com 
+     * @param i item a ser editado
+     * @param comentariosAtualizados lista com 
      * comentários atualizados
      * @return true se atualizou o item.
      * @throws SQLException

@@ -11,7 +11,7 @@ public interface CozinheiroDAO {
 	 * também inclui seu endereco na tabela 
 	 * endereco e sua foto na tabela foto.
 	 * 
-	 * @param c, cozinheiro a ser inserido
+	 * @param c cozinheiro a ser inserido
 	 * @return 1 ou mais caso insira
 	 * @throws SQLException
 	 */
@@ -21,7 +21,7 @@ public interface CozinheiroDAO {
 	 * tabela endereco e sua foto da tabela
 	 * foto
 	 * 
-	 * @param c, cozinheiro com seu id, o id
+	 * @param c cozinheiro com seu id, o id
 	 * de sua foto e o id de seu endereço
 	 * @return true se excluiu
 	 * @throws SQLException
@@ -31,7 +31,7 @@ public interface CozinheiroDAO {
      * Altera dados do cozinheiro, os dados
      * da sua foto e os dados do seu endereço
      * 
-     * @param c, cozinheiro a ser alterado
+     * @param c cozinheiro a ser alterado
      * @return true se alterou
      * @throws SQLException
      */
@@ -41,7 +41,7 @@ public interface CozinheiroDAO {
      * o cozinheiro vem com endereço e 
      * foto
      * 
-     * @param c, cozinheiro apenas com o
+     * @param c cozinheiro apenas com o
      * id preenchido
      * @return cozinheiro com foto e endereço
      * @throws SQLException
@@ -50,7 +50,7 @@ public interface CozinheiroDAO {
     /**
      * Consulta cozinheiro pelo nome,
      * 
-     * @param c, cozinheiro apenas com o nome
+     * @param c cozinheiro apenas com o nome
      * ou parte do nome preenchido
      * 
      * @return lista de cozinheiros com o nome

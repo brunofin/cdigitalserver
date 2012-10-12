@@ -66,7 +66,7 @@ public class GerenciadorComunicacao {
 	}
 	
 	/**
-	 * @see Metodo.BAIXAR_FOTO
+	 * @see servidor.comunicacao.Metodo.BAIXAR_FOTO
 	 * @return
 	 */
 	private Object baixarFoto(Foto f) {
@@ -96,7 +96,7 @@ public class GerenciadorComunicacao {
 	
 	/**
 	 * 
-	 * @see Metodo.LISTAR_ITEMS
+	 * @see servidor.comunicacao.Metodo.LISTAR_ITEMS
 	 * @return
 	 */
 	private Object listarItems() {
@@ -116,7 +116,7 @@ public class GerenciadorComunicacao {
 	
 	/**
 	 * 
-	 * @see Metodo.LISTAR_TIPOS
+	 * @see servidor.comunicacao.Metodo.LISTAR_TIPOS
 	 * @return
 	 */
 	private Object listarTipos() {
@@ -136,7 +136,7 @@ public class GerenciadorComunicacao {
 	
 	/**
 	 * 
-	 * @see Metodo.LISTAR_CATEGORIAS
+	 * @see servidor.comunicacao.Metodo.LISTAR_CATEGORIAS
 	 * @return
 	 */
 	private Object listarCategorias() {
@@ -155,7 +155,7 @@ public class GerenciadorComunicacao {
 	}
 	
 	/**
-	 * @see Metodo.FAZER_PEDIDO
+	 * @see servidor.comunicacao.Metodo.FAZER_PEDIDO
 	 * @return
 	 */
 	private Object fazerPedido(Pedido p, Dispositivo d) {

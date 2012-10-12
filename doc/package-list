@@ -8,11 +8,15 @@ dao.factory
 dao.foto
 dao.ingrediente
 dao.item
+dao.itemingrediente
+dao.itempedido
+dao.itempromocao
 dao.pedido
 dao.promocao
 dao.tipo
 gui.controle
 gui.modelo
 main
+servidor
 servidor.comunicacao
 servidor.conexao
