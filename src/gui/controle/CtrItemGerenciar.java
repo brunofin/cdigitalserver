@@ -32,6 +32,7 @@ import dao.factory.Database;
 import dao.foto.FotoDAO;
 import dao.ingrediente.IngredienteDAO;
 import dao.item.ItemDAO;
+import dao.itemingrediente.ItemIngredienteDAO;
 import dao.tipo.TipoDAO;
 
 import gui.modelo.FrmItemGerenciar;
@@ -40,9 +41,7 @@ public class CtrItemGerenciar implements Controle {
 	private FrmItemGerenciar form;
 	private ItemDAO itemdao;
 	private CategoriaDAO categoriadao;
-	private TipoDAO tipodao;
-	private FotoDAO fotodao;
-	private IngredienteDAO ingredientedao;
+	private ItemIngredienteDAO itemingredientedao;
 	private List<Ingrediente> listaIngrediente;
 	private Controle ctrParent;
 	
@@ -67,9 +66,7 @@ public class CtrItemGerenciar implements Controle {
 		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
 		itemdao = factory.getItemDAO();
 		categoriadao = factory.getCategoriaDAO();
-		tipodao = factory.getTipoDAO();
-		fotodao = factory.getFotoDAO();
-		ingredientedao = factory.getIngredienteDAO();
+		itemingredientedao = factory.getItemIngredienteDAO();
 		
 		// popular a combobox de categorias
 		List<Categoria> listaCategoria = null;
@@ -215,6 +212,11 @@ public class CtrItemGerenciar implements Controle {
 		form.getOkButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				IngredienteTableModel model = (IngredienteTableModel) form.getTableIngredientes().getModel();
+				for(int i = 0; i < listaIngrediente.size(); i++) {
+					listaIngrediente.get(i).setQuantidade((Integer) model.getValueAt(i, 2));
+				}
+				
 				Item item = new Item();
 				
 				item.setNome(form.getTxtNome().getText());
@@ -226,6 +228,7 @@ public class CtrItemGerenciar implements Controle {
 				
 				try {
 					itemdao.incluir(item);
+					itemingredientedao.inserir(item);	// TODO: incluir() ou inserir() ? lol
 				} catch(SQLException ex) {
 					System.out.println("<Erro ao incluir novo item ao sistema: " + ex.getMessage());
 				}
