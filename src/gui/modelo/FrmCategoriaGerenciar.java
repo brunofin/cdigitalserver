@@ -12,14 +12,11 @@ import javax.swing.border.EmptyBorder;
 public class FrmCategoriaGerenciar extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private Component parent;
 	
 	/**
 	 * Create the dialog.
 	 */
-	public FrmCategoriaGerenciar(Component parent) {
-		this.parent = parent;
-		super.setLocationRelativeTo(this.parent);
+	public FrmCategoriaGerenciar() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());

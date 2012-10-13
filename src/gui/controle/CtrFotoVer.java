@@ -5,12 +5,14 @@ import gui.modelo.FrmFotoVer;
 
 import bean.Foto;
 
-public class CtrFotoVer {
+public class CtrFotoVer implements Controle {
 	private FrmFotoVer form;
 	private Foto foto;
+	private Controle ctrParent;
 	
-	public CtrFotoVer(Component parent, Foto foto) {
-		form = new FrmFotoVer(parent);
+	public CtrFotoVer(Controle ctrParent, Foto foto) {
+		this.ctrParent = ctrParent;
+		form = new FrmFotoVer();
 		this.foto = foto;
 		
 		configurar();
@@ -25,8 +27,8 @@ public class CtrFotoVer {
 		
 	}
 	
-	public void iniciar() {
-		form.setVisible(true);
+	public void setVisible(boolean b) {
+		form.setVisible(b);
 	}
 
 }

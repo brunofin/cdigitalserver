@@ -17,9 +17,7 @@ public class FrmTipoGerenciar extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public FrmTipoGerenciar(Component parent) {
-		this.parent = parent;
-		super.setLocationRelativeTo(this.parent);
+	public FrmTipoGerenciar() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());

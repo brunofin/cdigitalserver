@@ -25,11 +25,13 @@ import bean.Tipo;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 
 public class FrmItemGerenciar extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private Component parent;
 	private JTextField txtNome;
 	private JTextField textFieldPrecoVenda;
 	private JList<Foto> listFotos;
@@ -37,27 +39,23 @@ public class FrmItemGerenciar extends JDialog {
 	private JTextArea txtDescricao;
 	private JButton btnCategoriaGerenciar;
 	private JComboBox<Categoria> comboBoxCategoria;
-	private JButton btnTipoGerenciar;
-	private JComboBox<Tipo> comboBoxTipo;
 	private JTextArea txtIngredientes;
 	private JLabel lblPrecoCompra;
-	private JList<Ingrediente> listIngredientes;
 	private JButton btnFotoVer;
 	private JButton btnFotoAdicionar;
 	private JButton btnFotoRemover;
-	private JButton btnIngredienteGerenciar;
+	private JButton btnIngredienteEditar;
 	private JButton limparButton;
 	private JButton cancelButton;
 	private JComboBox comboBoxCurrency;
+	private JTable tableIngredientes;
 
 	/**
 	 * Create the dialog.
 	 */
-	public FrmItemGerenciar(Component parent) {
-		this.parent = parent;
-		super.setLocationRelativeTo(this.parent);
+	public FrmItemGerenciar() {
 		setTitle("Gerenciar Item");
-		setBounds(100, 100, 680, 524);
+		setBounds(100, 100, 807, 458);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -107,18 +105,6 @@ public class FrmItemGerenciar extends JDialog {
 		btnCategoriaGerenciar.setBounds(130, 181, 157, 25);
 		contentPanel.add(btnCategoriaGerenciar);
 
-		JLabel lblTipo = new JLabel("Tipo:");
-		lblTipo.setBounds(12, 261, 89, 15);
-		contentPanel.add(lblTipo);
-
-		btnTipoGerenciar = new JButton("Gerenciar...");
-		btnTipoGerenciar.setBounds(130, 256, 157, 25);
-		contentPanel.add(btnTipoGerenciar);
-
-		comboBoxTipo = new JComboBox<Tipo>();
-		comboBoxTipo.setBounds(12, 288, 275, 24);
-		contentPanel.add(comboBoxTipo);
-
 		JLabel lblFotos = new JLabel("Fotos:");
 		lblFotos.setBounds(325, 12, 70, 15);
 		contentPanel.add(lblFotos);
@@ -149,32 +135,54 @@ public class FrmItemGerenciar extends JDialog {
 		separator.setBounds(312, 12, -11, 300);
 		contentPanel.add(separator);
 
-		listIngredientes = new JList<Ingrediente>();
-		listIngredientes.setBorder(UIManager
-				.getBorder("List.focusCellHighlightBorder"));
-		listIngredientes.setBounds(505, 199, 138, -172);
-		contentPanel.add(listIngredientes);
-
-		btnIngredienteGerenciar = new JButton("Gerenciar...");
-		btnIngredienteGerenciar.setBounds(505, 213, 138, 25);
-		contentPanel.add(btnIngredienteGerenciar);
+		btnIngredienteEditar = new JButton("Editar...");
+		btnIngredienteEditar.setBounds(629, 7, 138, 25);
+		contentPanel.add(btnIngredienteEditar);
 
 		JLabel lblIngredientesSelecionados = new JLabel(
 				"Ingredientes selecionados:");
-		lblIngredientesSelecionados.setBounds(12, 336, 275, 15);
+		lblIngredientesSelecionados.setBounds(12, 271, 275, 15);
 		contentPanel.add(lblIngredientesSelecionados);
 
 		txtIngredientes = new JTextArea();
-		txtIngredientes.setBounds(12, 363, 631, 45);
+		txtIngredientes.setBounds(12, 298, 631, 45);
 		contentPanel.add(txtIngredientes);
 
 		JLabel lblPrecoDeCompra = new JLabel("Preço de compra:");
-		lblPrecoDeCompra.setBounds(12, 420, 157, 15);
+		lblPrecoDeCompra.setBounds(12, 355, 157, 15);
 		contentPanel.add(lblPrecoDeCompra);
 
 		lblPrecoCompra = new JLabel("R$10,00");
-		lblPrecoCompra.setBounds(168, 420, 119, 15);
+		lblPrecoCompra.setBounds(168, 355, 119, 15);
 		contentPanel.add(lblPrecoCompra);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(765, 34, -251, 164);
+		contentPanel.add(scrollPane);
+		
+		tableIngredientes = new JTable();
+		tableIngredientes.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null},
+			},
+			new String[] {
+				"Ingrediente", "Quantidade"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Object.class, Float.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+				false, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane.setViewportView(tableIngredientes);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -212,7 +220,7 @@ public class FrmItemGerenciar extends JDialog {
 		return txtDescricao;
 	}
 
-	public JTextField getTextFieldCurrency() {
+	public JTextField getTxtPreco() {
 		return textFieldPrecoVenda;
 	}
 
@@ -224,24 +232,12 @@ public class FrmItemGerenciar extends JDialog {
 		return comboBoxCategoria;
 	}
 
-	public JButton getBtnTipoGerenciar() {
-		return btnTipoGerenciar;
-	}
-
-	public JComboBox<Tipo> getComboBoxTipo() {
-		return comboBoxTipo;
-	}
-
 	public JTextArea getTxtIngredientes() {
 		return txtIngredientes;
 	}
 
 	public JLabel getLblPrecoCompra() {
 		return lblPrecoCompra;
-	}
-
-	public JList<Ingrediente> getListIngredientes() {
-		return listIngredientes;
 	}
 
 	public JButton getBtnFotoVer() {
@@ -256,8 +252,8 @@ public class FrmItemGerenciar extends JDialog {
 		return btnFotoRemover;
 	}
 
-	public JButton getBtnIngredienteGerenciar() {
-		return btnIngredienteGerenciar;
+	public JButton getBtnIngredienteEditar() {
+		return btnIngredienteEditar;
 	}
 	public JButton getLimparButton() {
 		return limparButton;
@@ -267,5 +263,8 @@ public class FrmItemGerenciar extends JDialog {
 	}
 	public JComboBox getComboBoxCurrency() {
 		return comboBoxCurrency;
+	}
+	public JTable getTableIngredientes() {
+		return tableIngredientes;
 	}
 }

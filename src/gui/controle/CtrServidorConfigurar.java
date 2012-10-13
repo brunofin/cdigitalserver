@@ -15,17 +15,19 @@ import dao.factory.Database;
 
 import gui.modelo.FrmServidorConfigurar;
 
-public class CtrServidorConfigurar {
+public class CtrServidorConfigurar implements Controle {
 	private FrmServidorConfigurar form;
+	private Controle ctrParent;
 	
-	public CtrServidorConfigurar(Component parent) {
-		form = new FrmServidorConfigurar(parent);
+	public CtrServidorConfigurar(Controle ctrParent) {
+		this.ctrParent = ctrParent;
+		form = new FrmServidorConfigurar();
 		configurar();
 		adicionarListeners();
 	}
 	
-	public void iniciar() {
-		form.setVisible(true);
+	public void setVisible(boolean b) {
+		form.setVisible(b);
 	}
 	
 	@SuppressWarnings("unchecked")

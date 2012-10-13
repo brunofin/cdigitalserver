@@ -4,14 +4,16 @@ import java.awt.Component;
 
 import gui.modelo.FrmCategoriaGerenciar;
 
-public class CtrCategoriaGerenciar {
+public class CtrCategoriaGerenciar implements Controle {
 	private FrmCategoriaGerenciar form;
+	private Controle ctrParent;
 	
-	public CtrCategoriaGerenciar(Component parent) {
-		form = new FrmCategoriaGerenciar(parent);
+	public CtrCategoriaGerenciar(Controle ctrParent) {
+		this.ctrParent = ctrParent;
+		form = new FrmCategoriaGerenciar();
 	}
 	
-	public void iniciar() {
-		form.setVisible(true);
+	public void setVisible(boolean b) {
+		form.setVisible(b);
 	}
 }
