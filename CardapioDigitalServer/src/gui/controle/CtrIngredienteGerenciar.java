@@ -4,11 +4,13 @@ import java.awt.Component;
 
 import gui.modelo.FrmIngredienteGerenciar;
 
-public class CtrIngredienteGerenciar {
+public class CtrIngredienteGerenciar implements Controle {
 	private FrmIngredienteGerenciar form;
+	private Controle ctrParent;
 	
-	public CtrIngredienteGerenciar(Component parent) {
-		form = new FrmIngredienteGerenciar(parent);
+	public CtrIngredienteGerenciar(Controle ctrParent) {
+		form = new FrmIngredienteGerenciar();
+		this.ctrParent = ctrParent;
 		configurar();
 		adicionarListeners();
 	}
@@ -21,7 +23,7 @@ public class CtrIngredienteGerenciar {
 		
 	}
 	
-	public void iniciar() {
-		
+	public void setVisible(boolean b) {
+		form.setVisible(b);
 	}
 }

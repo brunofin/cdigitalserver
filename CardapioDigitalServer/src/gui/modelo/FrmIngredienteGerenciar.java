@@ -17,9 +17,7 @@ public class FrmIngredienteGerenciar extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public FrmIngredienteGerenciar(Component parent) {
-		this.parent = parent;
-		super.setLocationRelativeTo(this.parent);
+	public FrmIngredienteGerenciar() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());

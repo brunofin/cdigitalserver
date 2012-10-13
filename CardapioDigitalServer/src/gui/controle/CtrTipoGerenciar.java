@@ -4,11 +4,13 @@ import java.awt.Component;
 
 import gui.modelo.FrmTipoGerenciar;
 
-public class CtrTipoGerenciar {
+public class CtrTipoGerenciar implements Controle {
 	private FrmTipoGerenciar form;
+	private Controle ctrParent;
 	
-	public CtrTipoGerenciar(Component parent) {
-		form = new FrmTipoGerenciar(parent);
+	public CtrTipoGerenciar(Controle ctrParent) {
+		this.ctrParent = ctrParent;
+		form = new FrmTipoGerenciar();
 		configurar();
 		adicionarListeners();
 	}
@@ -21,7 +23,7 @@ public class CtrTipoGerenciar {
 		
 	}
 	
-	public void iniciar() {
-		form.setVisible(true);
+	public void setVisible(boolean b) {
+		form.setVisible(b);
 	}
 }

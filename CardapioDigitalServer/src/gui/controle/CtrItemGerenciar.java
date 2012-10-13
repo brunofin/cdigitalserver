@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.ImageFilter;
 import java.io.File;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -18,6 +19,10 @@ import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.table.DefaultTableModel;
+
+import util.IngredienteTableModel;
+import util.IngredienteTableModel.UNIDADE;
 
 import bean.*;
 
@@ -31,16 +36,19 @@ import dao.tipo.TipoDAO;
 
 import gui.modelo.FrmItemGerenciar;
 
-public class CtrItemGerenciar {
+public class CtrItemGerenciar implements Controle {
 	private FrmItemGerenciar form;
 	private ItemDAO itemdao;
 	private CategoriaDAO categoriadao;
 	private TipoDAO tipodao;
 	private FotoDAO fotodao;
 	private IngredienteDAO ingredientedao;
+	private List<Ingrediente> listaIngrediente;
+	private Controle ctrParent;
 	
-	public CtrItemGerenciar(Component parent) {
-		form = new FrmItemGerenciar(parent);
+	public CtrItemGerenciar(Controle ctrParent) {
+		this.ctrParent = ctrParent;
+		form = new FrmItemGerenciar();
 		configurar();
 		adicionarListeners();
 	}
@@ -54,8 +62,7 @@ public class CtrItemGerenciar {
 		form.getListFotos().setModel(new DefaultListModel<Foto>());
 		form.getListFotos().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		form.getListIngredientes().setModel(new DefaultListModel<Ingrediente>());
-		form.getListIngredientes().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		// TODO: configurar tabela ingredientes
 		
 		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
 		itemdao = factory.getItemDAO();
@@ -64,34 +71,31 @@ public class CtrItemGerenciar {
 		fotodao = factory.getFotoDAO();
 		ingredientedao = factory.getIngredienteDAO();
 		
-		/* TODO: popular:
-		 * 
-		 * combobox categoria
-		 * combobox tipo
-		 * list fotos
-		 * list ingredientes
-		 */
+		// popular a combobox de categorias
+		List<Categoria> listaCategoria = null;
+		try {
+			listaCategoria = categoriadao.listar();
+		} catch (SQLException e) {
+			System.out.println("<CtrItemGerenciar> Erro ao listar categorias: " + e.getMessage());
+		}
+		for(Categoria item : listaCategoria) {
+			form.getComboBoxCategoria().addItem(item);
+		}
 		
-		popularListaIngredientes();
+		listaIngrediente = new LinkedList<Ingrediente>();
+		IngredienteTableModel model = new IngredienteTableModel(listaIngrediente);
+		form.getTableIngredientes().setModel(model);
+		
 	}
 	
 	private void adicionarListeners() {
+		final Controle controle = this;
 		// Gerenciar Categorias
 		form.getBtnCategoriaGerenciar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CtrCategoriaGerenciar ctr = new CtrCategoriaGerenciar(form.getContentPane());
-				ctr.iniciar();
-				form.setVisible(false);
-			}
-		});
-		
-		// Gerenciar Tipos
-		form.getBtnTipoGerenciar().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CtrTipoGerenciar ctr = new CtrTipoGerenciar(form.getContentPane());
-				ctr.iniciar();
+				CtrCategoriaGerenciar ctr = new CtrCategoriaGerenciar(controle);
+				ctr.setVisible(true);
 				form.setVisible(false);
 			}
 		});
@@ -100,9 +104,10 @@ public class CtrItemGerenciar {
 		form.getBtnFotoVer().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CtrFotoVer ctr= new CtrFotoVer(form.getContentPane(), form.getListFotos().getSelectedValue());
-				ctr.iniciar();
+				CtrFotoVer ctr= new CtrFotoVer(controle, form.getListFotos().getSelectedValue());
+				ctr.setVisible(true);
 				form.setVisible(false);
+				
 			}
 		});
 		
@@ -149,7 +154,6 @@ public class CtrItemGerenciar {
 				                return false;
 				            }
 				        }
-
 				        return false;
 				    }
 
@@ -177,12 +181,12 @@ public class CtrItemGerenciar {
 			}
 		});
 		
-		// Gerenciar ingredientes
-		form.getBtnIngredienteGerenciar().addActionListener(new ActionListener() {
+		// Editar ingredientes
+		form.getBtnIngredienteEditar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CtrIngredienteGerenciar ctr= new CtrIngredienteGerenciar(form.getContentPane());
-				ctr.iniciar();
+				CtrIngredienteEditar ctr= new CtrIngredienteEditar(controle, listaIngrediente);
+				ctr.setVisible(true);
 				form.setVisible(false);
 			}
 		});
@@ -193,35 +197,59 @@ public class CtrItemGerenciar {
 			public void actionPerformed(ActionEvent e) {
 				form.getTxtNome().setText("");
 				form.getTxtDescricao().setText("");
-				form.getTextFieldCurrency().setText("");
+				form.getTxtPreco().setText("");
 				((DefaultListModel<Foto>) form.getListFotos().getModel()).clear();
-				popularListaIngredientes();
+				
+			}
+		});
+		
+		// Botão cancelar
+		form.getCancelButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				form.dispose();
+			}
+		});
+		
+		// Botão OK
+		form.getOkButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Item item = new Item();
+				
+				item.setNome(form.getTxtNome().getText());
+				item.setDescricao(form.getTxtDescricao().getText());
+				item.setPreco(Float.parseFloat(form.getTxtPreco().getText()));
+				item.setFotos(form.getListFotos().getSelectedValuesList());
+				item.setCategoria((Categoria) form.getComboBoxCategoria().getSelectedItem());
+				item.setIngredientes(listaIngrediente);
+				
+				try {
+					itemdao.incluir(item);
+				} catch(SQLException ex) {
+					System.out.println("<Erro ao incluir novo item ao sistema: " + ex.getMessage());
+				}
+				form.dispose();
 			}
 		});
 	}
 	
-	private void popularListaIngredientes() {
-		List<Ingrediente> ingredientes = null;
-		try {
-			ingredientes = ingredientedao.listar();
-		} catch(SQLException e) {
-			System.out.println("<CtrItemGereciar> Erro ao recuperar lista de ingredientes do BD: " + e.getMessage());
-			return;
+	public void setVisible(boolean b) {
+		form.setVisible(b);
+		
+		listaIngrediente = new LinkedList<Ingrediente>();
+		IngredienteTableModel model = new IngredienteTableModel(listaIngrediente);
+		form.getTableIngredientes().setModel(model);
+		
+		// TODO: lista ingredientes e preço compra.
+		
+		StringBuffer aux = new StringBuffer();
+		float total = 0;
+		for(int i = 0; i < model.getRowCount(); i++) {
+			aux.append(((Float) model.getValueAt(i, 2)) + " " + ((UNIDADE) model.getValueAt(i, 3)) + " de " + model.getValueAt(i, 0) + ", ");
+			total += ((Float) model.getValueAt(i, 2)) * ((Float) model.getValueAt(i, 1));
 		}
-		
-		DefaultListModel<Ingrediente> model = (DefaultListModel<Ingrediente>) form.getListIngredientes().getModel();
-		model.clear();
-		
-		for(Ingrediente i : ingredientes) {
-			model.addElement(i);
-		}
-		
-		form.getTxtIngredientes().setText("");
-		form.getLblPrecoCompra().setText("BRL 0.00");
-		
-	}
-	
-	public void iniciar() {
-		form.setVisible(true);
+		form.getTxtIngredientes().setText(aux.toString());
+		form.getLblPrecoCompra().setText("BRL " + total);
 	}
 }

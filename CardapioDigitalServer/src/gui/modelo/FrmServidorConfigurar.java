@@ -18,7 +18,6 @@ import javax.swing.JPasswordField;
 public class FrmServidorConfigurar extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private Component parent;
 	private JTextField tfCardapioPorta;
 	private JTextField tfBancoIP;
 	private JTextField tfBancoPorta;
@@ -33,9 +32,7 @@ public class FrmServidorConfigurar extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public FrmServidorConfigurar(Component parent) {
-		this.parent = parent;
-		super.setLocationRelativeTo(this.parent);
+	public FrmServidorConfigurar() {
 		setBounds(100, 100, 379, 379);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

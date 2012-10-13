@@ -14,14 +14,11 @@ import bean.Foto;
 public class FrmFotoVer extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private Component parent;
 	
 	/**
 	 * Create the dialog.
 	 */
-	public FrmFotoVer(Component parent) {
-		this.parent = parent;
-		super.setLocationRelativeTo(this.parent);
+	public FrmFotoVer() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());

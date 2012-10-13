@@ -18,7 +18,7 @@ import servidor.conexao.Servidor;
 
 import gui.modelo.FrmMain;
 
-public class CtrMain {
+public class CtrMain implements Controle {
 	FrmMain main;
 	
 	public CtrMain() {
@@ -45,7 +45,7 @@ public class CtrMain {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					main.getFrame().setVisible(true);
+					setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -104,13 +104,13 @@ public class CtrMain {
 	}
 	
 	private void manipularItemActionPerformed() {
-		CtrItemGerenciar ctr = new CtrItemGerenciar(main.getFrame());
-		ctr.iniciar();
+		CtrItemGerenciar ctr = new CtrItemGerenciar(this);
+		ctr.setVisible(true);
 	}
 	
 	private void configurarServidorActionPerformed() {
-		CtrServidorConfigurar cfg = new CtrServidorConfigurar(main.getFrame());
-		cfg.iniciar();
+		CtrServidorConfigurar cfg = new CtrServidorConfigurar(this);
+		cfg.setVisible(true);
 	}
 	
 	private void servidorIniciarActionPerformed() {
@@ -159,6 +159,10 @@ public class CtrMain {
 	private void servidorSairActionPerformed() {
 		servidorPararActionPerformed();
 		System.exit(0);
+	}
+	
+	public void setVisible(boolean b) {
+		main.getFrame().setVisible(b);
 	}
 
 }
