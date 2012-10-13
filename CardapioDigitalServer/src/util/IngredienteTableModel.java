@@ -13,7 +13,7 @@ public class IngredienteTableModel extends AbstractTableModel {
 	};
 
 	private List<Ingrediente> ingredientes;
-	private List<Float> quantidades;
+	private List<Integer> quantidades;
 	private List<UNIDADE> unidades;
 
 	private String[] colunas = new String[] { "Nome", "Preço", "Quantidade",
@@ -21,13 +21,13 @@ public class IngredienteTableModel extends AbstractTableModel {
 
 	public IngredienteTableModel() {
 		ingredientes = new LinkedList<Ingrediente>();
-		quantidades = new LinkedList<Float>();
+		quantidades = new LinkedList<Integer>();
 		unidades = new LinkedList<UNIDADE>();
 	}
 
 	public IngredienteTableModel(List<Ingrediente> ingredientes) {
 		this.ingredientes = ingredientes;
-		quantidades = new LinkedList<Float>();
+		quantidades = new LinkedList<Integer>();
 		unidades = new LinkedList<UNIDADE>();
 	}
 
@@ -81,7 +81,7 @@ public class IngredienteTableModel extends AbstractTableModel {
 			return String.class;
 		case 1:
 		case 2:
-			return Float.class;
+			return Integer.class;
 		case 3:
 			return UNIDADE.class;
 		default:
@@ -97,7 +97,7 @@ public class IngredienteTableModel extends AbstractTableModel {
 		case 1:
 			break;
 		case 2:
-			quantidades.set(rowIndex, (Float) aValue);
+			quantidades.set(rowIndex, (Integer) aValue);
 			break;
 		case 3:
 			unidades.set(rowIndex, (UNIDADE) aValue);
