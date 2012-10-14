@@ -41,6 +41,7 @@ public class FrmMain {
 	private JMenuItem mntmTipo;
 	private JMenuItem mntmIngrediente;
 	private JMenuItem mntmCozinheiro;
+	private JMenuItem mntmPromocao;
 	private JTextPane lblStatus;
 
 	/**
@@ -97,6 +98,9 @@ public class FrmMain {
 		
 		mntmCozinheiro = new JMenuItem("Cozinheiro...");
 		mnManipular.add(mntmCozinheiro);
+		
+		mntmPromocao = new JMenuItem("Promoção..");
+		mnManipular.add(mntmPromocao);
 		
 		JPanel pedidosCardapioPanel = new JPanel();
 		pedidosCardapioPanel.setLayout(new GridLayout(1, 2, 0, 0));
@@ -404,6 +408,10 @@ public class FrmMain {
 
 	public JMenuItem getMntmCozinheiro() {
 		return mntmCozinheiro;
+	}
+	
+	public JMenuItem getMntmPromocao() {
+		return mntmPromocao;
 	}
 
 	public void setMntmCozinheiro(JMenuItem mntmCozinheiro) {

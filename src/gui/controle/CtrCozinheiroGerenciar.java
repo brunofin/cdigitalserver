@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -32,6 +31,7 @@ import gui.modelo.FrmCozinheiroGerenciar;
 
 public class CtrCozinheiroGerenciar implements Controle {
 	private FrmCozinheiroGerenciar form;
+	@SuppressWarnings("unused")
 	private Controle ctrParent;
 	private CozinheiroDAO cozinheiroDAO;
 	private DAOFactory factory;
