@@ -104,7 +104,6 @@ public class CtrItemGerenciar implements Controle {
 				CtrFotoVer ctr= new CtrFotoVer(controle, form.getListFotos().getSelectedValue());
 				ctr.setVisible(true);
 				form.setVisible(false);
-				
 			}
 		});
 		
