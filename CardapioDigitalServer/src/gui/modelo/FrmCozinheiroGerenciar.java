@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
@@ -121,21 +122,29 @@ public class FrmCozinheiroGerenciar extends JDialog{
 		lblHistrico.setBounds(356, 14, 70, 15);
 		contentPanel.add(lblHistrico);
 		
+		JScrollPane scrollAreaHistorico = new JScrollPane();
+		scrollAreaHistorico.setBounds(356, 36, 306, 59);
 		txtAreaHistorico = new JTextArea();
 		txtAreaHistorico.setToolTipText("Escreva um breve histórico do cozinheiro");
-		txtAreaHistorico.setBounds(356, 36, 306, 59);
+		//txtAreaHistorico.setBounds(356, 36, 306, 59);
 		txtAreaHistorico.setLineWrap(true);//quebra linha
-		contentPanel.add(txtAreaHistorico);
+		scrollAreaHistorico.getViewport().setView(txtAreaHistorico);
+		//contentPanel.add(txtAreaHistorico);
+		contentPanel.add(scrollAreaHistorico);
 		
 		JLabel lblNewLabel = new JLabel("Especialidade:");
 		lblNewLabel.setBounds(356, 115, 107, 15);
 		contentPanel.add(lblNewLabel);
 		
+		JScrollPane scrollAreaEspecialidade = new JScrollPane();
+		scrollAreaEspecialidade.setBounds(356, 134, 306, 59);
 		txtAreaEspecialidade = new JTextArea();
 		txtAreaEspecialidade.setToolTipText("Escreva a(s) especialidade(s) do cozinheiro");
-		txtAreaEspecialidade.setBounds(356, 134, 306, 59);
+		//txtAreaEspecialidade.setBounds(356, 134, 306, 59);
 		txtAreaEspecialidade.setLineWrap(true);
-		contentPanel.add(txtAreaEspecialidade);
+		scrollAreaEspecialidade.getViewport().setView(txtAreaEspecialidade);
+		//contentPanel.add(txtAreaEspecialidade);
+		contentPanel.add(scrollAreaEspecialidade);
 		
 		JLabel lblFoto = new JLabel("Foto:");
 		lblFoto.setBounds(356, 359, 47, 15);
