@@ -11,7 +11,7 @@ import bean.Tipo;
 import dao.factory.MySqlDAOFactory;
 
 public class MySqlTipoDAO extends MySqlDAOFactory implements TipoDAO {
-
+	public static final int TAMANHO_NOME = 38;
 	@Override
 	public int incluir(Tipo t) throws SQLException {//ok     
         Connection con = getConnection();

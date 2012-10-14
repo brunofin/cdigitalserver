@@ -20,7 +20,12 @@ import dao.factory.MySqlDAOFactory;
 public class MySqlClienteDAO extends MySqlDAOFactory implements ClienteDAO {
 	private DAOFactory factory;
 	private EnderecoDAO enderecoDAO;
-
+	public static final int TAMANHO_NOME = 48;
+	public static final int TAMANHO_SOBRENOME = 78;
+	public static final int TAMANHO_DATA_NASCIMENTO = 13;
+	public static final int TAMANHO_EMAIL = 38;
+	public static final int TAMANHO_CPF = 14;
+	public static final int TAMANHO_RG = 8;
 	@Override
 	public int incluir(Cliente c) throws SQLException {//TODO testar
 		Connection con = getConnection();

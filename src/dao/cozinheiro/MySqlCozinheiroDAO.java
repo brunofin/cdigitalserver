@@ -16,7 +16,16 @@ import dao.factory.MySqlDAOFactory;
 
 public class MySqlCozinheiroDAO extends MySqlDAOFactory implements
 		CozinheiroDAO {
-
+	public static final int TAMANHO_NOME = 38;
+	public static final int TAMANHO_SOBRENOME = 78;
+	public static final int TAMANHO_DATA_NASCIMENTO = 13;
+	public static final int TAMANHO_CPF = 14;
+	public static final int TAMANHO_RG = 8;
+	public static final int TAMANHO_TELEFONE = 12;
+	public static final int TAMANHO_CELULAR = 12;
+	public static final int TAMANHO_ESPECIALIDADE = 98;
+	public static final int TAMANHO_HISTORICO = 298;
+	
 	@Override
 	public int incluir(Cozinheiro c) throws SQLException {//OK
 		Connection con = getConnection();

@@ -12,7 +12,8 @@ import bean.Pedido;
 import dao.factory.MySqlDAOFactory;
 
 public class MySqlItemPedidoDAO extends MySqlDAOFactory implements ItemPedidoDAO{
-
+	public static final int TAMANHO_OBSERVACAO = 98;
+	public static final int TAMANHO_QUANTIDADE = 3;
 	@Override
 	public int incluirItensPedido(Pedido p) throws SQLException {//OK
 		StringBuffer query = 

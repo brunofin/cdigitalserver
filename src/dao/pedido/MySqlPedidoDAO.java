@@ -13,7 +13,7 @@ import bean.Pedido;
 import dao.factory.MySqlDAOFactory;
 
 public class MySqlPedidoDAO extends MySqlDAOFactory implements PedidoDAO {
-
+	public static final int TAMANHO_DATA = 13;
 	@Override
 	public int incluir(Pedido p) throws SQLException {//OK
 		Connection con = getConnection();

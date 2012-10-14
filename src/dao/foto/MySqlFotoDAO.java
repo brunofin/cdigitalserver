@@ -12,7 +12,7 @@ import bean.Item;
 import dao.factory.MySqlDAOFactory;
 
 public class MySqlFotoDAO extends MySqlDAOFactory implements FotoDAO {
-
+	public static final int TAMANHO_LOCAL_FOTO = 398;
 	@Override
 	public int incluir(Foto f) throws SQLException {//OK
 		Connection con = getConnection();

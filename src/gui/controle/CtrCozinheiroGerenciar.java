@@ -23,8 +23,11 @@ import bean.Endereco;
 import bean.Foto;
 
 import dao.cozinheiro.CozinheiroDAO;
+import dao.cozinheiro.MySqlCozinheiroDAO;
+import dao.endereco.MySqlEnderecoDAO;
 import dao.factory.DAOFactory;
 import dao.factory.Database;
+import dao.foto.MySqlFotoDAO;
 import gui.modelo.FrmCozinheiroGerenciar;
 
 public class CtrCozinheiroGerenciar implements Controle {
@@ -33,25 +36,6 @@ public class CtrCozinheiroGerenciar implements Controle {
 	private CozinheiroDAO cozinheiroDAO;
 	private DAOFactory factory;
 	private Cozinheiro cozinheiro;
-	//cozinheiro
-	private final int tamanhoNome = 38;
-	private final int tamanhoSobrenome = 78;
-	private final int tamanhoDataNascimento = 13;
-	private final int tamanhoCpf = 14;
-	private final int tamanhoRg = 8;
-	private final int tamanhoTelefone = 12;
-	private final int tamanhoCelular = 12;
-	private final int tamanhoEspecialidade = 98;
-	private final int tamanhoHistorico = 298;
-	//endereco
-	private final int tamanhoCep = 8;
-	private final int tamanhoNumero = 8;
-	private final int tamanhoRua = 58;
-	private final int tamanhoEstado = 2;
-	private final int tamanhoCidade = 58;
-	private final int tamanhoBairro = 58;
-	//foto
-	private final int tamanhoFoto = 398;
 	
 	public CtrCozinheiroGerenciar(Controle ctrParent){
 		this.ctrParent = ctrParent;
@@ -59,6 +43,7 @@ public class CtrCozinheiroGerenciar implements Controle {
 		configurar();
 		adicionarListeners();
 	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void configurar(){
 		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		cozinheiro = new Cozinheiro();
@@ -234,23 +219,24 @@ public class CtrCozinheiroGerenciar implements Controle {
 	 * Valida todos os campos obrigatórios
 	 * @return
 	 */
+	@SuppressWarnings("static-access")
 	private List <String> validarCampos(){
 		List <String> campos = new ArrayList<String>();
+		MySqlCozinheiroDAO tamanhosCampos = new MySqlCozinheiroDAO();
+		MySqlEnderecoDAO tamanhosEndereco = new MySqlEnderecoDAO();
+		MySqlFotoDAO tamanhoFoto = new MySqlFotoDAO();
+		
 		if(form.getTxtNome().getText() == null 
 				|| form.getTxtNome().getText().equals("")) {
-			if(form.getTxtNome().getText().length()>tamanhoNome){
-				campos.add("Nome muito grande");
-			}else{
-				campos.add("Nome é obrigatório");
-			}	
+			campos.add("Nome é obrigatório");
+		}else if(form.getTxtNome().getText().length()>tamanhosCampos.TAMANHO_NOME){
+			campos.add("Nome muito grande");
 		}
 		if(form.getTxtSobrenome().getText() == null 
-				|| form.getTxtSobrenome().getText().equals("")){
-			if(form.getTxtSobrenome().getText().length()>tamanhoSobrenome){
-				campos.add("Sobrenome muito Grande");
-			}else{
-				campos.add("Sobrenome é obrigatório");
-			}	
+				|| form.getTxtSobrenome().getText().equals("")){		
+			campos.add("Sobrenome é obrigatório");		
+		}else if(form.getTxtSobrenome().getText().length()>tamanhosCampos.TAMANHO_SOBRENOME){
+			campos.add("Sobrenome muito Grande");
 		}
 		String data = form.getTxtDataNascimento().getText().replaceAll("[/ ]", "");
 		if(data.equals("")){
@@ -273,66 +259,54 @@ public class CtrCozinheiroGerenciar implements Controle {
 			campos.add("RG é obrigatório");
 		}
 		if(form.getTxtTelefone().getText()==null || form.getTxtTelefone().getText().equals("")){
-			if(form.getTxtTelefone().getText().length()>tamanhoTelefone){
-				campos.add("Telefone muito grande");
-			}else{
-				campos.add("Telefone é obrigatório");
-			}
+			campos.add("Telefone é obrigatório");
+		}else if(form.getTxtTelefone().getText().length()>tamanhosCampos.TAMANHO_TELEFONE){
+			campos.add("número de telefone muito grande");
 		}
 		if(form.getTxtCelular().getText()==null || form.getTxtCelular().getText().equals("")){
-			if(form.getTxtCelular().getText().length()>tamanhoCelular){
-				campos.add("Celular muito Grande");
-			}else{
-				campos.add("Celular é obrigatório");
-			}	
+			campos.add("Celular é obrigatório");	
+		}else if(form.getTxtCelular().getText().length()>tamanhosCampos.TAMANHO_CELULAR){
+			campos.add("número de celular muito Grande");
 		}
 		if(form.getTxtAreaHistorico().getText() == null || form.getTxtAreaHistorico().getText().equals("")){
-			if(form.getTxtAreaHistorico().getText().length()>tamanhoHistorico){
-				campos.add("Histórico muito grande");
-			}
 			campos.add("Histórico é obrigatório");
+		}else if(form.getTxtAreaHistorico().getText().length()>tamanhosCampos.TAMANHO_HISTORICO){
+			campos.add("Histórico muito grande");
 		}
 		if(form.getTxtAreaEspecialidade().getText()== null || form.getTxtAreaEspecialidade().getText().equals("")){
-			if(form.getTxtAreaEspecialidade().getText().length()>tamanhoEspecialidade){
-				campos.add("Especialidade muito grande");
-			}
 			campos.add("Especialidade é obrigatória");
+		}else if(form.getTxtAreaEspecialidade().getText().length()>tamanhosCampos.TAMANHO_ESPECIALIDADE){
+			campos.add("Especialidade muito grande");
 		}
-		if(form.getTxtCep().getText() == null || form.getTxtCep().getText().equals("")){
-			if(form.getTxtCep().getText().length()>tamanhoCep){
-				campos.add("CEP muito grande");
-			}
+		if(form.getTxtCep().getText() == null || form.getTxtCep().getText().equals("")){//FIXME parei aqui
 			campos.add("CEP é obrigatório");
+		}else if(form.getTxtCep().getText().length()>tamanhosEndereco.TAMANHO_CEP){
+			campos.add("CEP muito grande");
 		}
 		if(form.getTxtNumero().getText()== null || form.getTxtNumero().getText().equals("")){
-			if(form.getTxtNumero().getText().length()>tamanhoNumero){
-				campos.add("Número muito grande");
-			}
 			campos.add("Número é obrigatório");
+		}else if(form.getTxtNumero().getText().length()>tamanhosEndereco.TAMANHO_NUMERO){
+			campos.add("Número muito grande");
 		}
 		if(form.getTxtRua().getText() == null || form.getTxtRua().getText().equals("")){
-			if(form.getTxtRua().getText().length()>tamanhoRua){
-				campos.add("nome da rua muito grande");
-			}
 			campos.add("Rua é obrigatória");
+		}else if(form.getTxtRua().getText().length()>tamanhosEndereco.TAMANHO_RUA){
+			campos.add("nome da rua muito grande");
 		}
 		if(form.getTxtCidade().getText() == null || form.getTxtCidade().getText().equals("")){
-			if(form.getTxtCidade().getText().length()>tamanhoCidade){
-				campos.add("nome da cidade muito grande");
-			}
 			campos.add("Cidade é obrigatória");
+		}else if(form.getTxtCidade().getText().length()>tamanhosEndereco.TAMANHO_CIDADE){
+			campos.add("nome da cidade muito grande");
 		}
 		if(form.getTxtBairro().getText() == null || form.getTxtBairro().getText().equals("")){
-			if(form.getTxtBairro().getText().length()>tamanhoBairro){
-				campos.add("nome do bairro muito grande");
-			}
 			campos.add("Bairro é obrigatório");
+		}if(form.getTxtBairro().getText().length()>tamanhosEndereco.TAMANHO_BAIRRO){
+			campos.add("nome do bairro muito grande");
 		}
 		if(form.getTxtFoto().getText() == null || form.getTxtFoto().getText().equals("")){
-			if(form.getTxtFoto().getText().length()>tamanhoFoto){
-				campos.add("caminho da foto muito grande");
-			}
 			campos.add("Foto é obrigatória");
+		}if(form.getTxtFoto().getText().length()>tamanhoFoto.TAMANHO_LOCAL_FOTO){
+			campos.add("caminho da foto muito grande");
 		}
 		return campos;
 	}

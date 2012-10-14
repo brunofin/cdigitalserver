@@ -14,7 +14,11 @@ import bean.Promocao;
 import dao.factory.MySqlDAOFactory;
 
 public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
-
+	public static final int TAMANHO_NOME = 58;
+	public static final int TAMANHO_DATA_INICIO = 13;
+	public static final int TAMANHO_VALIDADE_DATA = 13;
+	public static final int TAMANHO_DESCRICAO = 298;
+	
 	@Override
 	public int incluir(Promocao p) throws SQLException {//OK
 		int idFoto = 0;

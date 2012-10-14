@@ -1,11 +1,15 @@
 package gui.modelo;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
@@ -13,10 +17,15 @@ import java.awt.Font;
 
 public class FrmPromocaoCadastrar extends JDialog {
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtFoto;
+	private JTextField txtNome;
+	private JTextField txtDataInicio;
+	private JTextField txtValidade;
+	private JTextArea txtAreaDescricao;
+	private JButton limparButton;
+	private JButton okButton;
+	private JButton cancelButton;
+	private JButton adicionarFoto;
 	
 	public FrmPromocaoCadastrar(){
 		setTitle("Cadastro de Promoção");
@@ -30,15 +39,16 @@ public class FrmPromocaoCadastrar extends JDialog {
 		lblFoto.setBounds(138, 108, 47, 15);
 		contentPanel.add(lblFoto);
 		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setColumns(10);
-		textField.setBounds(258, 98, 148, 26);
-		contentPanel.add(textField);
+		txtFoto = new JTextField();
+		txtFoto.setText("foto");
+		txtFoto.setEditable(false);
+		txtFoto.setColumns(10);
+		txtFoto.setBounds(258, 98, 148, 26);
+		contentPanel.add(txtFoto);
 		
-		JButton button = new JButton("Adicionar");
-		button.setBounds(418, 98, 100, 25);
-		contentPanel.add(button);
+		adicionarFoto = new JButton("Adicionar");
+		adicionarFoto.setBounds(418, 98, 100, 25);
+		contentPanel.add(adicionarFoto);
 		
 		JLabel lblNome = new JLabel("Nome:*");
 		lblNome.setBounds(138, 165, 61, 15);
@@ -56,29 +66,96 @@ public class FrmPromocaoCadastrar extends JDialog {
 		lblDescrio.setBounds(138, 315, 114, 15);
 		contentPanel.add(lblDescrio);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(258, 155, 148, 26);
-		contentPanel.add(textField_1);
-		textField_1.setColumns(10);
+		txtNome = new JTextField();
+		txtNome.setText("nome");
+		txtNome.setBounds(258, 155, 148, 26);
+		contentPanel.add(txtNome);
+		txtNome.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(258, 205, 148, 26);
-		contentPanel.add(textField_2);
+		//txtDataInicio = new JTextField();
+		txtDataInicio = new JFormattedTextField(Mascara("##/##/####"));
+		txtDataInicio.setColumns(10);
+		txtDataInicio.setBounds(258, 205, 148, 26);
+		contentPanel.add(txtDataInicio);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(258, 255, 148, 26);
-		contentPanel.add(textField_3);
+		txtValidade = new JFormattedTextField(Mascara("##/##/####"));
+		//txtValidade = new JTextField();
+		txtValidade.setColumns(10);
+		txtValidade.setBounds(258, 255, 148, 26);
+		contentPanel.add(txtValidade);
 		
-		JTextArea txtrDigiteAquiA = new JTextArea();
-		txtrDigiteAquiA.setText("Digite aqui a descrição da promoção");
-		txtrDigiteAquiA.setBounds(138, 342, 380, 69);
-		contentPanel.add(txtrDigiteAquiA);
+		JScrollPane scrollAreaDescricao = new JScrollPane();
+		scrollAreaDescricao.setBounds(138, 342, 380, 69);
+		txtAreaDescricao = new JTextArea();
+		txtAreaDescricao.setText("Digite aqui a descrição da promoção");
+		//txtAreaDescricao.setBounds(138, 342, 380, 69);
+		txtAreaDescricao.setLineWrap(true);
+		scrollAreaDescricao.getViewport().setView(txtAreaDescricao);
+		//contentPanel.add(txtAreaDescricao);
+		contentPanel.add(scrollAreaDescricao);
 		
 		JLabel lblcamposObrigatrios = new JLabel("*Campos Obrigatórios");
 		lblcamposObrigatrios.setFont(new Font("Dialog", Font.BOLD, 8));
 		lblcamposObrigatrios.setBounds(405, 37, 114, 15);
 		contentPanel.add(lblcamposObrigatrios);
+		
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+			limparButton = new JButton("Limpar");
+			buttonPane.add(limparButton);
+			{
+				okButton = new JButton("OK");
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				cancelButton = new JButton("Cancel");
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+	}
+	private MaskFormatter Mascara(String Mascara){  
+        
+	       MaskFormatter F_Mascara = new MaskFormatter();  
+	       try{  
+	           F_Mascara.setMask(Mascara); //Atribui a mascara  
+	           F_Mascara.setPlaceholderCharacter(' '); //Caracter para preencimento   
+	       }  
+	       catch (Exception excecao) {  
+	       excecao.printStackTrace();  
+	       }   
+	       return F_Mascara;  
+	}
+	public JTextField getTxtFoto(){
+		return txtFoto;
+	}
+	public JTextField getTxtNome(){
+		return txtNome;
+	}
+	public JTextField getDataInico(){
+		return txtDataInicio;
+	}
+	public JTextField getTxtValidade(){//Chamar metodo para tirar mascara
+		return txtValidade;
+	}
+	public JTextArea getTxtAreaDescricao(){
+		return txtAreaDescricao;
+	}
+	public JButton limparButton(){
+		return limparButton;
+	}
+	public JButton okButton(){
+		return okButton;
+	}
+	public JButton getCancelButton(){
+		return cancelButton;
+	}
+	public JButton getAdicionarFoto(){
+		return adicionarFoto;
 	}
 }

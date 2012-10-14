@@ -13,7 +13,7 @@ import dao.factory.MySqlDAOFactory;
 
 public class MySqlItemPromocaoDAO extends MySqlDAOFactory implements
 		ItemPromocaoDAO {
-
+	public static final int TAMANHO_QUANTIDADE = 3;
 	@Override
 	public int inserirItensPromocao(Promocao p) throws SQLException {//OK
 		StringBuffer query = 

@@ -13,7 +13,10 @@ import dao.factory.MySqlDAOFactory;
 
 public class MySqlIngredienteDAO extends MySqlDAOFactory implements
 		IngredienteDAO {
-
+	public static final int TAMANHO_NOME = 38;
+	public static final int TAMANHO_DESCRICAO = 58;
+	public static final float PRECO_MAXIMO = 999.99f;
+	
 	@Override
 	public int incluir(Ingrediente i) throws SQLException {
 		Connection con = getConnection();
