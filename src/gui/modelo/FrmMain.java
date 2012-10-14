@@ -57,6 +57,7 @@ public class FrmMain {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 706, 516);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
