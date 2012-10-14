@@ -1,6 +1,8 @@
 package bean;
 
-public class Endereco {
+import java.io.Serializable;
+
+public class Endereco implements Serializable {
 	private int enderecoId;
 	private String rua;
 	private String numero;
