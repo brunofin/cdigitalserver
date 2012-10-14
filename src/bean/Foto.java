@@ -1,6 +1,8 @@
 package bean;
 
-public class Foto {
+import java.io.Serializable;
+
+public class Foto implements Serializable {
 	private int fotoId;
 	private String local_foto;
 	private int itemId;

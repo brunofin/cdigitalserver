@@ -1,8 +1,9 @@
 package bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Item {
+public class Item implements Serializable {
 	private int itemId;
 	private String nome;
 	private String descricao;
