@@ -10,8 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 
 import servidor.Configuracao;
 import servidor.conexao.Servidor;
@@ -101,20 +99,33 @@ public class CtrMain implements Controle {
 			}
 		});
 		
+		//manipular -> cozinheiro
 		main.getMntmCozinheiro().addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				manipularCozinheiroActionPerformed();
-				
+			}
+		});
+		
+		//manipular -> categoria
+		main.getMntmCategoria().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manipularCategoriaActionPerformed();
 			}
 		});
 	}
 	
+	private void manipularCategoriaActionPerformed() {
+		CtrCategoriaGerenciar ctr = new CtrCategoriaGerenciar(this);
+		ctr.setVisible(true);
+	}
+
 	private void manipularCozinheiroActionPerformed() {
 		CtrCozinheiroGerenciar ctr = new CtrCozinheiroGerenciar(this);
 		ctr.setVisible(true);
 	}
+	
 	private void manipularItemActionPerformed() {
 		CtrItemGerenciar ctr = new CtrItemGerenciar(this);
 		ctr.setVisible(true);
@@ -123,6 +134,19 @@ public class CtrMain implements Controle {
 	private void configurarServidorActionPerformed() {
 		CtrServidorConfigurar cfg = new CtrServidorConfigurar(this);
 		cfg.setVisible(true);
+	}
+	
+	private void servidorPararActionPerformed() {
+		main.getMntmParar().setEnabled(false);
+		main.getMntmIniciar().setEnabled(true);
+		
+		if(Servidor.getServidor() == null) return;
+		Servidor.getServidor().finalizarServidor();
+	}
+	
+	private void servidorSairActionPerformed() {
+		servidorPararActionPerformed();
+		System.exit(0);
 	}
 	
 	private void servidorIniciarActionPerformed() {
@@ -158,19 +182,6 @@ public class CtrMain implements Controle {
 			}
 		}).start();
 		
-	}
-	
-	private void servidorPararActionPerformed() {
-		main.getMntmParar().setEnabled(false);
-		main.getMntmIniciar().setEnabled(true);
-		
-		if(Servidor.getServidor() == null) return;
-		Servidor.getServidor().finalizarServidor();
-	}
-	
-	private void servidorSairActionPerformed() {
-		servidorPararActionPerformed();
-		System.exit(0);
 	}
 	
 	public void setVisible(boolean b) {

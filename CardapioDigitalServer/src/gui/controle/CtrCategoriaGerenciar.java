@@ -5,13 +5,14 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 
 import bean.Categoria;
 import bean.Tipo;
 
 import dao.categoria.CategoriaDAO;
+import dao.factory.DAOFactory;
+import dao.factory.Database;
 import dao.tipo.TipoDAO;
 
 import gui.modelo.FrmCategoriaGerenciar;
@@ -26,6 +27,10 @@ public class CtrCategoriaGerenciar implements Controle {
 		this.ctrParent = ctrParent;
 		form = new FrmCategoriaGerenciar();
 		
+		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
+		categoriaDao = factory.getCategoriaDAO();
+		tipoDao = factory.getTipoDAO();
+		
 		configurar();
 		adicionarListeners();
 	}
@@ -39,7 +44,6 @@ public class CtrCategoriaGerenciar implements Controle {
 		} catch(SQLException e) {
 			System.out.println("<CtrCategoriaGerenciar> Erro ao listar Tipos: " + e.getMessage());
 		}
-		DefaultListModel<Tipo> model = new DefaultListModel<Tipo>();
 		for(Tipo tipo : listaTipo) {
 			form.getComboBoxTipo().addItem(tipo);
 		}
@@ -67,6 +71,7 @@ public class CtrCategoriaGerenciar implements Controle {
 		form.getCancelButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				ctrParent.setVisible(true);
 				form.dispose();	
 			}
 		});
@@ -84,6 +89,9 @@ public class CtrCategoriaGerenciar implements Controle {
 				} catch(SQLException ex) {
 					System.out.println("<CtrCategoriaGerenciar> Erro ao inserir nova categoria: " + ex.getMessage());
 				}
+				
+				ctrParent.setVisible(true);
+				form.dispose();	
 			}
 		});
 	}
