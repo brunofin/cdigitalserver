@@ -101,8 +101,20 @@ public class CtrMain implements Controle {
 			}
 		});
 		
+		main.getMntmCozinheiro().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manipularCozinheiroActionPerformed();
+				
+			}
+		});
 	}
 	
+	private void manipularCozinheiroActionPerformed() {
+		CtrCozinheiroGerenciar ctr = new CtrCozinheiroGerenciar(this);
+		ctr.setVisible(true);
+	}
 	private void manipularItemActionPerformed() {
 		CtrItemGerenciar ctr = new CtrItemGerenciar(this);
 		ctr.setVisible(true);

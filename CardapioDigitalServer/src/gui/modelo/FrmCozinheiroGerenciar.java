@@ -49,6 +49,8 @@ public class FrmCozinheiroGerenciar extends JDialog{
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		this.setResizable(false);//Não deixa maximizar a tla
+		setLocationRelativeTo(null);// abre janela no centro da tela
 		
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setBounds(12, 12, 70, 18);
@@ -122,6 +124,7 @@ public class FrmCozinheiroGerenciar extends JDialog{
 		txtAreaHistorico = new JTextArea();
 		txtAreaHistorico.setToolTipText("Escreva um breve histórico do cozinheiro");
 		txtAreaHistorico.setBounds(356, 36, 306, 59);
+		txtAreaHistorico.setLineWrap(true);//quebra linha
 		contentPanel.add(txtAreaHistorico);
 		
 		JLabel lblNewLabel = new JLabel("Especialidade:");
@@ -131,6 +134,7 @@ public class FrmCozinheiroGerenciar extends JDialog{
 		txtAreaEspecialidade = new JTextArea();
 		txtAreaEspecialidade.setToolTipText("Escreva a(s) especialidade(s) do cozinheiro");
 		txtAreaEspecialidade.setBounds(356, 134, 306, 59);
+		txtAreaEspecialidade.setLineWrap(true);
 		contentPanel.add(txtAreaEspecialidade);
 		
 		JLabel lblFoto = new JLabel("Foto:");
