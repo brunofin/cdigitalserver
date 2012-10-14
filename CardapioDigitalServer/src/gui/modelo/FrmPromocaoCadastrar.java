@@ -34,13 +34,15 @@ public class FrmPromocaoCadastrar extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		this.setResizable(false);//Não deixa maximizar a tla
+		setLocationRelativeTo(null);// abre janela no centro da tela
 		
 		JLabel lblFoto = new JLabel("Foto:");
 		lblFoto.setBounds(138, 108, 47, 15);
 		contentPanel.add(lblFoto);
 		
 		txtFoto = new JTextField();
-		txtFoto.setText("foto");
+		//txtFoto.setText("foto");
 		txtFoto.setEditable(false);
 		txtFoto.setColumns(10);
 		txtFoto.setBounds(258, 98, 148, 26);
@@ -67,7 +69,7 @@ public class FrmPromocaoCadastrar extends JDialog {
 		contentPanel.add(lblDescrio);
 		
 		txtNome = new JTextField();
-		txtNome.setText("nome");
+		//txtNome.setText("nome");
 		txtNome.setBounds(258, 155, 148, 26);
 		contentPanel.add(txtNome);
 		txtNome.setColumns(10);
@@ -87,7 +89,8 @@ public class FrmPromocaoCadastrar extends JDialog {
 		JScrollPane scrollAreaDescricao = new JScrollPane();
 		scrollAreaDescricao.setBounds(138, 342, 380, 69);
 		txtAreaDescricao = new JTextArea();
-		txtAreaDescricao.setText("Digite aqui a descrição da promoção");
+		//txtAreaDescricao.setText("Digite aqui a descrição da promoção");
+		txtAreaDescricao.setToolTipText("Digite aqui a descrição da promoção");
 		//txtAreaDescricao.setBounds(138, 342, 380, 69);
 		txtAreaDescricao.setLineWrap(true);
 		scrollAreaDescricao.getViewport().setView(txtAreaDescricao);
@@ -137,7 +140,7 @@ public class FrmPromocaoCadastrar extends JDialog {
 	public JTextField getTxtNome(){
 		return txtNome;
 	}
-	public JTextField getDataInico(){
+	public JTextField getTxtDataInico(){
 		return txtDataInicio;
 	}
 	public JTextField getTxtValidade(){//Chamar metodo para tirar mascara
@@ -146,10 +149,10 @@ public class FrmPromocaoCadastrar extends JDialog {
 	public JTextArea getTxtAreaDescricao(){
 		return txtAreaDescricao;
 	}
-	public JButton limparButton(){
+	public JButton getLimparButton(){
 		return limparButton;
 	}
-	public JButton okButton(){
+	public JButton getOkButton(){
 		return okButton;
 	}
 	public JButton getCancelButton(){

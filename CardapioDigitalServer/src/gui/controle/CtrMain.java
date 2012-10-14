@@ -122,8 +122,19 @@ public class CtrMain implements Controle {
 				manipularTipoActionPerformed();
 			}
 		});
+		
+		//manipular -> promocao
+		main.getMntmPromocao().addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				manipularPromocaoActionPerformed();
+			}
+		});
+		
 	}
-	
+	private void manipularPromocaoActionPerformed(){
+		CtrPromocaoCadastrar ctr = new CtrPromocaoCadastrar(this);
+		ctr.setVisible(true);
+	}
 	private void manipularTipoActionPerformed() {
 		CtrTipoGerenciar ctr = new CtrTipoGerenciar(this);
 		ctr.setVisible(true);
