@@ -114,6 +114,19 @@ public class CtrMain implements Controle {
 				manipularCategoriaActionPerformed();
 			}
 		});
+		
+		//manipular -> tipo
+		main.getMntmTipo().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manipularTipoActionPerformed();
+			}
+		});
+	}
+	
+	private void manipularTipoActionPerformed() {
+		CtrTipoGerenciar ctr = new CtrTipoGerenciar(this);
+		ctr.setVisible(true);
 	}
 	
 	private void manipularCategoriaActionPerformed() {
@@ -185,7 +198,8 @@ public class CtrMain implements Controle {
 	}
 	
 	public void setVisible(boolean b) {
-		main.getFrame().setVisible(b);
+		// esta tela nunca ficará escondida
+		main.getFrame().setVisible(true);
 	}
 
 }

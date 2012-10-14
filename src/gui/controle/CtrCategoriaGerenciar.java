@@ -55,8 +55,8 @@ public class CtrCategoriaGerenciar implements Controle {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CtrTipoGerenciar ctr = new CtrTipoGerenciar(ctrParent);
-				ctrParent.setVisible(false);
 				ctr.setVisible(true);
+				form.setVisible(false);
 			}
 		});
 		
