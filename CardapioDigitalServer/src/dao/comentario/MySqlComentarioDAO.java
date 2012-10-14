@@ -16,7 +16,8 @@ import dao.factory.MySqlDAOFactory;
 
 public class MySqlComentarioDAO extends MySqlDAOFactory implements
 		ComentarioDAO {
-
+	public static final int TAMANHO_DATA = 13;
+	public static final int TAMANHO_COMENTARIO = 160;
 	@Override
 	public int incluir(Comentario c) throws SQLException {//OK
 		Connection con = getConnection();

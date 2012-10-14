@@ -13,7 +13,8 @@ import bean.Tipo;
 import dao.factory.MySqlDAOFactory;
 
 public class MySqlCategoriaDAO extends MySqlDAOFactory implements CategoriaDAO {
-
+	public static final int TAMANHO_NOME = 38;
+	public static final int TAMANHO_DESCRICAO = 58;
 	@Override
 	public int incluir(Categoria c) throws SQLException {//ok
 		Connection con = getConnection();

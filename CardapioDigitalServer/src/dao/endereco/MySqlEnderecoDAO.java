@@ -13,7 +13,12 @@ import dao.factory.ConexaoSingleton;
 import dao.factory.MySqlDAOFactory;
 
 public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
-
+	public static final int TAMANHO_CEP = 8;
+	public static final int TAMANHO_NUMERO = 8;
+	public static final int TAMANHO_RUA = 58;
+	public static final int TAMANHO_ESTADO = 2;
+	public static final int TAMANHO_CIDADE = 58;
+	public static final int TAMANHO_BAIRRO = 58;
 	@Override
 	public int incluir(Endereco e) throws SQLException {//ok
 		//Connection con = getConnection();

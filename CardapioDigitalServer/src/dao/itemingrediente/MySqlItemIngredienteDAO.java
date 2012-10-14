@@ -14,7 +14,7 @@ import bean.Item;
 
 public class MySqlItemIngredienteDAO extends MySqlDAOFactory implements
 		ItemIngredienteDAO {
-
+	public static final int TAMANHO_QUANTIDADE = 3;
 	@Override
 	public List<Ingrediente> consultarPorItemId(int idItem) throws SQLException {//OK
 		Ingrediente resultado;

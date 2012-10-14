@@ -15,7 +15,9 @@ import bean.Tipo;
 import dao.factory.MySqlDAOFactory;
 
 public class MySqlItemDAO extends MySqlDAOFactory implements ItemDAO {
-	
+	public static final int TAMANHO_NOME = 38;
+	public static final int TAMANHO_DESCRICAO = 58;
+	public static final float PRECO_MAXIMO = 999999.99f; 
 	@Override
 	public boolean incluir(Item i) throws SQLException {//OK
 		Connection con = getConnection();
