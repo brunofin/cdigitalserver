@@ -31,7 +31,8 @@ public class CtrTipoGerenciar implements Controle {
 	}
 	
 	private void configurar() {
-		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);		
+		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		form.setTitle("Gerenciar Tipos");
 	}
 	
 	private void adicionarListeners() {

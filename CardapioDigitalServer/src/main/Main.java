@@ -15,6 +15,7 @@ import dao.tipo.TipoDAO;
 
 /* Lista geral de o que falta fazer
  * TODO: fazer algo com as Exception quando usa try/catch (invés de usar um bloco vazio).
+ * TODO: criar Model pra cada bean que use uma JList, JComboBox ou JTable
  */
 
 public class Main {

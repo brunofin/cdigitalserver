@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 
 import javax.swing.JFrame;
@@ -35,6 +36,7 @@ public class CtrMain implements Controle {
 		}
 		
 		main.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		main.getFrame().setTitle("Cardápio Digital :: Servidor - Não iniciado");
 		
 		main.getMntmParar().setEnabled(false);
 	}
@@ -54,6 +56,17 @@ public class CtrMain implements Controle {
 			int resp = JOptionPane.showConfirmDialog(main.getFrame(), "O servidor ainda não foi configurado.\nPressione OK para configurar ou cancele.");
 			if(resp == JOptionPane.OK_OPTION) {
 				configurarServidorActionPerformed();
+			}
+		} else {
+			Configuracao cfg = new Configuracao();
+			try {
+				cfg.ler();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
@@ -130,11 +143,27 @@ public class CtrMain implements Controle {
 			}
 		});
 		
+		//manipular -> ingrediente
+		main.getMntmIngrediente().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manipularIngredienteActionPerformed();
+			}
+		});
+		
 	}
+	
+	private void manipularIngredienteActionPerformed() {
+		CtrIngredienteGerenciar ctr = new CtrIngredienteGerenciar(this);
+		ctr.setVisible(true);
+	}
+	
 	private void manipularPromocaoActionPerformed(){
 		CtrPromocaoCadastrar ctr = new CtrPromocaoCadastrar(this);
 		ctr.setVisible(true);
 	}
+	
 	private void manipularTipoActionPerformed() {
 		CtrTipoGerenciar ctr = new CtrTipoGerenciar(this);
 		ctr.setVisible(true);
@@ -164,6 +193,8 @@ public class CtrMain implements Controle {
 		main.getMntmParar().setEnabled(false);
 		main.getMntmIniciar().setEnabled(true);
 		
+		main.getFrame().setTitle("Cardápio Digital :: Servidor - Parado");
+		
 		if(Servidor.getServidor() == null) return;
 		Servidor.getServidor().finalizarServidor();
 	}
@@ -177,24 +208,21 @@ public class CtrMain implements Controle {
 		main.getMntmParar().setEnabled(true);
 		main.getMntmIniciar().setEnabled(false);
 		
+		main.getFrame().setTitle("Cardápio Digital :: Servidor - Rodando");
+		
 		new Thread(new Servidor()).start();
 		
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				Configuracao cfg = new Configuracao();
-				try {
-					cfg.ler();
-				} catch(Exception e) {
-					System.out.println("<CtrMain> Exceção ao ler as configurações do arquivo: " + e.getMessage());
-				}
 				
 				while(Servidor.getServidor().isServerAlive()) {
 					Calendar c = Calendar.getInstance();
 					main.getLblStatus().setText(
 							"Horário: " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) +
-							"\nIP: " + cfg.getDbIp() + ":" + cfg.getDbPorta() +
+							"\nBanco selecionado: " + Configuracao.DB_SELECIONADO +
+							"\nIP: " + Configuracao.DB_ENDERECO + ":" + Configuracao.DB_PORTA +
 							"\nTempo ativo: " + ((System.currentTimeMillis() - Servidor.getServidor().getAtivadoEm()))/1000 + " segundos" +
 							"\nClientes conectados: " + Servidor.getServidor().getConexoes().size() +
 							"\n-Anônimos: TODO" +

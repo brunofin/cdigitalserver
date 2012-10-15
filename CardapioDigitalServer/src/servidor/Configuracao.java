@@ -19,11 +19,22 @@ public class Configuracao implements Serializable {
 	private String dbSenha;
 	private static String filename = "servidor.cfg";
 	
+	public static Database DB_SELECIONADO;
+	public static int DB_PORTA;
+	public static String DB_ENDERECO;
+	public static int CARDAPIO_PORTA;
+	
 	public void salvar() throws IOException {
 		File f = new File(filename);
 		System.out.println("<Configuracao> Escrevendo no arquivo...");
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
 		oos.writeObject(this);
+		
+		DB_SELECIONADO = getDbBanco();
+		DB_PORTA = getDbPorta();
+		DB_ENDERECO = getDbIp();
+		CARDAPIO_PORTA = getCardapioPorta();
+		
 		oos.close();
 	}
 	
@@ -33,6 +44,7 @@ public class Configuracao implements Serializable {
 		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
 		Configuracao aux = (Configuracao) ois.readObject();
 		
+		
 		setCardapioPorta(aux.getCardapioPorta());
 		setDbBanco(aux.getDbBanco());
 		setDbIp(aux.getDbIp());
@@ -40,53 +52,58 @@ public class Configuracao implements Serializable {
 		setDbUsuario(aux.getDbUsuario());
 		setDbSenha(aux.getDbSenha());
 		
+		DB_SELECIONADO = getDbBanco();
+		DB_PORTA = getDbPorta();
+		DB_ENDERECO = getDbIp();
+		CARDAPIO_PORTA = getCardapioPorta();
+		
 		ois.close();
 	}
-	
+
 	public int getCardapioPorta() {
 		return cardapioPorta;
 	}
-	
+
 	public void setCardapioPorta(int cardapioPorta) {
 		this.cardapioPorta = cardapioPorta;
 	}
-	
+
 	public Database getDbBanco() {
 		return dbBanco;
 	}
-	
+
 	public void setDbBanco(Database dbBanco) {
 		this.dbBanco = dbBanco;
 	}
-	
+
 	public String getDbIp() {
 		return dbIp;
 	}
-	
+
 	public void setDbIp(String dbIp) {
 		this.dbIp = dbIp;
 	}
-	
+
 	public int getDbPorta() {
 		return dbPorta;
 	}
-	
+
 	public void setDbPorta(int dbPorta) {
 		this.dbPorta = dbPorta;
 	}
-	
+
 	public String getDbUsuario() {
 		return dbUsuario;
 	}
-	
+
 	public void setDbUsuario(String dbUsuario) {
 		this.dbUsuario = dbUsuario;
 	}
-	
+
 	public String getDbSenha() {
 		return dbSenha;
 	}
-	
+
 	public void setDbSenha(String dbSenha) {
 		this.dbSenha = dbSenha;
 	}
@@ -98,4 +115,6 @@ public class Configuracao implements Serializable {
 	public static void setFilename(String filename) {
 		Configuracao.filename = filename;
 	}
+	
+	
 }

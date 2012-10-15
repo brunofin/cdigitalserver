@@ -30,10 +30,9 @@ public class CtrServidorConfigurar implements Controle {
 		form.setVisible(b);
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void configurar() {
 		form.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-		form.getCbBanco().setModel(new DefaultComboBoxModel<>(Database.values()));
+		form.getCbBanco().setModel(new DefaultComboBoxModel<Database>(Database.values()));
 		form.getLblPath().setText(new File(Configuracao.getFilename()).getAbsolutePath());
 		form.getCbBanco().setEditable(false);
 		

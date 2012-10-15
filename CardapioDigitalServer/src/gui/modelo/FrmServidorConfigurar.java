@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JPasswordField;
 
+import dao.factory.Database;
+
 public class FrmServidorConfigurar extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -22,7 +24,7 @@ public class FrmServidorConfigurar extends JDialog {
 	private JTextField tfBancoIP;
 	private JTextField tfBancoPorta;
 	private JTextField tfBancoUsuario;
-	private JComboBox cbBanco;
+	private JComboBox<Database> cbBanco;
 	private JPasswordField pfBancoSenha;
 	private JButton btnOk;
 	private JButton btnCancelar;
@@ -83,7 +85,7 @@ public class FrmServidorConfigurar extends JDialog {
 			lblSenha.setBounds(20, 189, 46, 14);
 			panel.add(lblSenha);
 			
-			cbBanco = new JComboBox();
+			cbBanco = new JComboBox<Database>();
 			cbBanco.setBounds(222, 86, 112, 20);
 			panel.add(cbBanco);
 			
@@ -143,48 +145,24 @@ public class FrmServidorConfigurar extends JDialog {
 		return tfCardapioPorta;
 	}
 
-	public void setTfCardapioPorta(JTextField tfCardapioPorta) {
-		this.tfCardapioPorta = tfCardapioPorta;
-	}
-
 	public JTextField getTfBancoIP() {
 		return tfBancoIP;
-	}
-
-	public void setTfBancoIP(JTextField tfBancoIP) {
-		this.tfBancoIP = tfBancoIP;
 	}
 
 	public JTextField getTfBancoPorta() {
 		return tfBancoPorta;
 	}
 
-	public void setTfBancoPorta(JTextField tfBancoPorta) {
-		this.tfBancoPorta = tfBancoPorta;
-	}
-
 	public JTextField getTfBancoUsuario() {
 		return tfBancoUsuario;
 	}
 
-	public void setTfBancoUsuario(JTextField tfBancoUsuario) {
-		this.tfBancoUsuario = tfBancoUsuario;
-	}
-
-	public JComboBox getCbBanco() {
+	public JComboBox<Database> getCbBanco() {
 		return cbBanco;
-	}
-
-	public void setCbBanco(JComboBox cbBanco) {
-		this.cbBanco = cbBanco;
 	}
 
 	public JPasswordField getPfBancoSenha() {
 		return pfBancoSenha;
-	}
-
-	public void setPfBancoSenha(JPasswordField pfBancoSenha) {
-		this.pfBancoSenha = pfBancoSenha;
 	}
 
 	public JPanel getContentPanel() {
@@ -195,31 +173,15 @@ public class FrmServidorConfigurar extends JDialog {
 		return btnOk;
 	}
 
-	public void setBtnOk(JButton btnOk) {
-		this.btnOk = btnOk;
-	}
-
 	public JButton getBtnCancelar() {
 		return btnCancelar;
-	}
-
-	public void setBtnCancelar(JButton btnCancelar) {
-		this.btnCancelar = btnCancelar;
 	}
 
 	public JButton getBtnLimpar() {
 		return btnLimpar;
 	}
 
-	public void setBtnLimpar(JButton btnLimpar) {
-		this.btnLimpar = btnLimpar;
-	}
-
 	public JLabel getLblPath() {
 		return lblPath;
-	}
-
-	public void setLblPath(JLabel lblPath) {
-		this.lblPath = lblPath;
 	}
 }
