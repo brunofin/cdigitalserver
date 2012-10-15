@@ -1,5 +1,8 @@
 package gui.modelo;
 
+import util.Moeda;
+import util.Unidade;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -8,37 +11,110 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JList;
+import javax.swing.JTable;
+import javax.swing.JComboBox;
 
 public class FrmIngredienteGerenciar extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private Component parent;
+	private JTextField textFieldNome;
+	private JTextField textFieldPreco;
+	private JTextArea textAreaDescricao;
+	private JComboBox<Moeda> comboBoxCurrency;
+	private JComboBox<Unidade> comboBoxUnidade;
+	private JButton btnLimpar;
+	private JButton okButton;
+	private JButton cancelButton;
 
 	/**
 	 * Create the dialog.
 	 */
 	public FrmIngredienteGerenciar() {
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 373, 271);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		
+		JLabel lblNome = new JLabel("Nome:");
+		lblNome.setBounds(12, 12, 105, 15);
+		contentPanel.add(lblNome);
+		
+		textFieldNome = new JTextField();
+		textFieldNome.setBounds(135, 10, 198, 19);
+		contentPanel.add(textFieldNome);
+		textFieldNome.setColumns(10);
+		
+		JLabel lblDescrio = new JLabel("Descrição:");
+		lblDescrio.setBounds(12, 39, 128, 15);
+		contentPanel.add(lblDescrio);
+		
+		textAreaDescricao = new JTextArea();
+		textAreaDescricao.setBounds(12, 66, 321, 49);
+		contentPanel.add(textAreaDescricao);
+		
+		JLabel lblPreoDeCompra = new JLabel("Preço de compra:");
+		lblPreoDeCompra.setBounds(12, 139, 145, 15);
+		contentPanel.add(lblPreoDeCompra);
+		
+		textFieldPreco = new JTextField();
+		textFieldPreco.setBounds(95, 164, 85, 19);
+		contentPanel.add(textFieldPreco);
+		textFieldPreco.setColumns(10);
+		
+		comboBoxCurrency = new JComboBox<Moeda>();
+		comboBoxCurrency.setBounds(12, 163, 71, 20);
+		contentPanel.add(comboBoxCurrency);
+		
+		comboBoxUnidade = new JComboBox<Unidade>();
+		comboBoxUnidade.setBounds(192, 163, 114, 20);
+		contentPanel.add(comboBoxUnidade);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			
+			btnLimpar = new JButton("Limpar");
+			buttonPane.add(btnLimpar);
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				cancelButton = new JButton("Cancel");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 	}
-
+	public JTextField getTextFieldNome() {
+		return textFieldNome;
+	}
+	public JTextArea getTextAreaDescricao() {
+		return textAreaDescricao;
+	}
+	public JComboBox<Moeda> getComboBoxCurrency() {
+		return comboBoxCurrency;
+	}
+	public JTextField getTextFieldPreco() {
+		return textFieldPreco;
+	}
+	public JComboBox<Unidade> getComboBoxUnidade() {
+		return comboBoxUnidade;
+	}
+	public JButton getBtnLimpar() {
+		return btnLimpar;
+	}
+	public JButton getOkButton() {
+		return okButton;
+	}
+	public JButton getCancelButton() {
+		return cancelButton;
+	}
 }

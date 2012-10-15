@@ -37,6 +37,7 @@ public class CtrCategoriaGerenciar implements Controle {
 	
 	private void configurar() {
 		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		form.setTitle("Gerenciar Categorias");
 		
 		List<Tipo> listaTipo = null;
 		try {

@@ -12,16 +12,16 @@ import javax.swing.ListSelectionModel;
 import dao.factory.DAOFactory;
 import dao.factory.Database;
 
-import gui.modelo.FrmIngredienteEditar;
+import gui.modelo.FrmIngredienteSelecionar;
 import bean.Ingrediente;
 
-public class CtrIngredienteEditar {
+public class CtrIngredienteSelecionar {
 	private Controle ctrParent;
-	private FrmIngredienteEditar form;
+	private FrmIngredienteSelecionar form;
 	private List<Ingrediente> lista;
 	
-	public CtrIngredienteEditar(Controle ctrParent, List<Ingrediente> lista) {
-		form = new FrmIngredienteEditar();
+	public CtrIngredienteSelecionar(Controle ctrParent, List<Ingrediente> lista) {
+		form = new FrmIngredienteSelecionar();
 		this.ctrParent = ctrParent;
 		this.lista = lista;
 		
@@ -30,18 +30,24 @@ public class CtrIngredienteEditar {
 	}
 	
 	private void configurar() {
+		form.setTitle("Selecionar Ingredientes");
+		
 		DefaultListModel<Ingrediente> model = new DefaultListModel<Ingrediente>();
 		List<Ingrediente> aux = null;
 		try {
 			aux = (DAOFactory.getDaoFactory(Database.MYSQL)).getIngredienteDAO().listar();
 		} catch(SQLException e) {
-			System.out.println("<CtrIngredienteEditar> Erro ao recuperar ingedientes: " + e.getMessage());
+			System.out.println("<CtrIngredienteSelecionar> Erro ao recuperar ingedientes: " + e.getMessage());
 		}
 		for(Ingrediente i : aux) {
 			model.addElement(i);
 		}
 		form.getListIngredientes().setModel(model);
 		form.getListIngredientes().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		
+		for(Ingrediente i : lista) {
+			form.getListIngredientes().setSelectedValue(i, true);
+		}
 	}
 	
 	private void adicionarListeners() {

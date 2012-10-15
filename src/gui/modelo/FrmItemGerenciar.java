@@ -29,12 +29,13 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
+import util.Moeda;
+
 public class FrmItemGerenciar extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNome;
 	private JTextField textFieldPrecoVenda;
-	private JList<Foto> listFotos;
 	private JButton okButton;
 	private JTextArea txtDescricao;
 	private JButton btnCategoriaGerenciar;
@@ -47,8 +48,9 @@ public class FrmItemGerenciar extends JDialog {
 	private JButton btnIngredienteEditar;
 	private JButton limparButton;
 	private JButton cancelButton;
-	private JComboBox comboBoxCurrency;
+	private JComboBox<Moeda> comboBoxCurrency;
 	private JTable tableIngredientes;
+	private JList<Foto> listFotos;
 
 	/**
 	 * Create the dialog.
@@ -84,7 +86,7 @@ public class FrmItemGerenciar extends JDialog {
 		lblPreo.setBounds(12, 128, 138, 15);
 		contentPanel.add(lblPreo);
 
-		comboBoxCurrency = new JComboBox();
+		comboBoxCurrency = new JComboBox<Moeda>();
 		comboBoxCurrency.setBounds(151, 123, 62, 24);
 		contentPanel.add(comboBoxCurrency);
 
@@ -109,11 +111,6 @@ public class FrmItemGerenciar extends JDialog {
 		lblFotos.setBounds(325, 12, 70, 15);
 		contentPanel.add(lblFotos);
 
-		listFotos = new JList<Foto>();
-		listFotos.setBounds(325, 202, 113, -172);
-		listFotos.setSelectedIndex(0);
-		contentPanel.add(listFotos);
-
 		btnFotoVer = new JButton("Ver");
 		btnFotoVer.setBounds(325, 213, 113, 25);
 		contentPanel.add(btnFotoVer);
@@ -129,11 +126,6 @@ public class FrmItemGerenciar extends JDialog {
 		JLabel lblIngredientes = new JLabel("Ingredientes:");
 		lblIngredientes.setBounds(505, 12, 113, 15);
 		contentPanel.add(lblIngredientes);
-
-		JSeparator separator = new JSeparator();
-		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(312, 12, -11, 300);
-		contentPanel.add(separator);
 
 		btnIngredienteEditar = new JButton("Editar...");
 		btnIngredienteEditar.setBounds(629, 7, 138, 25);
@@ -156,33 +148,13 @@ public class FrmItemGerenciar extends JDialog {
 		lblPrecoCompra.setBounds(168, 355, 119, 15);
 		contentPanel.add(lblPrecoCompra);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(765, 34, -251, 164);
-		contentPanel.add(scrollPane);
-		
 		tableIngredientes = new JTable();
-		tableIngredientes.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null},
-			},
-			new String[] {
-				"Ingrediente", "Quantidade"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Object.class, Float.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-				false, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		scrollPane.setViewportView(tableIngredientes);
+		tableIngredientes.setBounds(504, 39, 275, 160);
+		contentPanel.add(tableIngredientes);
+		
+		listFotos = new JList<Foto>();
+		listFotos.setBounds(325, 39, 130, 160);
+		contentPanel.add(listFotos);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -261,7 +233,7 @@ public class FrmItemGerenciar extends JDialog {
 	public JButton getCancelButton() {
 		return cancelButton;
 	}
-	public JComboBox getComboBoxCurrency() {
+	public JComboBox<Moeda> getComboBoxCurrency() {
 		return comboBoxCurrency;
 	}
 	public JTable getTableIngredientes() {

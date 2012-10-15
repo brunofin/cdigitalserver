@@ -1,5 +1,7 @@
 package dao.factory;
 
-public enum Database {
+import java.io.Serializable;
+
+public enum Database implements Serializable {
 	MYSQL;
 }

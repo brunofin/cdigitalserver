@@ -8,27 +8,20 @@ import bean.Ingrediente;
 
 public class IngredienteTableModel extends AbstractTableModel {
 
-	public enum UNIDADE {
-		Mililitros, Miligramas, Unidades
-	};
-
 	private List<Ingrediente> ingredientes;
-	private List<Integer> quantidades;
-	private List<UNIDADE> unidades;
+	private List<Unidade> unidades;
 
 	private String[] colunas = new String[] { "Nome", "Preço", "Quantidade",
 			"Unidade" };
 
 	public IngredienteTableModel() {
 		ingredientes = new LinkedList<Ingrediente>();
-		quantidades = new LinkedList<Integer>();
-		unidades = new LinkedList<UNIDADE>();
+		unidades = new LinkedList<Unidade>();
 	}
 
 	public IngredienteTableModel(List<Ingrediente> ingredientes) {
 		this.ingredientes = ingredientes;
-		quantidades = new LinkedList<Integer>();
-		unidades = new LinkedList<UNIDADE>();
+		unidades = new LinkedList<Unidade>();
 	}
 
 	@Override
@@ -47,13 +40,13 @@ public class IngredienteTableModel extends AbstractTableModel {
 
 		switch (columnIndex) {
 		case 0:
-			return i.getNome();
+			return (String) i.getNome();
 		case 1:
-			return i.getPreco();
+			return (Float) i.getPreco();
 		case 2:
-			return quantidades.get(rowIndex);
+			return (Integer) i.getQuantidade();
 		case 3:
-			return unidades.get(rowIndex);
+			return (Unidade) Unidade.Miligramas;
 		default:
 			throw new IndexOutOfBoundsException("columnIndex fora dos limites.");
 		}
@@ -65,7 +58,7 @@ public class IngredienteTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		switch (rowIndex) {
+		switch (columnIndex) {
 		case 0:
 		case 1:
 			return false;
@@ -80,13 +73,13 @@ public class IngredienteTableModel extends AbstractTableModel {
 		case 0:
 			return String.class;
 		case 1:
+			return Float.class;
 		case 2:
 			return Integer.class;
 		case 3:
-			return UNIDADE.class;
+			return Unidade.class;
 		default:
 			return Object.class;
-
 		}
 	}
 	
@@ -97,10 +90,10 @@ public class IngredienteTableModel extends AbstractTableModel {
 		case 1:
 			break;
 		case 2:
-			quantidades.set(rowIndex, (Integer) aValue);
+			ingredientes.get(rowIndex).setQuantidade((Integer) aValue);
 			break;
 		case 3:
-			unidades.set(rowIndex, (UNIDADE) aValue);
+			unidades.add((Unidade) aValue);
 			break;
 			default:
 		}
@@ -108,7 +101,7 @@ public class IngredienteTableModel extends AbstractTableModel {
 	}
 	
 	public boolean isEmpty() {
-		return ingredientes.isEmpty() && quantidades.isEmpty() && unidades.isEmpty();
+		return ingredientes.isEmpty() && unidades.isEmpty();
 	}
 
 }

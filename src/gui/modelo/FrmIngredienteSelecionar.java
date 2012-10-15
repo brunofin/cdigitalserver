@@ -14,16 +14,16 @@ import javax.swing.JScrollPane;
 
 import bean.Ingrediente;
 
-public class FrmIngredienteEditar extends JDialog {
+public class FrmIngredienteSelecionar extends JDialog {
 	
 	private final JPanel contentPanel = new JPanel();
-	private JList<Ingrediente> listIngredientes;
 	private JButton cancelButton;
 	private JButton okButton;
+	private JList<Ingrediente> listIngredientes;
 	/**
 	 * Create the dialog.
 	 */
-	public FrmIngredienteEditar() {
+	public FrmIngredienteSelecionar() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -34,12 +34,9 @@ public class FrmIngredienteEditar extends JDialog {
 		lblSelecioneOsIngredientes.setBounds(12, 12, 424, 15);
 		contentPanel.add(lblSelecioneOsIngredientes);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 223, 424, -178);
-		contentPanel.add(scrollPane);
-		
 		listIngredientes = new JList<Ingrediente>();
-		scrollPane.setViewportView(listIngredientes);
+		listIngredientes.setBounds(12, 39, 424, 184);
+		contentPanel.add(listIngredientes);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

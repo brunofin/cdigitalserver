@@ -1,15 +1,11 @@
 package gui.controle;
 
-
+import util.Moeda;
 import java.io.File;
 import javax.swing.*;
-import javax.swing.filechooser.*;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.ImageFilter;
-import java.io.File;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,21 +15,17 @@ import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.table.DefaultTableModel;
 
 import util.IngredienteTableModel;
-import util.IngredienteTableModel.UNIDADE;
+import util.Unidade;
 
 import bean.*;
 
 import dao.categoria.CategoriaDAO;
 import dao.factory.DAOFactory;
 import dao.factory.Database;
-import dao.foto.FotoDAO;
-import dao.ingrediente.IngredienteDAO;
 import dao.item.ItemDAO;
 import dao.itemingrediente.ItemIngredienteDAO;
-import dao.tipo.TipoDAO;
 
 import gui.modelo.FrmItemGerenciar;
 
@@ -55,8 +47,9 @@ public class CtrItemGerenciar implements Controle {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void configurar() {
 		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		form.getComboBoxCurrency().setModel(new DefaultComboBoxModel(new String[] {
-				"BRL", "GBP", "EUR", "USD", "PLN" }));
+		form.setTitle("Gerenciar Itens");
+		
+		form.getComboBoxCurrency().setModel(new DefaultComboBoxModel(Moeda.values()));
 		
 		form.getListFotos().setModel(new DefaultListModel<Foto>());
 		form.getListFotos().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -181,7 +174,7 @@ public class CtrItemGerenciar implements Controle {
 		form.getBtnIngredienteEditar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CtrIngredienteEditar ctr= new CtrIngredienteEditar(controle, listaIngrediente);
+				CtrIngredienteSelecionar ctr= new CtrIngredienteSelecionar(controle, listaIngrediente);
 				ctr.setVisible(true);
 				form.setVisible(false);
 			}
@@ -239,17 +232,16 @@ public class CtrItemGerenciar implements Controle {
 	public void setVisible(boolean b) {
 		form.setVisible(b);
 		
-		listaIngrediente = new LinkedList<Ingrediente>();
-		IngredienteTableModel model = new IngredienteTableModel(listaIngrediente);
-		form.getTableIngredientes().setModel(model);
+		IngredienteTableModel model = (IngredienteTableModel) form.getTableIngredientes().getModel();
+		model.fireTableDataChanged();
 		
 		// TODO: lista ingredientes e preço compra.
 		
 		StringBuffer aux = new StringBuffer();
 		float total = 0;
 		for(int i = 0; i < model.getRowCount(); i++) {
-			aux.append(((Float) model.getValueAt(i, 2)) + " " + ((UNIDADE) model.getValueAt(i, 3)) + " de " + model.getValueAt(i, 0) + ", ");
-			total += ((Float) model.getValueAt(i, 2)) * ((Float) model.getValueAt(i, 1));
+			aux.append(((Integer) model.getValueAt(i, 2)) + " " + ((Unidade) model.getValueAt(i, 3)) + " de " + ((String) model.getValueAt(i, 0)) + ", ");
+			total += ((Integer) model.getValueAt(i, 2)) * ((Float) model.getValueAt(i, 1));
 		}
 		form.getTxtIngredientes().setText(aux.toString());
 		form.getLblPrecoCompra().setText("BRL " + total);
