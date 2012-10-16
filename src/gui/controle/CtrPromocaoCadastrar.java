@@ -2,6 +2,8 @@ package gui.controle;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,10 +12,20 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.table.TableColumn;
 
+import util.ItemTableModel;
+
+import bean.Item;
 import bean.Promocao;
 
+import dao.factory.DAOFactory;
+import dao.factory.Database;
 import dao.foto.MySqlFotoDAO;
+import dao.item.ItemDAO;
 import dao.promocao.MySqlPromocaoDAO;
 
 import gui.modelo.FrmPromocaoCadastrar;
@@ -23,6 +35,8 @@ public class CtrPromocaoCadastrar implements Controle {
 	private FrmPromocaoCadastrar form;
 	private Controle ctrParent;
 	private Promocao promocao;
+	private List <Item> todosOsItens;
+	private ItemDAO itemDAO;
 	
 	public CtrPromocaoCadastrar(Controle ctrParent){
 		this.ctrParent = ctrParent;
@@ -33,9 +47,19 @@ public class CtrPromocaoCadastrar implements Controle {
 	
 	private void configurar(){
 		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
+		itemDAO = factory.getItemDAO();
+		try {
+			todosOsItens = itemDAO.listar();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		promocao = new Promocao();
 	}
 	
 	private void adicionarListeners(){
+		final Controle controle = this;
 		// Botão cancelar
 		form.getCancelButton().addActionListener(new ActionListener() {
 			@Override
@@ -51,8 +75,25 @@ public class CtrPromocaoCadastrar implements Controle {
 				form.getTxtDataInico().setText("");
 				form.getTxtValidade().setText("");
 				form.getTxtAreaDescricao().setText("");
+				ItemTableModel tableModel =(ItemTableModel) form.getTabelaItens().getModel();  
+				tableModel.setNumRows(0);//TODO testar
 			}
 		});
+		//botao adicionar itens
+		form.getBtnAdicionarItem().addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if(todosOsItens == null || todosOsItens.isEmpty()){
+					JOptionPane.showMessageDialog
+					(null, "Não existe nenhum item cadastrado no sistema, " +
+							"favor cadastrar itens", "Nenhum Item Cadastrado", 
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				CtrItemSelecionar ctr = new CtrItemSelecionar(controle, todosOsItens, promocao.getItens());
+				ctr.setVisible(true);
+				form.setVisible(false);
+			}
+		});	
 		//botao OK
 		form.getOkButton().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -60,6 +101,63 @@ public class CtrPromocaoCadastrar implements Controle {
 				//List <String> erros = validarCampos();
 				promocao = preencherPromocao();
 				//inserirBD
+			}
+		});
+		
+		//botao adicionar foto
+		form.getAdicionarFoto().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				fc.addChoosableFileFilter(new FileFilter() {
+					private String jpeg = "jpeg";
+					private String jpg = "jpg";
+					private String gif = "gif";
+					private String tiff = "tiff";
+					private String tif = "tif";
+					private String png = "png";
+					
+					private String getExtension(File f) {
+				        String ext = null;
+				        String s = f.getName();
+				        int i = s.lastIndexOf('.');
+
+				        if (i > 0 &&  i < s.length() - 1) {
+				            ext = s.substring(i+1).toLowerCase();
+				        }
+				        return ext;
+				    }
+						    
+					public boolean accept(File f) {
+				        if (f.isDirectory()) {
+			            return true;
+			        }
+
+			        String extension = getExtension(f);
+			        if (extension != null) {
+			            if (extension.equals(tiff) ||
+				                extension.equals(tif) ||
+				                extension.equals(gif) ||
+				                extension.equals(jpeg) ||
+				                extension.equals(jpg) ||
+				                extension.equals(png)) {
+		                    return true;
+			            } else {
+			                return false;
+			            }
+			        }
+			        return false;
+			    }
+
+			    public String getDescription() {
+			        return "Somente imagens";
+			    }
+				});
+						
+				if(fc.showOpenDialog(form.getContentPane()) == JFileChooser.APPROVE_OPTION) {
+							form.getTxtFoto().setText(fc.getSelectedFile().getAbsolutePath());
+				}
 			}
 		});
 	}
@@ -141,7 +239,25 @@ public class CtrPromocaoCadastrar implements Controle {
 	}
 	@Override
 	public void setVisible(boolean b) {
+		if(promocao.getItens() != null && !promocao.getItens().isEmpty()){
+			ItemTableModel model = new ItemTableModel(promocao.getItens());
+			form.getTabelaItens().setModel(model);
+			TableColumn column = null;
+		    //fixa largura das colunas
+			for(int i = 0; i < 2; i++) {
+		      column = form.getTabelaItens().getColumnModel().getColumn(i);
+		      if(i == 0){
+		        column.setPreferredWidth(200);//nome
+		      }else if(i == 1){
+		        column.setPreferredWidth(350);//descricao
+		      }else {
+		    	  column.setPreferredWidth(66);//preco
+		      }
+		    }
+		}		
 		form.setVisible(b);
 	}
-
+	public Promocao getPromocao(){
+		return promocao;
+	}
 }

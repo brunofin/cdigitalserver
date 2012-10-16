@@ -14,6 +14,10 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
 
 public class FrmPromocaoCadastrar extends JDialog {
 	private final JPanel contentPanel = new JPanel();
@@ -26,6 +30,8 @@ public class FrmPromocaoCadastrar extends JDialog {
 	private JButton okButton;
 	private JButton cancelButton;
 	private JButton adicionarFoto;
+	private JTable tabelaItens;
+	private JButton btnAdicionarItem;
 	
 	public FrmPromocaoCadastrar(){
 		setTitle("Cadastro de Promoção");
@@ -38,56 +44,56 @@ public class FrmPromocaoCadastrar extends JDialog {
 		setLocationRelativeTo(null);// abre janela no centro da tela
 		
 		JLabel lblFoto = new JLabel("Foto:");
-		lblFoto.setBounds(138, 108, 47, 15);
+		lblFoto.setBounds(12, 226, 47, 15);
 		contentPanel.add(lblFoto);
 		
 		txtFoto = new JTextField();
 		//txtFoto.setText("foto");
 		txtFoto.setEditable(false);
 		txtFoto.setColumns(10);
-		txtFoto.setBounds(258, 98, 148, 26);
+		txtFoto.setBounds(132, 221, 148, 26);
 		contentPanel.add(txtFoto);
 		
 		adicionarFoto = new JButton("Adicionar");
-		adicionarFoto.setBounds(418, 98, 100, 25);
+		adicionarFoto.setBounds(292, 221, 100, 25);
 		contentPanel.add(adicionarFoto);
 		
 		JLabel lblNome = new JLabel("Nome:*");
-		lblNome.setBounds(138, 165, 61, 15);
+		lblNome.setBounds(12, 72, 61, 15);
 		contentPanel.add(lblNome);
 		
 		JLabel lblDataDeIncio = new JLabel("Data de Início:*");
-		lblDataDeIncio.setBounds(138, 215, 114, 15);
+		lblDataDeIncio.setBounds(12, 122, 114, 15);
 		contentPanel.add(lblDataDeIncio);
 		
 		JLabel lblValidade = new JLabel("Validade:");
-		lblValidade.setBounds(138, 266, 114, 15);
+		lblValidade.setBounds(12, 173, 114, 15);
 		contentPanel.add(lblValidade);
 		
 		JLabel lblDescrio = new JLabel("Descrição:*");
-		lblDescrio.setBounds(138, 315, 114, 15);
+		lblDescrio.setBounds(348, 72, 314, 15);
 		contentPanel.add(lblDescrio);
 		
 		txtNome = new JTextField();
 		//txtNome.setText("nome");
-		txtNome.setBounds(258, 155, 148, 26);
+		txtNome.setBounds(132, 67, 148, 26);
 		contentPanel.add(txtNome);
 		txtNome.setColumns(10);
 		
 		//txtDataInicio = new JTextField();
 		txtDataInicio = new JFormattedTextField(Mascara("##/##/####"));
 		txtDataInicio.setColumns(10);
-		txtDataInicio.setBounds(258, 205, 148, 26);
+		txtDataInicio.setBounds(132, 117, 148, 26);
 		contentPanel.add(txtDataInicio);
 		
 		txtValidade = new JFormattedTextField(Mascara("##/##/####"));
 		//txtValidade = new JTextField();
 		txtValidade.setColumns(10);
-		txtValidade.setBounds(258, 255, 148, 26);
+		txtValidade.setBounds(132, 168, 148, 26);
 		contentPanel.add(txtValidade);
 		
 		JScrollPane scrollAreaDescricao = new JScrollPane();
-		scrollAreaDescricao.setBounds(138, 342, 380, 69);
+		scrollAreaDescricao.setBounds(348, 99, 314, 89);
 		txtAreaDescricao = new JTextArea();
 		//txtAreaDescricao.setText("Digite aqui a descrição da promoção");
 		txtAreaDescricao.setToolTipText("Digite aqui a descrição da promoção");
@@ -99,8 +105,36 @@ public class FrmPromocaoCadastrar extends JDialog {
 		
 		JLabel lblcamposObrigatrios = new JLabel("*Campos Obrigatórios");
 		lblcamposObrigatrios.setFont(new Font("Dialog", Font.BOLD, 8));
-		lblcamposObrigatrios.setBounds(405, 37, 114, 15);
+		lblcamposObrigatrios.setBounds(548, 24, 114, 15);
 		contentPanel.add(lblcamposObrigatrios);
+		
+		JButton btnVer = new JButton("Ver Foto");
+		
+		btnVer.setBounds(407, 221, 100, 25);
+		contentPanel.add(btnVer);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(67, 303, 551, 89);
+		contentPanel.add(scrollPane);
+		
+		tabelaItens = new JTable();
+		scrollPane.getViewport().setView(tabelaItens);
+		
+		JLabel lblNewLabel = new JLabel("Itens da promoção:");
+		lblNewLabel.setBounds(67, 276, 187, 15);
+		contentPanel.add(lblNewLabel);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(12, 259, 650, 7);
+		contentPanel.add(separator);
+		
+		btnAdicionarItem = new JButton("Adicionar Itens");
+		btnAdicionarItem.setBounds(284, 404, 144, 25);
+		contentPanel.add(btnAdicionarItem);
+		
+		JButton btnExcluirSelecionados = new JButton("Excluir Selecionados");
+		btnExcluirSelecionados.setBounds(440, 404, 178, 25);
+		contentPanel.add(btnExcluirSelecionados);
 		
 		{
 			JPanel buttonPane = new JPanel();
@@ -160,5 +194,11 @@ public class FrmPromocaoCadastrar extends JDialog {
 	}
 	public JButton getAdicionarFoto(){
 		return adicionarFoto;
+	}
+	public JButton getBtnAdicionarItem(){
+		return btnAdicionarItem;
+	}
+	public JTable getTabelaItens(){
+		return tabelaItens;
 	}
 }
