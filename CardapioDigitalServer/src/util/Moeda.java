@@ -1,5 +1,7 @@
 package util;
 
-public enum Moeda {
+import java.io.Serializable;
+
+public enum Moeda implements Serializable {
 	BRL, GBP, EUR, USD, PLN;
 }

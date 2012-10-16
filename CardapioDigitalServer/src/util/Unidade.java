@@ -1,5 +1,7 @@
 package util;
 
-public enum Unidade {
+import java.io.Serializable;
+
+public enum Unidade implements Serializable {
 	Mililitros, Miligramas, Unidades;
 }
