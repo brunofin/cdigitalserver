@@ -18,6 +18,8 @@ public class FrmFotoVer extends JDialog {
 	private JPanel panelImagem;
 	private JLabel lblCaminho;
 	private JButton okButton;
+	//teste
+	private JLabel lblImagem;
 	
 	/**
 	 * Create the dialog.
@@ -28,6 +30,7 @@ public class FrmFotoVer extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
+		
 		{
 			JLabel lblVisualizarImagem = new JLabel("Visualizar Imagem:");
 			contentPanel.add(lblVisualizarImagem, BorderLayout.NORTH);
@@ -40,6 +43,8 @@ public class FrmFotoVer extends JDialog {
 			panelImagem = new JPanel();
 			contentPanel.add(panelImagem, BorderLayout.CENTER);
 		}
+			lblImagem = new JLabel();
+			panelImagem.add(lblImagem);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -61,5 +66,8 @@ public class FrmFotoVer extends JDialog {
 	}
 	public JButton getOkButton() {
 		return okButton;
+	}
+	public JLabel getLblImagem() {
+		return lblImagem;
 	}
 }
