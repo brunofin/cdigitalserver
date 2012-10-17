@@ -25,7 +25,7 @@ public class CtrItemSelecionar implements Controle {
 		this.listaTodosOsItens = todosOsItens;
 		form = new FrmItemSelecionar();
 		this.itensDaPromocao = itensDaPromocao;
-		if(this.itensDaPromocao == null || this.itensDaPromocao.isEmpty()){//TODO testar se fica a mesma referencia dessa lista pro FrmPromocaoCadastrar
+		if(this.itensDaPromocao == null || this.itensDaPromocao.isEmpty()){
 			this.itensDaPromocao = new ArrayList <Item>();
 		}
 		configurar();
@@ -43,6 +43,8 @@ public class CtrItemSelecionar implements Controle {
 				if(itensSelecionados.length > 0){//algum item foi selecionado na lista
 					for (int i = 0; i < itensSelecionados.length; i++) {
 						itensDaPromocao.add(listaTodosOsItens.get(itensSelecionados[i]));
+						//TODO testar
+						itensDaPromocao.get(itensDaPromocao.size()-1).setQuantidadeItemPedido(1);//seta qtd em 1
 					}
 					//OK
 					CtrPromocaoCadastrar ctr = (CtrPromocaoCadastrar) ctrParent;
@@ -69,10 +71,10 @@ public class CtrItemSelecionar implements Controle {
 		});
 	}
 	private void configurar() {
-		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		//form.setDefaultCloseOperation(JDialog.);
 		form.setTitle("Itens para a Promoção");
 		//insere todos os itens na tabela de itens
-		ItemTableModel model = new ItemTableModel(listaTodosOsItens);
+		ItemTableModel model = new ItemTableModel(listaTodosOsItens,false);
 		form.getTabelaItens().setModel(model);
 		TableColumn column = null;
 	    //fixa largura das colunas

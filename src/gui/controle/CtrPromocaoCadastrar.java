@@ -19,6 +19,7 @@ import javax.swing.table.TableColumn;
 
 import util.ItemTableModel;
 
+import bean.Foto;
 import bean.Item;
 import bean.Promocao;
 
@@ -69,18 +70,20 @@ public class CtrPromocaoCadastrar implements Controle {
 		});
 		// botão limpar
 		form.getLimparButton().addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {//OK
+				promocao = new Promocao();
 				form.getTxtFoto().setText("");
 				form.getTxtNome().setText("");
 				form.getTxtDataInico().setText("");
 				form.getTxtValidade().setText("");
 				form.getTxtAreaDescricao().setText("");
 				ItemTableModel tableModel =(ItemTableModel) form.getTabelaItens().getModel();  
-				tableModel.setNumRows(0);//TODO testar
+				tableModel.setNumRows(0);
+				form.getTabelaItens().repaint();
 			}
 		});
 		//botao adicionar itens
-		form.getBtnAdicionarItem().addActionListener(new ActionListener(){
+		form.getBtnAdicionarItem().addActionListener(new ActionListener(){//OK
 			public void actionPerformed(ActionEvent e) {
 				if(todosOsItens == null || todosOsItens.isEmpty()){
 					JOptionPane.showMessageDialog
@@ -104,8 +107,45 @@ public class CtrPromocaoCadastrar implements Controle {
 			}
 		});
 		
+		//botao Excluir Selecionados
+		form.getBtnExcluirSelecionados().addActionListener(new ActionListener (){//OK
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int itensSelecionados [] = form.getTabelaItens().getSelectedRows();
+				if(itensSelecionados.length > 0 && !promocao.getItens().isEmpty()) {
+					for (int i = 0; i < itensSelecionados.length; i++) {
+						promocao.getItens().remove(itensSelecionados[i]);
+						
+					}
+					
+					form.getTabelaItens().repaint();
+					
+				}else {
+					JOptionPane.showMessageDialog
+					(null, "Nenhum item selecionado para ser excluído!", 
+							"Nenhum item selecionado", JOptionPane.WARNING_MESSAGE);
+				}
+				
+			}
+			
+		});
+		// Ver fotos
+		form.getBtnVerFoto().addActionListener(new ActionListener() {//TODO testar
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(promocao.getFoto() !=null && !promocao.getFoto().getLocal_foto().equals("")){
+					CtrFotoVer ctr= new CtrFotoVer(controle, promocao.getFoto());
+					ctr.setVisible(true);
+					form.setVisible(false);
+				}else{
+					JOptionPane.showMessageDialog(null, "Nenhuma foto adicionada", "Nenhuma foto adicionada",JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		
 		//botao adicionar foto
-		form.getAdicionarFoto().addActionListener(new ActionListener() {
+		form.getAdicionarFoto().addActionListener(new ActionListener() {//OK
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
@@ -157,6 +197,7 @@ public class CtrPromocaoCadastrar implements Controle {
 						
 				if(fc.showOpenDialog(form.getContentPane()) == JFileChooser.APPROVE_OPTION) {
 							form.getTxtFoto().setText(fc.getSelectedFile().getAbsolutePath());
+							promocao.setFoto(new Foto(fc.getSelectedFile().getAbsolutePath()));
 				}
 			}
 		});
@@ -240,18 +281,18 @@ public class CtrPromocaoCadastrar implements Controle {
 	@Override
 	public void setVisible(boolean b) {
 		if(promocao.getItens() != null && !promocao.getItens().isEmpty()){
-			ItemTableModel model = new ItemTableModel(promocao.getItens());
+			ItemTableModel model = new ItemTableModel(promocao.getItens(),true);
 			form.getTabelaItens().setModel(model);
 			TableColumn column = null;
 		    //fixa largura das colunas
 			for(int i = 0; i < 2; i++) {
 		      column = form.getTabelaItens().getColumnModel().getColumn(i);
 		      if(i == 0){
-		        column.setPreferredWidth(200);//nome
+		        column.setPreferredWidth(160);//nome
 		      }else if(i == 1){
-		        column.setPreferredWidth(350);//descricao
+		        column.setPreferredWidth(300);//descricao
 		      }else {
-		    	  column.setPreferredWidth(66);//preco
+		    	  column.setPreferredWidth(50);//preco
 		      }
 		    }
 		}		

@@ -32,6 +32,8 @@ public class FrmPromocaoCadastrar extends JDialog {
 	private JButton adicionarFoto;
 	private JTable tabelaItens;
 	private JButton btnAdicionarItem;
+	private JButton btnExcluirSelecionados;
+	private JButton btnVerFoto;
 	
 	public FrmPromocaoCadastrar(){
 		setTitle("Cadastro de Promoção");
@@ -108,10 +110,9 @@ public class FrmPromocaoCadastrar extends JDialog {
 		lblcamposObrigatrios.setBounds(548, 24, 114, 15);
 		contentPanel.add(lblcamposObrigatrios);
 		
-		JButton btnVer = new JButton("Ver Foto");
-		
-		btnVer.setBounds(407, 221, 100, 25);
-		contentPanel.add(btnVer);
+		btnVerFoto = new JButton("Ver Foto");
+		btnVerFoto.setBounds(407, 221, 100, 25);
+		contentPanel.add(btnVerFoto);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(67, 303, 551, 89);
@@ -132,7 +133,7 @@ public class FrmPromocaoCadastrar extends JDialog {
 		btnAdicionarItem.setBounds(284, 404, 144, 25);
 		contentPanel.add(btnAdicionarItem);
 		
-		JButton btnExcluirSelecionados = new JButton("Excluir Selecionados");
+		btnExcluirSelecionados = new JButton("Excluir Selecionados");
 		btnExcluirSelecionados.setBounds(440, 404, 178, 25);
 		contentPanel.add(btnExcluirSelecionados);
 		
@@ -200,5 +201,11 @@ public class FrmPromocaoCadastrar extends JDialog {
 	}
 	public JTable getTabelaItens(){
 		return tabelaItens;
+	}
+	public JButton getBtnExcluirSelecionados() {
+		return btnExcluirSelecionados;
+	}
+	public JButton getBtnVerFoto() {
+		return btnVerFoto;
 	}
 }

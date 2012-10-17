@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import gui.modelo.FrmFotoVer;
 
@@ -51,6 +52,7 @@ public class CtrFotoVer implements Controle {
 			Image img = null;
 			try {
 				img = ImageIO.read(new File(foto.getLocal_foto()));
+				
 			} catch(IOException e) {
 				System.out.println("<CtrFotoVer> Erro ao abrir imagem: " + e.getMessage());
 				return;
@@ -62,6 +64,7 @@ public class CtrFotoVer implements Controle {
 			} else {
 				System.out.println("<CtrFotoVer> Não desenhou.");
 			}
+			form.getLblImagem().setIcon(new ImageIcon(img.getScaledInstance(350, 170, 2)));
 		}
 	}
 
