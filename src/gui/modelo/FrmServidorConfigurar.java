@@ -66,7 +66,7 @@ public class FrmServidorConfigurar extends JDialog {
 			lblBancoDeDados.setFont(new Font("Tahoma", Font.BOLD, 11));
 			
 			JLabel lblBanco = new JLabel("Banco:");
-			lblBanco.setBounds(20, 89, 46, 14);
+			lblBanco.setBounds(20, 89, 125, 14);
 			panel.add(lblBanco);
 			
 			JLabel lblEndereoIp = new JLabel("Endere\u00E7o IP:");
@@ -74,15 +74,15 @@ public class FrmServidorConfigurar extends JDialog {
 			panel.add(lblEndereoIp);
 			
 			JLabel lblPorta_1 = new JLabel("Porta:");
-			lblPorta_1.setBounds(20, 139, 46, 14);
+			lblPorta_1.setBounds(20, 139, 125, 14);
 			panel.add(lblPorta_1);
 			
 			JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
-			lblUsurio.setBounds(20, 164, 46, 14);
+			lblUsurio.setBounds(20, 164, 125, 14);
 			panel.add(lblUsurio);
 			
 			JLabel lblSenha = new JLabel("Senha:");
-			lblSenha.setBounds(20, 189, 46, 14);
+			lblSenha.setBounds(20, 189, 125, 14);
 			panel.add(lblSenha);
 			
 			cbBanco = new JComboBox<Database>();

@@ -32,6 +32,7 @@ public class CtrServidorConfigurar implements Controle {
 	
 	private void configurar() {
 		form.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+		form.setTitle("Configurar servidor");
 		form.getCbBanco().setModel(new DefaultComboBoxModel<Database>(Database.values()));
 		form.getLblPath().setText(new File(Configuracao.getFilename()).getAbsolutePath());
 		form.getCbBanco().setEditable(false);
