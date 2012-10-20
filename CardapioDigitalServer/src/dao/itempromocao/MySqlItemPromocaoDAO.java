@@ -54,11 +54,12 @@ public class MySqlItemPromocaoDAO extends MySqlDAOFactory implements
 		//exclui itens antigos da promocao
 		excluirItensPromocao(p);
 		//inclui novos itens da promocao
-		int alterou = inserirItensPromocao(p);
-		if(alterou > 0){
-			return true;
+		if(p.getItens()!=null && !p.getItens().isEmpty()){
+			inserirItensPromocao(p);
 		}
-		return false;
+		
+		return true;
+		
 	}
 
 	@Override

@@ -23,18 +23,28 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 	public int incluir(Promocao p) throws SQLException {//OK
 		int idFoto = 0;
 		if(p.getFoto()!=null 
+				&& p.getFoto().getLocal_foto() != null
 				&& !p.getFoto().getLocal_foto().equalsIgnoreCase("")){
 			idFoto = getFotoDAO().incluir(p.getFoto());
 		}
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
-		stmt.executeUpdate("INSERT INTO promocao " +
-				"(nome, data_inicio, validade, descricao, id_foto) " +
-				"VALUES ('"+p.getNome()+
-				"',"+p.getDataInicio().getTimeInMillis()+
-				","+p.getValidade().getTimeInMillis()+
-				",'"+p.getDescricao()+
-				"',"+idFoto+")", Statement.RETURN_GENERATED_KEYS);
+		if(p.getValidade()!=null){//pq validade não é obrigatória
+			stmt.executeUpdate("INSERT INTO promocao " +
+					"(nome, data_inicio, validade, descricao, id_foto) " +
+					"VALUES ('"+p.getNome()+
+					"',"+p.getDataInicio().getTimeInMillis()+
+					","+p.getValidade().getTimeInMillis()+
+					",'"+p.getDescricao()+
+					"',"+idFoto+")", Statement.RETURN_GENERATED_KEYS);
+		}else{
+			stmt.executeUpdate("INSERT INTO promocao " +
+					"(nome, data_inicio, descricao, id_foto) " +
+					"VALUES ('"+p.getNome()+
+					"',"+p.getDataInicio().getTimeInMillis()+
+					",'"+p.getDescricao()+
+					"',"+idFoto+")", Statement.RETURN_GENERATED_KEYS);
+		}
 		ResultSet rs = stmt.getGeneratedKeys();
 		while(rs.next()){
 			p.setPromocaoId(rs.getInt(1));
@@ -42,7 +52,11 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 		if(p.getPromocaoId()==0){
 			return 0;
 		}
-		int inseriu = getItemPromocaoDAO().inserirItensPromocao(p);
+		int inseriu = p.getPromocaoId();//fica com o id da promocao, significa q inseriu
+		if(p.getItens() !=null 
+				&& !p.getItens().isEmpty()){
+			 getItemPromocaoDAO().inserirItensPromocao(p);
+		}	
 		return inseriu;
 	}
 
@@ -64,21 +78,39 @@ public class MySqlPromocaoDAO extends MySqlDAOFactory implements PromocaoDAO {
 	}
 
 	@Override
-	public boolean alterar(Promocao p) throws SQLException {//OK
+	public boolean alterar(Promocao p) throws SQLException {//TODO testar
 		//altera itens da promocao
 		getItemPromocaoDAO().alterarItensPromocao(p);
 		//altera foto
-		getFotoDAO().alterar(p.getFoto());
+		int idFoto = p.getFoto().getFotoId();
+		if(p.getFoto() != null 
+				&& p.getFoto().getFotoId()>0 
+				&& p.getFoto().getLocal_foto() != null
+				&& !p.getFoto().getLocal_foto().equals("")){//significa q tinha foto e pode ter sido editada
+			getFotoDAO().alterar(p.getFoto());//edita local_foto
+		}else if(p.getFoto()!= null
+				&& p.getFoto().getFotoId()>0 
+				&& p.getFoto().getLocal_foto()==null){//significa que tinha foto mas foi excluída
+			getFotoDAO().excluir(p.getFoto());//exclui foto
+			idFoto = 0;//pq a foto foi excluída
+		}else if(p.getFoto()!=null
+				&& p.getFoto().getFotoId()==0 
+				&& p.getFoto().getLocal_foto()!=null
+				&& !p.getFoto().getLocal_foto().equals("")){//significa q nao tinha foto mas agora foi incluída uma
+			idFoto = getFotoDAO().incluir(p.getFoto());//inclui a nova foto e retorna seu id
+		}	
+		
 		//altera restante dos dados da promocao
 		Connection con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE promocao SET nome = ?," +
-                " data_inicio = ?, validade = ?, descricao = ?" +
+                " data_inicio = ?, validade = ?, descricao = ?, id_foto = ?" +
                 " WHERE id_promocao = ?");
 		stmt.setString(1, p.getNome());  //nome
         stmt.setLong(2, p.getDataInicio().getTimeInMillis());  //data_inicio
         stmt.setLong(3, p.getValidade().getTimeInMillis()); //validade
         stmt.setString(4, p.getDescricao()); //descricao
-        stmt.setInt(5, p.getPromocaoId());//id promoção
+        stmt.setInt(5, idFoto);//id da foto
+        stmt.setInt(6, p.getPromocaoId());//id promoção
         
         int alterou = stmt.executeUpdate();
         stmt.close();
