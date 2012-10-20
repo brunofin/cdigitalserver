@@ -11,7 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -31,7 +30,6 @@ import gui.modelo.FrmCozinheiroGerenciar;
 
 public class CtrCozinheiroGerenciar implements Controle {
 	private FrmCozinheiroGerenciar form;
-	@SuppressWarnings("unused")
 	private Controle ctrParent;
 	private CozinheiroDAO cozinheiroDAO;
 	private DAOFactory factory;
@@ -57,7 +55,6 @@ public class CtrCozinheiroGerenciar implements Controle {
 		configurar();
 		adicionarListeners();
 	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void configurar(){
 		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		cozinheiro = new Cozinheiro();
@@ -153,7 +150,7 @@ public class CtrCozinheiroGerenciar implements Controle {
 			}
 		});
 		//botao excluir foto
-		form.getBtnExcluir().addActionListener(new ActionListener(){//TODO testar
+		form.getBtnExcluir().addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -170,7 +167,7 @@ public class CtrCozinheiroGerenciar implements Controle {
 			
 		});
 		//botao ver foto
-		form.getBtnVer().addActionListener(new ActionListener(){//TODO testar
+		form.getBtnVer().addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -352,7 +349,7 @@ public class CtrCozinheiroGerenciar implements Controle {
 		}else if(form.getTxtAreaEspecialidade().getText().length()>tamanhosCampos.TAMANHO_ESPECIALIDADE){
 			campos.add("Especialidade muito grande");
 		}
-		if(form.getTxtCep().getText() == null || form.getTxtCep().getText().equals("")){//FIXME parei aqui
+		if(form.getTxtCep().getText() == null || form.getTxtCep().getText().equals("")){
 			campos.add("CEP é obrigatório");
 		}else if(form.getTxtCep().getText().length()>tamanhosEndereco.TAMANHO_CEP){
 			campos.add("CEP muito grande");

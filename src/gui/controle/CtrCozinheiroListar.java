@@ -78,7 +78,7 @@ public class CtrCozinheiroListar implements Controle {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(form.getTabelaCozinheiros().getSelectedRow()>0){
+				if(form.getTabelaCozinheiros().getSelectedRow()>=0){
 					Cozinheiro cozinheiroParaEditar = 
 							listaCozinheiros.get(form.getTabelaCozinheiros().getSelectedRow());
 					CtrCozinheiroGerenciar ctr = 
@@ -95,7 +95,7 @@ public class CtrCozinheiroListar implements Controle {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(form.getTabelaCozinheiros().getSelectedRow()>0){
+				if(form.getTabelaCozinheiros().getSelectedRow()>=0){
 					Cozinheiro cozinheiroParaExcluir = 
 							listaCozinheiros.get(form.getTabelaCozinheiros().getSelectedRow());
 					DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);

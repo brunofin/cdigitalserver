@@ -160,7 +160,7 @@ public class CtrMain implements Controle {
 	}
 	
 	private void manipularPromocaoActionPerformed(){
-		CtrPromocaoCadastrar ctr = new CtrPromocaoCadastrar(this);
+		CtrPromocaoListar ctr = new CtrPromocaoListar(this);
 		ctr.setVisible(true);
 	}
 	
@@ -174,10 +174,6 @@ public class CtrMain implements Controle {
 		ctr.setVisible(true);
 	}
 
-//	private void manipularCozinheiroActionPerformed() {
-//		CtrCozinheiroGerenciar ctr = new CtrCozinheiroGerenciar(this);
-//		ctr.setVisible(true);
-//	}
 	private void manipularCozinheiroActionPerformed() {
 		CtrCozinheiroListar ctr = new CtrCozinheiroListar(this);
 		ctr.setVisible(true);

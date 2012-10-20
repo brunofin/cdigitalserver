@@ -40,10 +40,21 @@ public class CtrPromocaoCadastrar implements Controle {
 	private List <Item> todosOsItens;
 	private ItemDAO itemDAO;
 	private PromocaoDAO promocaoDAO;
+	private int idPromocao,idFoto;
+	private boolean editando = false;
 	
-	public CtrPromocaoCadastrar(Controle ctrParent){
+	public CtrPromocaoCadastrar(Controle ctrParent, boolean isEditar, Promocao promocaoParaEdicao){
 		this.ctrParent = ctrParent;
 		form = new FrmPromocaoCadastrar();
+		editando = isEditar;
+		if(isEditar){
+			promocao = promocaoParaEdicao;
+			idPromocao = promocaoParaEdicao.getPromocaoId();
+			idFoto = promocaoParaEdicao.getFoto().getFotoId();
+			form.getLimparButton().setVisible(false);
+			form.getOkButton().setText("Atualizar");
+			preencherCamposTela();
+		}
 		configurar();
 		adicionarListeners();
 	}
@@ -104,10 +115,12 @@ public class CtrPromocaoCadastrar implements Controle {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(promocao.getFoto()!= null 
-						&& promocao.getFoto().getLocal_foto() != null 
-						&& !promocao.getFoto().getLocal_foto().equals("")){
-					promocao.setFoto(new Foto(""));
+//				if(promocao.getFoto()!= null 
+//						&& promocao.getFoto().getLocal_foto() != null 
+//						&& !promocao.getFoto().getLocal_foto().equals("")){
+				if(form.getTxtFoto().getText()!=null 
+						&& !form.getTxtFoto().getText().equals("")){
+					//promocao.setFoto(new Foto(""));
 					form.getTxtFoto().setText("");
 				}else{
 					JOptionPane.showMessageDialog
@@ -120,9 +133,10 @@ public class CtrPromocaoCadastrar implements Controle {
 			
 		});
 		//botao OK
-		form.getOkButton().addActionListener(new ActionListener(){
+		form.getOkButton().addActionListener(new ActionListener(){//TODO modificar para atualizar tb
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				//validarCampos
+				
 				List <String> erros = validarCampos();
 				if(!erros.isEmpty()){
 					StringBuffer mensagem = new StringBuffer("Erro no(s) seguinte(s) campo(s):");
@@ -134,14 +148,48 @@ public class CtrPromocaoCadastrar implements Controle {
 				}
 				//prenche campos já validados
 				preencherPromocao();
-				//insere no banco
-				try {
-					promocaoDAO.incluir(promocao);
-				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "Erro ao cadastrar promoção no Banco","Erro", JOptionPane.ERROR_MESSAGE);
+				
+				//caso esteja editando
+				if(editando){//TODO testar
+					DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
+					promocaoDAO = factory.getPromocaoDAO();
+					promocao.setPromocaoId(idPromocao);
+					promocao.getFoto().setFotoId(idFoto);
+					boolean alterou = false;
+					try {
+						alterou = promocaoDAO.alterar(promocao);
+					} catch (SQLException e1) {
+						System.out.println("Erro ao alterar Promoção!"+e1);
+					}
+					if(alterou){
+						JOptionPane.showMessageDialog(null, "Promoção Editada!");
+						ctrParent.setVisible(true);//chama o dao para atualizar a lista
+						form.dispose();
+					}
 					return;
 				}
-				JOptionPane.showMessageDialog(null, "Nova promoção cadastrada com sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
+				//insere no banco
+				DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
+				promocaoDAO = factory.getPromocaoDAO();
+				int inseriu = 0;
+				try {
+					inseriu = promocaoDAO.incluir(promocao);
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao cadastrar promoção no Banco"
+							,"Erro", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if(inseriu > 0){//TODO testar
+					JOptionPane.showMessageDialog(null, "Nova promoção cadastrada com sucesso!"
+							,"Sucesso",JOptionPane.INFORMATION_MESSAGE);
+					ctrParent.setVisible(true);//chama o dao para atualizar a lista
+					form.dispose();
+					return;
+				}else{
+					JOptionPane.showMessageDialog(null, "Promoção não cadastrada"
+							,"Erro", JOptionPane.WARNING_MESSAGE);
+				}
+				
 			}
 		});
 		
@@ -172,10 +220,13 @@ public class CtrPromocaoCadastrar implements Controle {
 		form.getBtnVerFoto().addActionListener(new ActionListener() {//ok
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(promocao.getFoto() !=null 
-						&& promocao.getFoto().getLocal_foto() != null 
-						&& !promocao.getFoto().getLocal_foto().equals("")){
-					CtrFotoVer ctr= new CtrFotoVer(controle, promocao.getFoto());
+//				if(promocao.getFoto() !=null 
+//						&& promocao.getFoto().getLocal_foto() != null 
+//						&& !promocao.getFoto().getLocal_foto().equals("")){
+				if(form.getTxtFoto().getText()!=null 
+						&& !form.getTxtFoto().getText().equals("")){
+					Foto f = new Foto(form.getTxtFoto().getText());
+					CtrFotoVer ctr= new CtrFotoVer(controle, f);
 					ctr.setVisible(true);
 					form.setVisible(false);
 				}else{
@@ -239,11 +290,19 @@ public class CtrPromocaoCadastrar implements Controle {
 						
 				if(fc.showOpenDialog(form.getContentPane()) == JFileChooser.APPROVE_OPTION) {
 							form.getTxtFoto().setText(fc.getSelectedFile().getAbsolutePath());
-							promocao.setFoto(new Foto(fc.getSelectedFile().getAbsolutePath()));
+							//promocao.setFoto(new Foto(fc.getSelectedFile().getAbsolutePath()));
 				}
 			}
 		});
 	}
+	/**
+	 * Preenche os dados obrigatórios da promoção
+	 * (nome, data de inicio e descrição)
+	 * sem validar e verifica os outros (validade,
+	 * local_foto), caso nao 
+	 * sejam nulos seta eles também
+	 * 
+	 */
 	private void preencherPromocao() {
 		
 		promocao.setNome(form.getTxtNome().getText());
@@ -269,6 +328,10 @@ public class CtrPromocaoCadastrar implements Controle {
 			promocao.setValidade(val);
 		}
 		promocao.setDescricao(form.getTxtAreaDescricao().getText());
+		if(form.getTxtFoto().getText() != null && 
+				!form.getTxtFoto().getText().equals("")){
+			promocao.setFoto(new Foto(form.getTxtFoto().getText()));
+		}
 	}
 	@SuppressWarnings("static-access")
 	private List <String> validarCampos(){
@@ -321,24 +384,45 @@ public class CtrPromocaoCadastrar implements Controle {
 	@Override
 	public void setVisible(boolean b) {
 		if(promocao.getItens() != null && !promocao.getItens().isEmpty()){
-			ItemTableModel model = new ItemTableModel(promocao.getItens(),true);
-			form.getTabelaItens().setModel(model);
-			TableColumn column = null;
-		    //fixa largura das colunas
-			for(int i = 0; i < 2; i++) {
-		      column = form.getTabelaItens().getColumnModel().getColumn(i);
-		      if(i == 0){
-		        column.setPreferredWidth(160);//nome
-		      }else if(i == 1){
-		        column.setPreferredWidth(300);//descricao
-		      }else {
-		    	  column.setPreferredWidth(50);//preco
-		      }
-		    }
+			carregarItensPromocao();
 		}		
 		form.setVisible(b);
 	}
+	private void carregarItensPromocao(){
+		ItemTableModel model = new ItemTableModel(promocao.getItens(),true);
+		form.getTabelaItens().setModel(model);
+		TableColumn column = null;
+	    //fixa largura das colunas
+		for(int i = 0; i < 2; i++) {
+	      column = form.getTabelaItens().getColumnModel().getColumn(i);
+	      if(i == 0){
+	        column.setPreferredWidth(160);//nome
+	      }else if(i == 1){
+	        column.setPreferredWidth(300);//descricao
+	      }else {
+	    	  column.setPreferredWidth(50);//preco
+	      }
+	    }
+	}
 	public Promocao getPromocao(){
 		return promocao;
+	}
+	private void preencherCamposTela(){
+		form.getTxtNome().setText(promocao.getNome());
+		SimpleDateFormat formatoData = new SimpleDateFormat("ddMMyyyy");
+		String dataInicio = formatoData.format(promocao.getDataInicio().getTime());
+		form.getTxtDataInico().setText(dataInicio);
+		if(promocao.getValidade()!=null){
+			form.getTxtValidade().setText(formatoData.format(promocao.getValidade().getTime()));
+		}
+		form.getTxtAreaDescricao().setText(promocao.getDescricao());
+		if(promocao.getFoto()!=null 
+				&& promocao.getFoto().getLocal_foto()!=null
+				&& !promocao.getFoto().getLocal_foto().equals("")){
+			form.getTxtFoto().setText(promocao.getFoto().getLocal_foto());
+		}
+		if(promocao.getItens()!=null && !promocao.getItens().isEmpty()){
+			carregarItensPromocao();
+		}
 	}
 }
