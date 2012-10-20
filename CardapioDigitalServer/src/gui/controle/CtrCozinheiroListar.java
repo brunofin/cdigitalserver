@@ -5,10 +5,10 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 
 import util.CozinheiroTableModel;
-import util.ItemTableModel;
 
 import dao.cozinheiro.CozinheiroDAO;
 import dao.factory.DAOFactory;
@@ -31,7 +31,11 @@ public class CtrCozinheiroListar implements Controle {
 	
 	@Override
 	public void setVisible(boolean b) {
-		//TODO testar
+		atualizarTabela();
+		form.setVisible(b);
+	}
+	
+	private void atualizarTabela() {
 		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
 		cozinheiroDAO = factory.getCozinheiroDAO();
 		try {
@@ -46,7 +50,6 @@ public class CtrCozinheiroListar implements Controle {
 			//só dexa selecionar uma linha por vz
 			form.getTabelaCozinheiros().setSelectionMode(ListSelectionModel.SINGLE_SELECTION );
 		}
-		form.setVisible(b);
 	}
 	
 	private void adicionarListeners(){
@@ -74,11 +77,46 @@ public class CtrCozinheiroListar implements Controle {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Cozinheiro cozinheiroParaEditar = 
-						listaCozinheiros.get(form.getTabelaCozinheiros().getSelectedRow());
-				CtrCozinheiroGerenciar ctr = 
-						new CtrCozinheiroGerenciar(controle, true ,cozinheiroParaEditar);
-				ctr.setVisible(true);
+				
+				if(form.getTabelaCozinheiros().getSelectedRow()>0){
+					Cozinheiro cozinheiroParaEditar = 
+							listaCozinheiros.get(form.getTabelaCozinheiros().getSelectedRow());
+					CtrCozinheiroGerenciar ctr = 
+							new CtrCozinheiroGerenciar(controle, true ,cozinheiroParaEditar);
+					ctr.setVisible(true);
+				}else{
+					JOptionPane.showMessageDialog(null, "Clique sobre a linha do cozinheiro\npara editá-lo");
+				}
+				
+			}
+			
+		});
+		form.getBtnExcluir().addActionListener(new ActionListener (){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(form.getTabelaCozinheiros().getSelectedRow()>0){
+					Cozinheiro cozinheiroParaExcluir = 
+							listaCozinheiros.get(form.getTabelaCozinheiros().getSelectedRow());
+					DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
+					cozinheiroDAO = factory.getCozinheiroDAO();
+					boolean excluiu = false;
+					try {
+						excluiu = cozinheiroDAO.excluir(cozinheiroParaExcluir);
+					} catch (SQLException e1) {
+						System.out.println("Erro ao exlcuir cozinheiro"+e1);
+						JOptionPane.showMessageDialog(null, "Erro ao excluir cozinheiro!");
+					}
+					if(excluiu){
+						atualizarTabela();
+						form.getTabelaCozinheiros().repaint();
+						JOptionPane.showMessageDialog(null, "Cozinheiro excluído com sucesso!");
+					}else{
+						JOptionPane.showMessageDialog(null, "Cozinheiro não excluído!");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Clique sobre a linha do cozinheiro\nque deseja excluir");
+				}
 				
 			}
 			

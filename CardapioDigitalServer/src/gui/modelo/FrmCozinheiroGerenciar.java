@@ -42,6 +42,8 @@ public class FrmCozinheiroGerenciar extends JDialog{
 	@SuppressWarnings("rawtypes")
 	private JComboBox comboBoxEstados;
 	private JButton btnAdicionarFoto;
+	private JButton btnVer;
+	private JButton btnExcluir;
 	
 	@SuppressWarnings("rawtypes")
 	public FrmCozinheiroGerenciar() {
@@ -154,7 +156,7 @@ public class FrmCozinheiroGerenciar extends JDialog{
 		txtFoto = new JTextField();
 		txtFoto.setEditable(false);
 		txtFoto.setColumns(10);
-		txtFoto.setBounds(406, 357, 148, 24);
+		txtFoto.setBounds(406, 357, 256, 24);
 		contentPanel.add(txtFoto);
 		
 		JSeparator separator = new JSeparator();
@@ -224,8 +226,16 @@ public class FrmCozinheiroGerenciar extends JDialog{
 		contentPanel.add(txtBairro);
 		
 		btnAdicionarFoto = new JButton("Adicionar");
-		btnAdicionarFoto.setBounds(562, 354, 100, 25);
+		btnAdicionarFoto.setBounds(356, 389, 100, 25);
 		contentPanel.add(btnAdicionarFoto);
+		
+		btnVer = new JButton("ver");
+		btnVer.setBounds(465, 389, 100, 25);
+		contentPanel.add(btnVer);
+		
+		btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(571, 389, 91, 25);
+		contentPanel.add(btnExcluir);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -319,5 +329,11 @@ public class FrmCozinheiroGerenciar extends JDialog{
 	}
 	public JButton getCancelButton(){
 		return cancelButton;
+	}
+	public JButton getBtnVer(){
+		return btnVer;
+	}
+	public JButton getBtnExcluir(){
+		return btnExcluir;
 	}
 }

@@ -152,6 +152,43 @@ public class CtrCozinheiroGerenciar implements Controle {
 				JOptionPane.showMessageDialog(null, "Cozinheiro Não Inserido!", "Erro",JOptionPane.ERROR_MESSAGE);
 			}
 		});
+		//botao excluir foto
+		form.getBtnExcluir().addActionListener(new ActionListener(){//TODO testar
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(form.getTxtFoto().getText() != null 
+						&& !form.getTxtFoto().getText().equals("")){
+					form.getTxtFoto().setText("");
+				}else{
+					JOptionPane.showMessageDialog
+					(null, "Nenhuma imagem cadastrada, "
+							, "Nenhum imagem Cadastrada", 
+							JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			
+		});
+		//botao ver foto
+		form.getBtnVer().addActionListener(new ActionListener(){//TODO testar
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(form.getTxtFoto().getText() != null
+						&& !form.getTxtFoto().getText().equals("")){
+					Foto f = new Foto(form.getTxtFoto().getText());
+					CtrFotoVer ctr= new CtrFotoVer(controle, f);
+					ctr.setVisible(true);
+					form.setVisible(false);
+				}else{
+					JOptionPane.showMessageDialog
+					(null, "Nenhuma foto adicionada", "Nenhuma foto adicionada",
+							JOptionPane.WARNING_MESSAGE);
+				}
+				
+			}
+			
+		});
 		//botao adicionar foto
 		form.getBtnAdicionarFoto().addActionListener(new ActionListener() {
 			@Override
