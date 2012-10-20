@@ -28,6 +28,7 @@ import dao.factory.Database;
 import dao.foto.MySqlFotoDAO;
 import dao.item.ItemDAO;
 import dao.promocao.MySqlPromocaoDAO;
+import dao.promocao.PromocaoDAO;
 
 import gui.modelo.FrmPromocaoCadastrar;
 
@@ -38,6 +39,7 @@ public class CtrPromocaoCadastrar implements Controle {
 	private Promocao promocao;
 	private List <Item> todosOsItens;
 	private ItemDAO itemDAO;
+	private PromocaoDAO promocaoDAO;
 	
 	public CtrPromocaoCadastrar(Controle ctrParent){
 		this.ctrParent = ctrParent;
@@ -53,7 +55,7 @@ public class CtrPromocaoCadastrar implements Controle {
 		try {
 			todosOsItens = itemDAO.listar();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch blo
 			e.printStackTrace();
 		}
 		promocao = new Promocao();
@@ -97,13 +99,49 @@ public class CtrPromocaoCadastrar implements Controle {
 				form.setVisible(false);
 			}
 		});	
+		//botao Remover Foto
+		form.getBtnRemoverFoto().addActionListener(new ActionListener(){//OK
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(promocao.getFoto()!= null 
+						&& promocao.getFoto().getLocal_foto() != null 
+						&& !promocao.getFoto().getLocal_foto().equals("")){
+					promocao.setFoto(new Foto(""));
+					form.getTxtFoto().setText("");
+				}else{
+					JOptionPane.showMessageDialog
+					(null, "Nenhuma imagem cadastrada, "
+							, "Nenhum imagem Cadastrada", 
+							JOptionPane.WARNING_MESSAGE);
+				}
+				
+			}
+			
+		});
 		//botao OK
 		form.getOkButton().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				//validarCampos
-				//List <String> erros = validarCampos();
-				promocao = preencherPromocao();
-				//inserirBD
+				List <String> erros = validarCampos();
+				if(!erros.isEmpty()){
+					StringBuffer mensagem = new StringBuffer("Erro no(s) seguinte(s) campo(s):");
+					for(String s : erros){
+						mensagem.append("\n"+s);
+					}
+					JOptionPane.showMessageDialog(null,  mensagem.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				//prenche campos já validados
+				preencherPromocao();
+				//insere no banco
+				try {
+					promocaoDAO.incluir(promocao);
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Erro ao cadastrar promoção no Banco","Erro", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				JOptionPane.showMessageDialog(null, "Nova promoção cadastrada com sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		
@@ -131,15 +169,19 @@ public class CtrPromocaoCadastrar implements Controle {
 			
 		});
 		// Ver fotos
-		form.getBtnVerFoto().addActionListener(new ActionListener() {//TODO testar
+		form.getBtnVerFoto().addActionListener(new ActionListener() {//ok
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(promocao.getFoto() !=null && !promocao.getFoto().getLocal_foto().equals("")){
+				if(promocao.getFoto() !=null 
+						&& promocao.getFoto().getLocal_foto() != null 
+						&& !promocao.getFoto().getLocal_foto().equals("")){
 					CtrFotoVer ctr= new CtrFotoVer(controle, promocao.getFoto());
 					ctr.setVisible(true);
 					form.setVisible(false);
 				}else{
-					JOptionPane.showMessageDialog(null, "Nenhuma foto adicionada", "Nenhuma foto adicionada",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog
+					(null, "Nenhuma foto adicionada", "Nenhuma foto adicionada",
+							JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -202,8 +244,8 @@ public class CtrPromocaoCadastrar implements Controle {
 			}
 		});
 	}
-	private Promocao preencherPromocao() {
-		Promocao promocao = new Promocao();
+	private void preencherPromocao() {
+		
 		promocao.setNome(form.getTxtNome().getText());
 		SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
 		Date dataInicio = null;
@@ -227,8 +269,6 @@ public class CtrPromocaoCadastrar implements Controle {
 			promocao.setValidade(val);
 		}
 		promocao.setDescricao(form.getTxtAreaDescricao().getText());
-		//Foto f = new Foto
-		return promocao;
 	}
 	@SuppressWarnings("static-access")
 	private List <String> validarCampos(){

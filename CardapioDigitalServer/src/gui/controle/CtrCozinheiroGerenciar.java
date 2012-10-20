@@ -36,10 +36,24 @@ public class CtrCozinheiroGerenciar implements Controle {
 	private CozinheiroDAO cozinheiroDAO;
 	private DAOFactory factory;
 	private Cozinheiro cozinheiro;
+	private boolean editando;
+	private int idCozinheiro,idFoto,idEndereco;
 	
-	public CtrCozinheiroGerenciar(Controle ctrParent){
+	public CtrCozinheiroGerenciar(Controle ctrParent, boolean isEditar, Cozinheiro cozinheiroParaEditar){
 		this.ctrParent = ctrParent;
 		form = new FrmCozinheiroGerenciar();
+		//case a tela tenha sido chamada pelo botão editar
+		//seta o cozinheiro para editar
+		editando = isEditar;
+		if(isEditar){
+			cozinheiro = cozinheiroParaEditar;
+			idCozinheiro = cozinheiro.getId();
+			idFoto = cozinheiro.getFoto().getFotoId();
+			idEndereco = cozinheiro.getEndereco().getEnderecoId();
+			form.getLimparButton().setVisible(false);
+			form.getOkButton().setText("Atualizar");
+			preencherCamposTela();
+		}
 		configurar();
 		adicionarListeners();
 	}
@@ -48,10 +62,10 @@ public class CtrCozinheiroGerenciar implements Controle {
 		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		cozinheiro = new Cozinheiro();
 		//combo estados
-		form.getComboBoxEstados().setModel(new DefaultComboBoxModel(new String[] {
-				"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
-				"MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
-				"RS", "RO", "RR", "SC", "SP", "SE", "TO"}));
+//		form.getComboBoxEstados().setModel(new DefaultComboBoxModel(new String[] {
+//				"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
+//				"MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
+//				"RS", "RO", "RR", "SC", "SP", "SE", "TO"}));
 	}
 	private void adicionarListeners() {
 		final Controle controle = this;
@@ -85,7 +99,7 @@ public class CtrCozinheiroGerenciar implements Controle {
 				form.dispose();
 			}
 		});
-		// Botão OK
+		// Botão OK ou Atualizar
 		form.getOkButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				List <String> listaErros = validarCampos();
@@ -99,6 +113,27 @@ public class CtrCozinheiroGerenciar implements Controle {
 					JOptionPane.showMessageDialog(null,  mensagem.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
+				//caso esteja editado
+				if(editando){
+					factory = DAOFactory.getDaoFactory(Database.MYSQL);
+					cozinheiroDAO = factory.getCozinheiroDAO();
+					cozinheiro = preencherCozinheiro();
+					cozinheiro.setId(idCozinheiro);
+					cozinheiro.getFoto().setFotoId(idFoto);
+					cozinheiro.getEndereco().setEnderecoId(idEndereco);
+					boolean alterou = false;
+					try {
+						alterou = cozinheiroDAO.alterar(cozinheiro);
+					} catch (SQLException e1) {
+						System.out.println("Erro ao alterar Cozinheiro!"+e1);
+					}
+					if(alterou){
+						JOptionPane.showMessageDialog(null, "Cozinheiro Editado!");
+						ctrParent.setVisible(true);//chama o dao para atualizar a lista
+						form.dispose();
+					}
+					return;
+				}
 				cozinheiro = preencherCozinheiro();
 				factory = DAOFactory.getDaoFactory(Database.MYSQL);
 				cozinheiroDAO = factory.getCozinheiroDAO();
@@ -110,6 +145,8 @@ public class CtrCozinheiroGerenciar implements Controle {
 				}
 				if(inseriu > 0){
 					JOptionPane.showMessageDialog(null, "Cozinheiro Inserido!");
+					ctrParent.setVisible(true);//chama o dao para atualizar a lista
+					form.dispose();
 					return;
 				}
 				JOptionPane.showMessageDialog(null, "Cozinheiro Não Inserido!", "Erro",JOptionPane.ERROR_MESSAGE);
@@ -309,6 +346,33 @@ public class CtrCozinheiroGerenciar implements Controle {
 			campos.add("caminho da foto muito grande");
 		}
 		return campos;
+	}
+	/**
+	 * Método que preenche todos os campos da tela 
+	 * com os dados do cozinheiro que será editado
+	 */
+	private void preencherCamposTela() {
+		form.getTxtNome().setText(cozinheiro.getNome());
+		form.getTxtSobrenome().setText(cozinheiro.getSobrenome());
+		SimpleDateFormat formatoData = new SimpleDateFormat("ddMMyyyy");
+		String dataNasc = formatoData.format(cozinheiro.getDataNascimento().getTime());
+		form.getTxtDataNascimento().setText(dataNasc);
+		form.getTxtCpf().setText(cozinheiro.getCpf());
+		form.getTxtRg().setText(cozinheiro.getRg());
+		form.getTxtTelefone().setText(cozinheiro.getTelefone());
+		form.getTxtCelular().setText(cozinheiro.getCelular());
+		form.getTxtAreaHistorico().setText(cozinheiro.getHistorico());
+		form.getTxtAreaEspecialidade().setText(cozinheiro.getEspecialidade());
+		//endereco
+		form.getTxtCep().setText(cozinheiro.getEndereco().getCep());
+		form.getTxtNumero().setText(cozinheiro.getEndereco().getNumero());
+		form.getTxtRua().setText(cozinheiro.getEndereco().getRua());
+		
+		form.getComboBoxEstados().setSelectedItem(cozinheiro.getEndereco().getEstado().toUpperCase());//OK
+		form.getTxtCidade().setText(cozinheiro.getEndereco().getCidade());
+		form.getTxtBairro().setText(cozinheiro.getEndereco().getBairro());
+		form.getTxtBairro().setText(cozinheiro.getEndereco().getBairro());
+		form.getTxtFoto().setText(cozinheiro.getFoto().getLocal_foto());
 	}
 	@Override
 	public void setVisible(boolean b) {

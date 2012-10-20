@@ -81,7 +81,7 @@ public class ItemTableModel extends AbstractTableModel {
 		case 2:
 			return false;
 		case 3:
-			return true;//TODO testar coluna quantidade
+			return true;
 		default:
 			return false;
 		}
