@@ -174,8 +174,12 @@ public class CtrMain implements Controle {
 		ctr.setVisible(true);
 	}
 
+//	private void manipularCozinheiroActionPerformed() {
+//		CtrCozinheiroGerenciar ctr = new CtrCozinheiroGerenciar(this);
+//		ctr.setVisible(true);
+//	}
 	private void manipularCozinheiroActionPerformed() {
-		CtrCozinheiroGerenciar ctr = new CtrCozinheiroGerenciar(this);
+		CtrCozinheiroListar ctr = new CtrCozinheiroListar(this);
 		ctr.setVisible(true);
 	}
 	

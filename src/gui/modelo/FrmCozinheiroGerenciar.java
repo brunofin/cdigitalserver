@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
@@ -44,8 +45,8 @@ public class FrmCozinheiroGerenciar extends JDialog{
 	
 	@SuppressWarnings("rawtypes")
 	public FrmCozinheiroGerenciar() {
-		setTitle("Gerenciar Cozinheiros");
-		setBounds(100, 100, 680, 524);
+		setTitle("Incluir Cozinheiro");
+		setBounds(100, 100, 680, 530);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -196,6 +197,10 @@ public class FrmCozinheiroGerenciar extends JDialog{
 		
 		comboBoxEstados = new JComboBox();
 		comboBoxEstados.setBounds(100, 375, 60, 24);
+		comboBoxEstados.setModel(new DefaultComboBoxModel(new String[] {
+				"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
+				"MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
+				"RS", "RO", "RR", "SC", "SP", "SE", "TO"}));
 		contentPanel.add(comboBoxEstados);
 		
 		JLabel lblCidade = new JLabel("Cidade:");

@@ -34,6 +34,7 @@ public class FrmPromocaoCadastrar extends JDialog {
 	private JButton btnAdicionarItem;
 	private JButton btnExcluirSelecionados;
 	private JButton btnVerFoto;
+	private JButton btnRemoverFoto;
 	
 	public FrmPromocaoCadastrar(){
 		setTitle("Cadastro de Promoção");
@@ -137,6 +138,14 @@ public class FrmPromocaoCadastrar extends JDialog {
 		btnExcluirSelecionados.setBounds(440, 404, 178, 25);
 		contentPanel.add(btnExcluirSelecionados);
 		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(12, 207, 650, 7);
+		contentPanel.add(separator_1);
+		
+		btnRemoverFoto = new JButton("Remover Foto");
+		btnRemoverFoto.setBounds(519, 221, 131, 25);
+		contentPanel.add(btnRemoverFoto);
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -207,5 +216,8 @@ public class FrmPromocaoCadastrar extends JDialog {
 	}
 	public JButton getBtnVerFoto() {
 		return btnVerFoto;
+	}
+	public JButton getBtnRemoverFoto() {
+		return btnRemoverFoto;
 	}
 }
