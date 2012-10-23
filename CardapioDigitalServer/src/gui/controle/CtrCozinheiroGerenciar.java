@@ -11,10 +11,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
+
+import util.Estado;
 
 import bean.Cozinheiro;
 import bean.Endereco;
@@ -30,7 +33,7 @@ import gui.modelo.FrmCozinheiroGerenciar;
 
 public class CtrCozinheiroGerenciar implements Controle {
 	private FrmCozinheiroGerenciar form;
-	private Controle ctrParent;
+	private Controle parent;
 	private CozinheiroDAO cozinheiroDAO;
 	private DAOFactory factory;
 	private Cozinheiro cozinheiro;
@@ -38,7 +41,7 @@ public class CtrCozinheiroGerenciar implements Controle {
 	private int idCozinheiro,idFoto,idEndereco;
 	
 	public CtrCozinheiroGerenciar(Controle ctrParent, boolean isEditar, Cozinheiro cozinheiroParaEditar){
-		this.ctrParent = ctrParent;
+		this.parent = ctrParent;
 		form = new FrmCozinheiroGerenciar();
 		//case a tela tenha sido chamada pelo botão editar
 		//seta o cozinheiro para editar
@@ -58,6 +61,8 @@ public class CtrCozinheiroGerenciar implements Controle {
 	private void configurar(){
 		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		cozinheiro = new Cozinheiro();
+		
+		form.getComboBoxEstados().setModel(new DefaultComboBoxModel<Estado>(Estado.values()));
 		//combo estados
 //		form.getComboBoxEstados().setModel(new DefaultComboBoxModel(new String[] {
 //				"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
@@ -93,6 +98,7 @@ public class CtrCozinheiroGerenciar implements Controle {
 		form.getCancelButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				parent.setVisible(true);
 				form.dispose();
 			}
 		});
@@ -126,7 +132,7 @@ public class CtrCozinheiroGerenciar implements Controle {
 					}
 					if(alterou){
 						JOptionPane.showMessageDialog(null, "Cozinheiro Editado!");
-						ctrParent.setVisible(true);//chama o dao para atualizar a lista
+						parent.setVisible(true);//chama o dao para atualizar a lista
 						form.dispose();
 					}
 					return;
@@ -142,7 +148,7 @@ public class CtrCozinheiroGerenciar implements Controle {
 				}
 				if(inseriu > 0){
 					JOptionPane.showMessageDialog(null, "Cozinheiro Inserido!");
-					ctrParent.setVisible(true);//chama o dao para atualizar a lista
+					parent.setVisible(true);//chama o dao para atualizar a lista
 					form.dispose();
 					return;
 				}
@@ -271,7 +277,7 @@ public class CtrCozinheiroGerenciar implements Controle {
 		endereco.setCep(form.getTxtCep().getText());
 		endereco.setNumero(form.getTxtNumero().getText());
 		endereco.setRua(form.getTxtRua().getText());
-		endereco.setEstado((String)form.getComboBoxEstados().getSelectedItem());//ok
+		endereco.setEstado((Estado)form.getComboBoxEstados().getSelectedItem());//ok
 		endereco.setCidade(form.getTxtCidade().getText());
 		endereco.setBairro(form.getTxtBairro().getText());
 		cozinheiro.setEndereco(endereco);
@@ -402,7 +408,7 @@ public class CtrCozinheiroGerenciar implements Controle {
 		form.getTxtNumero().setText(cozinheiro.getEndereco().getNumero());
 		form.getTxtRua().setText(cozinheiro.getEndereco().getRua());
 		
-		form.getComboBoxEstados().setSelectedItem(cozinheiro.getEndereco().getEstado().toUpperCase());//OK
+		form.getComboBoxEstados().setSelectedItem(cozinheiro.getEndereco().getEstado());//OK
 		form.getTxtCidade().setText(cozinheiro.getEndereco().getCidade());
 		form.getTxtBairro().setText(cozinheiro.getEndereco().getBairro());
 		form.getTxtBairro().setText(cozinheiro.getEndereco().getBairro());

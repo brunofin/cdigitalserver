@@ -35,7 +35,7 @@ public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
         				" cidade,bairro) " +
         				"VALUES ('"+e.getCep()+"','"
         				+e.getNumero()+"','"+e.getRua()+"','"
-        				+e.getEstado()+"','"+e.getCidade()+"','"
+        				+e.getEstado().name()+"','"+e.getCidade()+"','"
         				+e.getBairro()+"')",Statement.RETURN_GENERATED_KEYS);
         ResultSet rs = stmt.getGeneratedKeys();
         int idRecemInserido = 0;
@@ -72,7 +72,7 @@ public class MySqlEnderecoDAO extends MySqlDAOFactory implements EnderecoDAO {
         stmt.setString(1, e.getCep());  //cep
         stmt.setString(2, e.getNumero());  //numero
         stmt.setString(3, e.getRua()); //rua
-        stmt.setString(4, e.getEstado());//estado
+        stmt.setString(4, e.getEstado().name());//estado
         stmt.setString(5, e.getCidade());//cidade
         stmt.setString(6, e.getBairro());//bairro
         stmt.setInt(7, e.getEnderecoId());//endereco_id
