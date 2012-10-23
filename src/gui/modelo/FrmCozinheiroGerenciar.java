@@ -18,9 +18,10 @@ import javax.swing.JTextArea;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 
+import util.Estado;
+
 public class FrmCozinheiroGerenciar extends JDialog{
 	private final JPanel contentPanel = new JPanel();
-	private Component parent;
 	private JTextField txtNome;
 	private JTextField txtSobrenome;
 	private JTextField txtDataNascimento;
@@ -39,13 +40,11 @@ public class FrmCozinheiroGerenciar extends JDialog{
 	private JButton limparButton;
 	private JButton okButton;
 	private JButton cancelButton;
-	@SuppressWarnings("rawtypes")
-	private JComboBox comboBoxEstados;
+	private JComboBox<Estado> comboBoxEstados;
 	private JButton btnAdicionarFoto;
 	private JButton btnVer;
 	private JButton btnExcluir;
 	
-	@SuppressWarnings("rawtypes")
 	public FrmCozinheiroGerenciar() {
 		setTitle("Incluir Cozinheiro");
 		setBounds(100, 100, 680, 530);
@@ -197,12 +196,8 @@ public class FrmCozinheiroGerenciar extends JDialog{
 		lblEstado.setBounds(12, 380, 70, 15);
 		contentPanel.add(lblEstado);
 		
-		comboBoxEstados = new JComboBox();
+		comboBoxEstados = new JComboBox<Estado>();
 		comboBoxEstados.setBounds(100, 375, 60, 24);
-		comboBoxEstados.setModel(new DefaultComboBoxModel(new String[] {
-				"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
-				"MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
-				"RS", "RO", "RR", "SC", "SP", "SE", "TO"}));
 		contentPanel.add(comboBoxEstados);
 		
 		JLabel lblCidade = new JLabel("Cidade:");
@@ -314,8 +309,8 @@ public class FrmCozinheiroGerenciar extends JDialog{
 	public JTextArea getTxtAreaEspecialidade(){
 		return txtAreaEspecialidade;
 	}
-	@SuppressWarnings("rawtypes")
-	public JComboBox getComboBoxEstados(){
+
+	public JComboBox<Estado> getComboBoxEstados(){
 		return comboBoxEstados;
 	}
 	public JButton getBtnAdicionarFoto(){

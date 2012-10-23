@@ -145,13 +145,24 @@ public class CtrMain implements Controle {
 		
 		//manipular -> ingrediente
 		main.getMntmIngrediente().addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				manipularIngredienteActionPerformed();
 			}
 		});
 		
+		//manipular -> cliente
+		main.getMntmCliente().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				manipularClienteActionPerformed();
+			}
+		});
+	}
+	
+	private void manipularClienteActionPerformed() {
+		CtrClienteListar ctr = new CtrClienteListar(this);
+		ctr.setVisible(true);
 	}
 	
 	private void manipularIngredienteActionPerformed() {

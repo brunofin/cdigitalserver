@@ -39,24 +39,10 @@ public class CtrClienteListar implements Controle {
 		form.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		form.getListClientes().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		DAOFactory factory = DAOFactory
-				.getDaoFactory(Configuracao.DB_SELECIONADO);
+		DAOFactory factory = DAOFactory.getDaoFactory(Configuracao.DB_SELECIONADO);
 		clienteDao = factory.getClienteDAO();
 
-		try {
-			listaCliente = clienteDao.listar();
-		} catch (SQLException e) {
-			System.out.println("<CtrClienteListar> Erro ao listar Cliente: "
-					+ e.getMessage());
-			return;
-		}
-
-		DefaultListModel<Cliente> model = new DefaultListModel<Cliente>();
-		for (Cliente c : listaCliente) {
-			model.addElement(c);
-		}
-		form.getListClientes().setModel(model);
-
+		
 	}
 
 	private void adicionarListeners() {
@@ -69,7 +55,7 @@ public class CtrClienteListar implements Controle {
 			}
 		});
 
-		form.getBtnEditar().addActionListener(new ActionListener() {
+		form.getBtnExcluir().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (JOptionPane
@@ -94,6 +80,15 @@ public class CtrClienteListar implements Controle {
 		form.getBtnCadastrar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				CtrClienteGerenciar ctr = new CtrClienteGerenciar(aux);
+				ctr.setVisible(true);
+				aux.setVisible(false);
+			}
+		});
+		
+		form.getBtnEditar().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				Cliente c = form.getListClientes().getSelectedValue();
 				CtrClienteGerenciar ctr = new CtrClienteGerenciar(aux, c);
 				ctr.setVisible(true);
@@ -105,6 +100,23 @@ public class CtrClienteListar implements Controle {
 	@Override
 	public void setVisible(boolean b) {
 		form.setVisible(b);
+		
+		if(b) {
+			try {
+				listaCliente = clienteDao.listar();
+			} catch (SQLException e) {
+				System.out.println("<CtrClienteListar> Erro ao listar Cliente: "
+						+ e.getMessage());
+				return;
+			}
+	
+			DefaultListModel<Cliente> model = new DefaultListModel<Cliente>();
+			for (Cliente c : listaCliente) {
+				model.addElement(c);
+			}
+			form.getListClientes().setModel(model);
+			form.getLabelTotal().setText(model.size() + "");
+		}
 	}
 
 }

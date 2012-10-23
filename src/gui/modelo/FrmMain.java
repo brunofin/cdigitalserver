@@ -43,6 +43,7 @@ public class FrmMain {
 	private JMenuItem mntmCozinheiro;
 	private JMenuItem mntmPromocao;
 	private JTextPane lblStatus;
+	private JMenuItem mntmCliente;
 
 	/**
 	 * Create the application.
@@ -101,6 +102,9 @@ public class FrmMain {
 		
 		mntmPromocao = new JMenuItem("Promoção..");
 		mnManipular.add(mntmPromocao);
+		
+		mntmCliente = new JMenuItem("Cliente");
+		mnManipular.add(mntmCliente);
 		
 		JPanel pedidosCardapioPanel = new JPanel();
 		pedidosCardapioPanel.setLayout(new GridLayout(1, 2, 0, 0));
@@ -416,5 +420,8 @@ public class FrmMain {
 
 	public void setMntmCozinheiro(JMenuItem mntmCozinheiro) {
 		this.mntmCozinheiro = mntmCozinheiro;
+	}
+	public JMenuItem getMntmCliente() {
+		return mntmCliente;
 	}
 }
