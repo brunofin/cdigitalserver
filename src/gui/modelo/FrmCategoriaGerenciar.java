@@ -16,6 +16,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 
 import bean.Tipo;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class FrmCategoriaGerenciar extends JDialog {
 
@@ -27,6 +29,7 @@ public class FrmCategoriaGerenciar extends JDialog {
 	private JButton okButton;
 	private JButton cancelButton;
 	private JButton btnLimpar;
+	private JScrollPane scrollPane;
 	
 	/**
 	 * Create the dialog.
@@ -43,7 +46,7 @@ public class FrmCategoriaGerenciar extends JDialog {
 		contentPanel.add(lblNewLabel);
 		
 		textFieldNome = new JTextField();
-		textFieldNome.setBounds(100, 10, 134, 19);
+		textFieldNome.setBounds(100, 10, 134, 22);
 		contentPanel.add(textFieldNome);
 		textFieldNome.setColumns(10);
 		
@@ -51,9 +54,14 @@ public class FrmCategoriaGerenciar extends JDialog {
 		lblDescrio.setBounds(278, 12, 202, 15);
 		contentPanel.add(lblDescrio);
 		
+		scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(278, 39, 256, 55);
+		contentPanel.add(scrollPane);
+		
 		textAreaDescricao = new JTextArea();
-		textAreaDescricao.setBounds(278, 39, 256, 55);
-		contentPanel.add(textAreaDescricao);
+		textAreaDescricao.setLineWrap(true);
+		scrollPane.setViewportView(textAreaDescricao);
 		
 		JLabel lblTipo = new JLabel("Tipo:");
 		lblTipo.setBounds(12, 53, 70, 15);
@@ -70,6 +78,8 @@ public class FrmCategoriaGerenciar extends JDialog {
 		JSeparator separator = new JSeparator();
 		separator.setBounds(12, 39, 222, 2);
 		contentPanel.add(separator);
+		this.setResizable(false);//Não deixa maximizar a tla
+		setLocationRelativeTo(null);// abre janela no centro da tela
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
