@@ -22,8 +22,10 @@ public class CtrCategoriaGerenciar implements Controle {
 	private Controle ctrParent;
 	private CategoriaDAO categoriaDao;
 	private TipoDAO tipoDao;
+	private boolean editando = false;
+	private int idCategoria;
 	
-	public CtrCategoriaGerenciar(Controle ctrParent) {
+	public CtrCategoriaGerenciar(Controle ctrParent, boolean isEditar, Categoria categoriaParaEdicao) {
 		this.ctrParent = ctrParent;
 		form = new FrmCategoriaGerenciar();
 		
@@ -31,7 +33,25 @@ public class CtrCategoriaGerenciar implements Controle {
 		categoriaDao = factory.getCategoriaDAO();
 		tipoDao = factory.getTipoDAO();
 		
+		editando = isEditar;
 		configurar();
+		if(editando){
+			idCategoria = categoriaParaEdicao.getCategoriaId();
+			//idTipo = categoriaParaEdicao.getTipo().getTipoId();
+			form.getBtnLimpar().setVisible(false);
+			form.getOkButton().setText("Atualizar");
+			form.getTextFieldNome().setText(categoriaParaEdicao.getNome());
+			form.getTextAreaDescricao().setText(categoriaParaEdicao.getDescricao());
+			for (int i = 0; i < form.getComboBoxTipo().getItemCount(); i++) {
+				if(form.getComboBoxTipo().getItemAt(i).getNome().equals
+						(categoriaParaEdicao.getTipo().getNome())){
+					form.getComboBoxTipo().setSelectedIndex(i);
+					form.repaint();
+					break;
+				}
+			}
+			
+		}
 		adicionarListeners();
 	}
 	
@@ -80,19 +100,40 @@ public class CtrCategoriaGerenciar implements Controle {
 		form.getOkButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Categoria c = new Categoria();
-				c.setDescricao(form.getTextAreaDescricao().getText());
-				c.setNome(form.getTextFieldNome().getText());
-				c.setTipo((Tipo) form.getComboBoxTipo().getSelectedItem());
-				
-				try {
-					categoriaDao.incluir(c);
-				} catch(SQLException ex) {
-					System.out.println("<CtrCategoriaGerenciar> Erro ao inserir nova categoria: " + ex.getMessage());
-				}
-				
-				ctrParent.setVisible(true);
-				form.dispose();	
+				if(editando){
+					Categoria c = new Categoria();
+					c.setCategoriaId(idCategoria);
+					c.setDescricao(form.getTextAreaDescricao().getText());
+					c.setNome(form.getTextFieldNome().getText());
+					c.setTipo((Tipo) form.getComboBoxTipo().getSelectedItem());//TODO ver se ta modificando
+					
+					try{
+						categoriaDao.alterar(c);
+					}catch(SQLException exe){
+						System.out.println("<CtrCategoriaGerenciar> Erro ao alterar nova categoria: " + exe.getMessage());
+					}
+					ctrParent.setVisible(true);//OK
+					
+					
+					form.dispose();	
+					return;
+				}else{
+					Categoria c = new Categoria();
+					c.setDescricao(form.getTextAreaDescricao().getText());
+					c.setNome(form.getTextFieldNome().getText());
+					c.setTipo((Tipo) form.getComboBoxTipo().getSelectedItem());
+					
+					try {
+						categoriaDao.incluir(c);
+					} catch(SQLException ex) {
+						System.out.println("<CtrCategoriaGerenciar> Erro ao inserir nova categoria: " + ex.getMessage());
+					}
+					
+					ctrParent.setVisible(true);//OK
+					
+					
+					form.dispose();	
+				}	
 			}
 		});
 	}

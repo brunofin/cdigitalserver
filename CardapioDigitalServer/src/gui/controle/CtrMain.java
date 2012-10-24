@@ -181,7 +181,9 @@ public class CtrMain implements Controle {
 	}
 	
 	private void manipularCategoriaActionPerformed() {
-		CtrCategoriaGerenciar ctr = new CtrCategoriaGerenciar(this);
+//		CtrCategoriaGerenciar ctr = new CtrCategoriaGerenciar(this);
+//		ctr.setVisible(true);
+		CtrCategoriaListar ctr = new CtrCategoriaListar(this);
 		ctr.setVisible(true);
 	}
 
@@ -191,7 +193,9 @@ public class CtrMain implements Controle {
 	}
 	
 	private void manipularItemActionPerformed() {
-		CtrItemGerenciar ctr = new CtrItemGerenciar(this);
+//		CtrItemGerenciar ctr = new CtrItemGerenciar(this);
+//		ctr.setVisible(true);
+		CtrItemListar ctr = new CtrItemListar(this);
 		ctr.setVisible(true);
 	}
 	
