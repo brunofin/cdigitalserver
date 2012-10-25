@@ -166,7 +166,7 @@ public class CtrMain implements Controle {
 	}
 	
 	private void manipularIngredienteActionPerformed() {
-		CtrIngredienteGerenciar ctr = new CtrIngredienteGerenciar(this);
+		CtrIngredienteListar ctr = new CtrIngredienteListar(this);
 		ctr.setVisible(true);
 	}
 	

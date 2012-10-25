@@ -17,6 +17,8 @@ import javax.swing.JTextArea;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class FrmIngredienteGerenciar extends JDialog {
 
@@ -29,6 +31,7 @@ public class FrmIngredienteGerenciar extends JDialog {
 	private JButton btnLimpar;
 	private JButton okButton;
 	private JButton cancelButton;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Create the dialog.
@@ -39,13 +42,15 @@ public class FrmIngredienteGerenciar extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		this.setResizable(false);//Não deixa maximizar a tla
+		setLocationRelativeTo(null);// abre janela no centro da tela
 		
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setBounds(12, 12, 105, 15);
 		contentPanel.add(lblNome);
 		
 		textFieldNome = new JTextField();
-		textFieldNome.setBounds(135, 10, 198, 19);
+		textFieldNome.setBounds(135, 10, 198, 22);
 		contentPanel.add(textFieldNome);
 		textFieldNome.setColumns(10);
 		
@@ -53,25 +58,30 @@ public class FrmIngredienteGerenciar extends JDialog {
 		lblDescrio.setBounds(12, 39, 128, 15);
 		contentPanel.add(lblDescrio);
 		
+		scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(12, 66, 321, 49);
+		contentPanel.add(scrollPane);
+		
 		textAreaDescricao = new JTextArea();
-		textAreaDescricao.setBounds(12, 66, 321, 49);
-		contentPanel.add(textAreaDescricao);
+		textAreaDescricao.setLineWrap(true);
+		scrollPane.setViewportView(textAreaDescricao);
 		
 		JLabel lblPreoDeCompra = new JLabel("Preço de compra:");
 		lblPreoDeCompra.setBounds(12, 139, 145, 15);
 		contentPanel.add(lblPreoDeCompra);
 		
 		textFieldPreco = new JTextField();
-		textFieldPreco.setBounds(95, 164, 85, 19);
+		textFieldPreco.setBounds(95, 164, 85, 22);
 		contentPanel.add(textFieldPreco);
 		textFieldPreco.setColumns(10);
 		
 		comboBoxCurrency = new JComboBox<Moeda>();
-		comboBoxCurrency.setBounds(12, 163, 71, 20);
+		comboBoxCurrency.setBounds(12, 163, 71, 22);
 		contentPanel.add(comboBoxCurrency);
 		
 		comboBoxUnidade = new JComboBox<Unidade>();
-		comboBoxUnidade.setBounds(192, 163, 114, 20);
+		comboBoxUnidade.setBounds(192, 163, 114, 22);
 		contentPanel.add(comboBoxUnidade);
 		{
 			JPanel buttonPane = new JPanel();

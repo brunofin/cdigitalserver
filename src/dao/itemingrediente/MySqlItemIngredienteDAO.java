@@ -16,6 +16,16 @@ public class MySqlItemIngredienteDAO extends MySqlDAOFactory implements
 		ItemIngredienteDAO {
 	public static final int TAMANHO_QUANTIDADE = 3;
 	@Override
+	public boolean ingredienteEhUsado(int idIngrediente) throws SQLException{//TODO testar
+		Connection con = getConnection();
+		ResultSet rs = null;
+		Statement stmt = con.createStatement();
+		rs = stmt.executeQuery("SELECT * FROM item_ingrediente WHERE id_ingrediente="+idIngrediente);
+		if(rs.next()){
+			return true;
+		}
+		return false;
+	}
 	public List<Ingrediente> consultarPorItemId(int idItem) throws SQLException {//OK
 		Ingrediente resultado;
 		List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();

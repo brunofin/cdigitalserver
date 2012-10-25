@@ -21,10 +21,29 @@ import gui.modelo.FrmIngredienteGerenciar;
 public class CtrIngredienteGerenciar implements Controle {
 	private FrmIngredienteGerenciar form;
 	private Controle ctrParent;
+	private Ingrediente ingredienteParaEditar;
+	private boolean editando;
+	private int idIngrediente;
 	
 	public CtrIngredienteGerenciar(Controle ctrParent) {
 		form = new FrmIngredienteGerenciar();
 		this.ctrParent = ctrParent;
+		editando = false;
+		configurar();
+		adicionarListeners();
+	}
+	
+	public CtrIngredienteGerenciar(Controle ctrParent, Ingrediente ingredienteParaEditar) {
+		form = new FrmIngredienteGerenciar();
+		this.ctrParent = ctrParent;
+		editando = true;
+		idIngrediente = ingredienteParaEditar.getIngredienteId();
+		form.getBtnLimpar().setVisible(false);
+		form.getOkButton().setText("Editar");
+		this.ingredienteParaEditar = ingredienteParaEditar;
+		form.getTextAreaDescricao().setText(ingredienteParaEditar.getDescricao());
+		form.getTextFieldNome().setText(ingredienteParaEditar.getNome());
+		form.getTextFieldPreco().setText(Float.toString(ingredienteParaEditar.getPreco()));
 		configurar();
 		adicionarListeners();
 	}
@@ -59,7 +78,9 @@ public class CtrIngredienteGerenciar implements Controle {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Ingrediente i = new Ingrediente();
-				
+				if(editando){
+					i.setIngredienteId(idIngrediente);
+				}
 				i.setNome(form.getTextFieldNome().getText());
 				i.setDescricao(form.getTextAreaDescricao().getText());
 				try {
@@ -72,7 +93,26 @@ public class CtrIngredienteGerenciar implements Controle {
 				
 				DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
 				IngredienteDAO dao = factory.getIngredienteDAO();
-				
+				if(editando){//TODO testar
+					boolean alterou = false;
+					try {
+						alterou = dao.alterar(i);
+					} catch (SQLException e1) {
+						System.out.println("<CtrIngredienteGerenciar> Erro ao alterar Ingrediente: " + e1.getMessage());
+						e1.printStackTrace();
+					}
+					if(alterou){
+						JOptionPane.showMessageDialog
+						(null, "Ingrediente editado com sucesso","Sucesso",JOptionPane.INFORMATION_MESSAGE);
+						ctrParent.setVisible(true);
+						form.dispose();
+						return;
+					}else{
+						JOptionPane.showMessageDialog
+						(null, "Ingrediente não foi editado","Erro",JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				}
 				try {
 					dao.incluir(i);
 				} catch(SQLException ex) {

@@ -44,4 +44,14 @@ public interface ItemIngredienteDAO {
 	public boolean alterarIngredientes(Item i) throws SQLException;
 	
 	public void criarTabela() throws SQLException;
+	/**
+	 * Verifica se um ingrediente é utilizado em
+	 * algum item
+	 * 
+	 * @param idIngrediente
+	 * @return true se o ingrediente estiver sendo
+	 * utilizado, false se não
+	 * @throws SQLException
+	 */
+	public boolean ingredienteEhUsado(int idIngrediente) throws SQLException;
 }
