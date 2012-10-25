@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 import bean.Tipo;
 
@@ -18,11 +19,32 @@ public class CtrTipoGerenciar implements Controle {
 	private FrmTipoGerenciar form;
 	private Controle ctrParent;
 	private TipoDAO tipoDao;
+	private int tipoId;
+	private boolean editando = false;
+	
+	public CtrTipoGerenciar(Controle ctrParent,Tipo tipoParaEditar) {
+		this.ctrParent = ctrParent;
+		form = new FrmTipoGerenciar();
+		
+		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
+		tipoDao = factory.getTipoDAO();
+		
+		editando = true;
+		
+		form.getBtnLimpar().setVisible(false);
+		form.getOkButton().setText("Atualizar");
+		tipoId = tipoParaEditar.getTipoId();
+		form.getTextFieldNome().setText(tipoParaEditar.getNome());
+		
+		
+		configurar();
+		adicionarListeners();
+	}
 	
 	public CtrTipoGerenciar(Controle ctrParent) {
 		this.ctrParent = ctrParent;
 		form = new FrmTipoGerenciar();
-		
+		editando = false;
 		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
 		tipoDao = factory.getTipoDAO();
 		
@@ -54,18 +76,33 @@ public class CtrTipoGerenciar implements Controle {
 		form.getOkButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Tipo t = new Tipo();
-				
-				t.setNome(form.getTextFieldNome().getText());
-				
-				try {
-					tipoDao.incluir(t);
-				} catch(SQLException ex) {
-					System.out.println("<CtrTipoGerenciar> Erro ao inserir novo Tipo: " + ex.getMessage());
-				}
-				
-				ctrParent.setVisible(true);
-				form.dispose();
+				if(editando){
+					Tipo tipo = new Tipo();
+					tipo.setNome(form.getTextFieldNome().getText());
+					tipo.setTipoId(tipoId);
+					try {
+						tipoDao.alterar(tipo);
+					} catch (SQLException e1) {
+						System.out.println("<CtrTipoGerenciar> Erro ao alterar Tipo: " + e1.getMessage());
+						return;
+					}
+					JOptionPane.showMessageDialog(null, "Tipo Alterado");
+					ctrParent.setVisible(true);
+					form.dispose();
+				}else{
+					Tipo t = new Tipo();
+					
+					t.setNome(form.getTextFieldNome().getText());
+					
+					try {
+						tipoDao.incluir(t);
+					} catch(SQLException ex) {
+						System.out.println("<CtrTipoGerenciar> Erro ao inserir novo Tipo: " + ex.getMessage());
+					}
+					JOptionPane.showMessageDialog(null, "Novo tipo incluído com sucesso");
+					ctrParent.setVisible(true);
+					form.dispose();
+				}	
 			}
 		});
 	}

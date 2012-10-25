@@ -16,8 +16,8 @@ public class MySqlTipoDAO extends MySqlDAOFactory implements TipoDAO {
 	public int incluir(Tipo t) throws SQLException {//ok     
         Connection con = getConnection();
         Statement stmt =  con.createStatement();
-        int resultado = stmt.executeUpdate("INSERT INTO tipo (tipo_id,nome) " +
-        					"VALUES ("+t.getTipoId()+",'"+t.getNome()+"')");
+        int resultado = stmt.executeUpdate("INSERT INTO tipo (nome) " +
+        					"VALUES ('"+t.getNome()+"')");
         //1 inseriu, 2 - nao inseriu
         stmt.close();
         con.close();
@@ -111,9 +111,8 @@ public class MySqlTipoDAO extends MySqlDAOFactory implements TipoDAO {
 	public void criarTabela() throws SQLException {//OK
 		Connection con = getConnection();
 		Statement stmt =  con.createStatement();
-		//ResultSet rs = null;
 		stmt.execute("CREATE TABLE IF NOT EXISTS tipo (" +
-                " tipo_id INTEGER (7) NOT NULL," +
+                " tipo_id INTEGER (7) AUTO_INCREMENT NOT NULL," +
                 " nome VARCHAR (40)," +
                 " PRIMARY KEY (tipo_id))");
 		stmt.close();
