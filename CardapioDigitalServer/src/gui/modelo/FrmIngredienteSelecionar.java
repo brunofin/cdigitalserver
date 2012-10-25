@@ -20,6 +20,7 @@ public class FrmIngredienteSelecionar extends JDialog {
 	private JButton cancelButton;
 	private JButton okButton;
 	private JList<Ingrediente> listIngredientes;
+	private JScrollPane scrollPane;
 	/**
 	 * Create the dialog.
 	 */
@@ -33,10 +34,14 @@ public class FrmIngredienteSelecionar extends JDialog {
 		JLabel lblSelecioneOsIngredientes = new JLabel("Selecione os ingredientes da lista:");
 		lblSelecioneOsIngredientes.setBounds(12, 12, 424, 15);
 		contentPanel.add(lblSelecioneOsIngredientes);
-		
-		listIngredientes = new JList<Ingrediente>();
-		listIngredientes.setBounds(12, 39, 424, 184);
-		contentPanel.add(listIngredientes);
+		{
+			scrollPane = new JScrollPane();
+			scrollPane.setBounds(12, 39, 424, 184);
+			contentPanel.add(scrollPane);
+			
+			listIngredientes = new JList<Ingrediente>();
+			scrollPane.setViewportView(listIngredientes);
+		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
