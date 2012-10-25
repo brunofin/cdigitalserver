@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.text.Normalizer.Form;
 import java.util.Calendar;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -47,6 +48,9 @@ public class CtrClienteGerenciar implements Controle {
 	}
 	
 	private void configurar() {
+		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		
+		form.getComboBoxEstado().setModel(new DefaultComboBoxModel<Estado>(Estado.values()));
 		if(editando) {
 			form.setTitle("Editar cliente :: " + cliente.getNome());
 			
@@ -70,7 +74,7 @@ public class CtrClienteGerenciar implements Controle {
 			form.setTitle("Cadastro de novo cliente");
 		}
 		
-		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		
 		
 	}
 	

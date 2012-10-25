@@ -232,7 +232,12 @@ public class CtrItemGerenciar implements Controle {
 				item.setNome(form.getTxtNome().getText());
 				item.setDescricao(form.getTxtDescricao().getText());
 				item.setPreco(Float.parseFloat(form.getTxtPreco().getText()));
-				item.setFotos(form.getListFotos().getSelectedValuesList());
+				DefaultListModel<Foto> modelF = (DefaultListModel<Foto>) form.getListFotos().getModel();
+				List<Foto> lista = new LinkedList<Foto>();
+				for(int i = 0; i < modelF.getSize(); i++) {
+					lista.add(modelF.get(i));
+				}
+				item.setFotos(lista);
 				item.setCategoria((Categoria) form.getComboBoxCategoria().getSelectedItem());
 				item.setIngredientes(listaIngrediente);
 				
