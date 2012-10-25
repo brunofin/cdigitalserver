@@ -1,5 +1,6 @@
 package gui.controle;
 
+import servidor.Configuracao;
 import util.Moeda;
 import java.io.File;
 import javax.swing.*;
@@ -33,7 +34,6 @@ public class CtrItemGerenciar implements Controle {
 	private FrmItemGerenciar form;
 	private ItemDAO itemdao;
 	private CategoriaDAO categoriadao;
-	private ItemIngredienteDAO itemingredientedao;
 	private List<Ingrediente> listaIngrediente;
 	private Controle ctrParent;
 	private boolean editando;
@@ -71,10 +71,9 @@ public class CtrItemGerenciar implements Controle {
 		
 		// TODO: configurar tabela ingredientes
 		
-		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
+		DAOFactory factory = DAOFactory.getDaoFactory(Configuracao.DB_SELECIONADO);
 		itemdao = factory.getItemDAO();
 		categoriadao = factory.getCategoriaDAO();
-		itemingredientedao = factory.getItemIngredienteDAO();
 		
 		// popular a combobox de categorias
 		List<Categoria> listaCategoria = null;
@@ -169,7 +168,6 @@ public class CtrItemGerenciar implements Controle {
 				if(fc.showOpenDialog(form.getContentPane()) == JFileChooser.APPROVE_OPTION) {
 					Foto f = new Foto(fc.getSelectedFile().getAbsolutePath());
 					
-					
 					DefaultListModel<Foto> model = (DefaultListModel<Foto>) form.getListFotos().getModel();
 					model.addElement(f);
 				}
@@ -211,6 +209,7 @@ public class CtrItemGerenciar implements Controle {
 		form.getCancelButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				ctrParent.setVisible(true);
 				form.dispose();
 			}
 		});
@@ -235,10 +234,10 @@ public class CtrItemGerenciar implements Controle {
 				
 				try {
 					itemdao.incluir(item);
-					itemingredientedao.inserir(item);	// TODO: incluir() ou inserir() ? lol
 				} catch(SQLException ex) {
 					System.out.println("<Erro ao incluir novo item ao sistema: " + ex.getMessage());
 				}
+				ctrParent.setVisible(true);
 				form.dispose();
 			}
 		});
@@ -247,18 +246,20 @@ public class CtrItemGerenciar implements Controle {
 	public void setVisible(boolean b) {
 		form.setVisible(b);
 		
-		IngredienteTableModel model = (IngredienteTableModel) form.getTableIngredientes().getModel();
-		model.fireTableDataChanged();
-		
-		// TODO: lista ingredientes e preço compra.
-		
-		StringBuffer aux = new StringBuffer();
-		float total = 0;
-		for(int i = 0; i < model.getRowCount(); i++) {
-			aux.append(((Integer) model.getValueAt(i, 2)) + " " + ((Unidade) model.getValueAt(i, 3)) + " de " + ((String) model.getValueAt(i, 0)) + ", ");
-			total += ((Integer) model.getValueAt(i, 2)) * ((Float) model.getValueAt(i, 1));
+		if(b){
+			IngredienteTableModel model = (IngredienteTableModel) form.getTableIngredientes().getModel();
+			model.fireTableDataChanged();
+			
+			// TODO: lista ingredientes e preço compra.
+			
+			StringBuffer aux = new StringBuffer();
+			float total = 0;
+			for(int i = 0; i < model.getRowCount(); i++) {
+				aux.append(((Integer) model.getValueAt(i, 2)) + " " + ((Unidade) model.getValueAt(i, 3)) + " de " + ((String) model.getValueAt(i, 0)) + ", ");
+				total += ((Integer) model.getValueAt(i, 2)) * ((Float) model.getValueAt(i, 1));
+			}
+			form.getTxtIngredientes().setText(aux.toString());
+			form.getLblPrecoCompra().setText("BRL " + total);
 		}
-		form.getTxtIngredientes().setText(aux.toString());
-		form.getLblPrecoCompra().setText("BRL " + total);
 	}
 }
