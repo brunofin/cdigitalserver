@@ -64,7 +64,7 @@ public class CtrItemGerenciar implements Controle {
 		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		form.setTitle("Gerenciar Itens");
 		
-		form.getComboBoxCurrency().setModel(new DefaultComboBoxModel(Moeda.values()));
+		form.getComboBoxCurrency().setModel(new DefaultComboBoxModel<Moeda>(Moeda.values()));
 		
 		form.getListFotos().setModel(new DefaultListModel<Foto>());
 		form.getListFotos().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -223,7 +223,11 @@ public class CtrItemGerenciar implements Controle {
 					listaIngrediente.get(i).setQuantidade((Integer) model.getValueAt(i, 2));
 				}
 				
-				Item item = new Item();
+				Item item;
+				if(editando)
+					item = itemParaEditar;
+				else
+					item = new Item();
 				
 				item.setNome(form.getTxtNome().getText());
 				item.setDescricao(form.getTxtDescricao().getText());
