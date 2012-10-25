@@ -8,8 +8,6 @@ import java.net.Socket;
 import servidor.comunicacao.Dispositivo;
 import servidor.comunicacao.Pacote;
 
-import bean.*;
-
 /**
  * Representa uma conexão entre o Servidor e o Cliente
  * @author bruno
@@ -47,12 +45,13 @@ public class Conexao implements Runnable {
 		System.out.println("<Conexao>: Conexão iniciada: " + dispositivo.getAndroid_id() + " : " + dispositivo.getMesa());
 		
 		while(true) {
+			System.out.println("<Conexao> Esperando pacotes da mesa " + dispositivo.getMesa());
 			Pacote pacote = (Pacote) in.readObject();
-			Object resposta = servidor.getCommunication().processa(this, pacote);
+			System.out.println("<Conexao> Recebido um pacote da mesa " + dispositivo.getMesa() + ": " + pacote);
 			
-			if(resposta != null) {
-				out.writeObject(resposta);
-			}
+			Object resposta = servidor.getCommunication().processa(this, pacote);
+			out.writeObject(resposta);
+			System.out.println("<Conexao> Resposta enviada para a mesa " + dispositivo.getMesa() + ": " + resposta);
 		}
 		//servidor.finalizarServidor();
 	}

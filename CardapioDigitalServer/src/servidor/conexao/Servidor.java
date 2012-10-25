@@ -27,6 +27,7 @@ public class Servidor implements Runnable {
 		serverAlive = true;
 		servidor = this;
 		ativadoEm = System.currentTimeMillis();
+		communication = new GerenciadorComunicacao();
 	}
 	
 	@Override

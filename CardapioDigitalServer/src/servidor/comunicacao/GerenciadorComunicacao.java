@@ -34,7 +34,12 @@ import servidor.conexao.Conexao;
  * A resposta é enviada de volta ao cliente usando o retorno do método <code>processa</code>, que é recebida
  * pela <code>Conexao</code>, que então envia utilizando a <code>ObjectOutputStream</code> do cliente.
  * 
- * Métodos que não precisam enviar uma resposta ao cliente devem retornar <code>null</code>, que será tratado pela <code>Conexao</code>.
+ * As respostas ao cliente devem retornar um <code>Pacote</code> com o método
+ * definido como <code>Metodo.RESPOSTA</code>, e o parâmetro <code>argumentos</code> com um
+ * objeto serializável que deve conter a resposta. Mesmo que uma resposta não seja necessária,
+ * um <code>Pacote</code> deve ser enviado, nesse caso o parâmetro <code>argumentos</code>
+ * do <code>Pacote</code> deve ser <code>null</code> (para evitar <code>NullPointerException</code>).
+ * 
  * O cliente saberá qual tipo de resposta estará esperando, ou se estará esperando uma,
  * pois foi ele que requisitou o processamento do método.
  * 
@@ -89,6 +94,7 @@ public class GerenciadorComunicacao {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("<GerenciadorComunicacao> Enviando Foto...");
 		return resposta;
 	}
 	
@@ -111,6 +117,7 @@ public class GerenciadorComunicacao {
 		} catch(SQLException e) {
 			System.out.println("<GerenciadorComunicacao> Exceção em listarItems(): " + e.getMessage());
 		}
+		System.out.println("<GerenciadorComunicacao> Enviando lista de Itens...");
 		return resposta;
 	}
 	
@@ -131,6 +138,7 @@ public class GerenciadorComunicacao {
 		} catch(SQLException e) {
 			System.out.println("<GerenciadorComunicacao> Exceção em listarTipos(): " + e.getMessage());
 		}
+		System.out.println("<GerenciadorComunicacao> Enviando lista de Tipos...");
 		return resposta;
 	}
 	
@@ -151,6 +159,7 @@ public class GerenciadorComunicacao {
 		} catch(SQLException e) {
 			System.out.println("<GerenciadorComunicacao> Exceção em listarCategorias(): " + e.getMessage());
 		}
+		System.out.println("<GerenciadorComunicacao> Enviando lista de Categorias...");
 		return resposta;
 	}
 	
@@ -161,6 +170,7 @@ public class GerenciadorComunicacao {
 	private Object fazerPedido(Pedido p, Dispositivo d) {
 		// TODO: enviar os pedidos para a tela do servidor junto com o numero da mesa (em Dispositivo)
 		
+		System.out.println("<GerenciadorComunicacao> Pedido recebido!");
 		return null;
 	}
 }
