@@ -36,10 +36,25 @@ public class CtrItemGerenciar implements Controle {
 	private ItemIngredienteDAO itemingredientedao;
 	private List<Ingrediente> listaIngrediente;
 	private Controle ctrParent;
+	private boolean editando;
+	private Item itemParaEditar;
 	
 	public CtrItemGerenciar(Controle ctrParent) {
+		editando = false;
 		this.ctrParent = ctrParent;
 		form = new FrmItemGerenciar();
+		this.itemParaEditar = null;
+		
+		configurar();
+		adicionarListeners();
+	}
+	
+	public CtrItemGerenciar(Controle ctrParent, Item itemParaEditar) {
+		editando = true;
+		this.ctrParent = ctrParent;
+		form = new FrmItemGerenciar();
+		this.itemParaEditar = itemParaEditar;
+		
 		configurar();
 		adicionarListeners();
 	}
