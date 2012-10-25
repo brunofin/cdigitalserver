@@ -8,41 +8,40 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import bean.Categoria;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 
-public class FrmCategoriaListar extends JFrame {
+import bean.Tipo;
+
+public class FrmTipoListar extends JFrame {
 	private final JPanel contentPanel = new JPanel();
-	private JList listCategorias;
+	private JList listTipos;
 	private JButton btnCadastrarNovo;
 	private JButton btnEditarSelecionado;
 	private JButton btnExcluirSelecionado;
 	private JButton btnFechar;
 	private JScrollPane scrollPane;
 	
-	public FrmCategoriaListar(){
-		setTitle("Lista de Categorias");
+	public FrmTipoListar(){
+		setTitle("Lista de Tipos");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblListaDeClientes = new JLabel("Lista de Categorias:");
+			JLabel lblListaDeClientes = new JLabel("Lista de Tipos:");
 			lblListaDeClientes.setBounds(12, 12, 276, 15);
 			contentPanel.add(lblListaDeClientes);
 		}
-		
 		scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(12, 26, 218, 197);
 		contentPanel.add(scrollPane);
 		{
-			listCategorias = new JList<Categoria>();
-			scrollPane.setViewportView(listCategorias);
+			listTipos = new JList<Tipo>();
+			scrollPane.setViewportView(listTipos);
 		}
 		btnCadastrarNovo = new JButton("Cadastrar novo...");
 		btnCadastrarNovo.setBounds(242, 22, 194, 25);
@@ -65,9 +64,10 @@ public class FrmCategoriaListar extends JFrame {
 			btnFechar = new JButton("Fechar");
 			buttonPane.add(btnFechar);
 		}
-	}
-	public JList getListCategorias(){
-		return listCategorias;
+		
+	}	
+	public JList getListTipos(){
+		return listTipos;
 	}
 	public JButton getBtnCadastrarNovo(){
 		return btnCadastrarNovo;

@@ -30,6 +30,7 @@ public class CtrCategoriaGerenciar implements Controle {
 		this.ctrParent = ctrParent;
 		form = new FrmCategoriaGerenciar();
 		editando = true;
+		this.categoriaParaEdicao = categoriaParaEdicao;
 		
 		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
 		categoriaDao = factory.getCategoriaDAO();
@@ -94,7 +95,8 @@ public class CtrCategoriaGerenciar implements Controle {
 		form.getBtnTipoGerenciar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CtrTipoGerenciar ctr = new CtrTipoGerenciar(ctrParent);
+//				CtrTipoGerenciar ctr = new CtrTipoGerenciar(ctrParent, false, null);
+				CtrTipoListar ctr = new CtrTipoListar(ctrParent);//TODO testar
 				ctr.setVisible(true);
 				form.setVisible(false);
 			}

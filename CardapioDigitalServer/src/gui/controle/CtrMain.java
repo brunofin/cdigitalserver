@@ -176,13 +176,11 @@ public class CtrMain implements Controle {
 	}
 	
 	private void manipularTipoActionPerformed() {
-		CtrTipoGerenciar ctr = new CtrTipoGerenciar(this);
+		CtrTipoListar ctr = new CtrTipoListar(this);
 		ctr.setVisible(true);
 	}
 	
 	private void manipularCategoriaActionPerformed() {
-//		CtrCategoriaGerenciar ctr = new CtrCategoriaGerenciar(this);
-//		ctr.setVisible(true);
 		CtrCategoriaListar ctr = new CtrCategoriaListar(this);
 		ctr.setVisible(true);
 	}

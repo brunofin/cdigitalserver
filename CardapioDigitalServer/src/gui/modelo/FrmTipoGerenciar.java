@@ -29,6 +29,8 @@ public class FrmTipoGerenciar extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		this.setResizable(false);//Não deixa maximizar a tla
+		setLocationRelativeTo(null);// abre janela no centro da tela
 		{
 			JLabel lblNome = new JLabel("Nome:");
 			lblNome.setBounds(12, 12, 70, 15);
@@ -36,7 +38,7 @@ public class FrmTipoGerenciar extends JDialog {
 		}
 		{
 			textFieldNome = new JTextField();
-			textFieldNome.setBounds(135, 10, 246, 19);
+			textFieldNome.setBounds(135, 10, 246, 22);
 			contentPanel.add(textFieldNome);
 			textFieldNome.setColumns(10);
 		}
