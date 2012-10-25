@@ -41,7 +41,7 @@ public class Categoria implements Serializable {
 	}
 	@Override
 	public String toString(){
-		return nome;
+		return getTipo().getNome() + " :: " + getNome();
 	}
 	
 	public boolean equals(Categoria c){

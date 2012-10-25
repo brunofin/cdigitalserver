@@ -22,8 +22,8 @@ public class Tipo implements Serializable {
 		this.nome = nome;
 	}
 	
-	@Override
-	public String toString(){
-		return nome;
+	public String toString() {
+		return getNome();
 	}
+
 }
