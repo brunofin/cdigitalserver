@@ -70,7 +70,7 @@ public class CtrItemListar implements Controle {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				form.setVisible(false);//TODO testar
-				CtrItemGerenciar ctr = new CtrItemGerenciar(controle,null,false);
+				CtrItemGerenciar ctr = new CtrItemGerenciar(controle);
 				ctr.setVisible(true);
 				
 			}
@@ -84,7 +84,7 @@ public class CtrItemListar implements Controle {
 					Item itemParaEditar = 
 							listaItens.get(form.getTabelaItens().getSelectedRow());
 					form.setVisible(false);
-					CtrItemGerenciar ctr = new CtrItemGerenciar(controle,itemParaEditar,true);
+					CtrItemGerenciar ctr = new CtrItemGerenciar(controle, itemParaEditar);
 					ctr.setVisible(true);
 					
 				}else{

@@ -74,7 +74,7 @@ public class CtrCategoriaListar implements Controle {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frm.setVisible(false);
-				CtrCategoriaGerenciar ctr = new CtrCategoriaGerenciar(aux,false,null);
+				CtrCategoriaGerenciar ctr = new CtrCategoriaGerenciar(aux);
 				
 				ctr.setVisible(true);
 				
@@ -90,7 +90,7 @@ public class CtrCategoriaListar implements Controle {
 					Categoria categoriaEditar = 
 							listaCategoria.get(frm.getListCategorias().getSelectedIndex());
 					frm.setVisible(false);
-					CtrCategoriaGerenciar ctr = new CtrCategoriaGerenciar(aux,true,categoriaEditar);
+					CtrCategoriaGerenciar ctr = new CtrCategoriaGerenciar(aux, categoriaEditar);
 					
 					ctr.setVisible(true);
 				}else{

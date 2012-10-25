@@ -23,20 +23,55 @@ public class CtrCategoriaGerenciar implements Controle {
 	private CategoriaDAO categoriaDao;
 	private TipoDAO tipoDao;
 	private boolean editando = false;
-	private int idCategoria;
+	private Categoria categoriaParaEdicao;
 	
-	public CtrCategoriaGerenciar(Controle ctrParent, boolean isEditar, Categoria categoriaParaEdicao) {
+	public CtrCategoriaGerenciar(Controle ctrParent, Categoria categoriaParaEdicao) {
+		
 		this.ctrParent = ctrParent;
 		form = new FrmCategoriaGerenciar();
+		editando = true;
 		
 		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
 		categoriaDao = factory.getCategoriaDAO();
 		tipoDao = factory.getTipoDAO();
 		
-		editando = isEditar;
 		configurar();
+		adicionarListeners();
+	}
+	
+	public CtrCategoriaGerenciar(Controle ctrParent) {
+		this.categoriaParaEdicao = null;
+		this.ctrParent = ctrParent;
+		form = new FrmCategoriaGerenciar();
+		editando = false;
+		
+		DAOFactory factory = DAOFactory.getDaoFactory(Database.MYSQL);
+		categoriaDao = factory.getCategoriaDAO();
+		tipoDao = factory.getTipoDAO();
+		
+		configurar();
+		adicionarListeners();
+	}
+	
+	private void configurar() {
+		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		if(editando)
+			form.setTitle("Editar Categoria");
+		else
+			form.setTitle("Criar Categoria");
+		
+		List<Tipo> listaTipo = null;
+		try {
+			listaTipo = tipoDao.listar();
+		} catch(SQLException e) {
+			System.out.println("<CtrCategoriaGerenciar> Erro ao listar Tipos: " + e.getMessage());
+		}
+		for(Tipo tipo : listaTipo) {
+			form.getComboBoxTipo().addItem(tipo);
+		}
+		
 		if(editando){
-			idCategoria = categoriaParaEdicao.getCategoriaId();
+			//idCategoria = categoriaParaEdicao.getCategoriaId();
 			//idTipo = categoriaParaEdicao.getTipo().getTipoId();
 			form.getBtnLimpar().setVisible(false);
 			form.getOkButton().setText("Atualizar");
@@ -51,22 +86,6 @@ public class CtrCategoriaGerenciar implements Controle {
 				}
 			}
 			
-		}
-		adicionarListeners();
-	}
-	
-	private void configurar() {
-		form.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		form.setTitle("Gerenciar Categorias");
-		
-		List<Tipo> listaTipo = null;
-		try {
-			listaTipo = tipoDao.listar();
-		} catch(SQLException e) {
-			System.out.println("<CtrCategoriaGerenciar> Erro ao listar Tipos: " + e.getMessage());
-		}
-		for(Tipo tipo : listaTipo) {
-			form.getComboBoxTipo().addItem(tipo);
 		}
 		
 	}
@@ -102,7 +121,7 @@ public class CtrCategoriaGerenciar implements Controle {
 			public void actionPerformed(ActionEvent e) {
 				if(editando){
 					Categoria c = new Categoria();
-					c.setCategoriaId(idCategoria);
+					c.setCategoriaId(categoriaParaEdicao.getCategoriaId());
 					c.setDescricao(form.getTextAreaDescricao().getText());
 					c.setNome(form.getTextFieldNome().getText());
 					c.setTipo((Tipo) form.getComboBoxTipo().getSelectedItem());//TODO ver se ta modificando
